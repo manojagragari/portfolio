@@ -1,7 +1,8 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { skills } from '../lib/data';
+import { getSkills } from '../lib/api';
 
 const colorStyles = {
   cyan: {
@@ -45,6 +46,16 @@ const cardVariants = {
 };
 
 export default function Skills() {
+  const [skills, setSkills] = useState([]);
+
+  useEffect(() => {
+    async function loadSkills() {
+      const data = await getSkills();
+      setSkills(data || []);
+    }
+    loadSkills();
+  }, []);
+
   return (
     <section id="skills" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,229,255,0.04)_0%,transparent_70%)]" />

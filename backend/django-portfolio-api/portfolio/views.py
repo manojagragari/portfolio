@@ -1,10 +1,10 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Project, Skill, Certification, Achievement
+from .models import Project, Skill, Certification, Achievement, Hobby
 from .serializers import (
     ProjectSerializer, SkillSerializer,
-    CertificationSerializer, AchievementSerializer,
+    CertificationSerializer, AchievementSerializer, HobbySerializer,
 )
 
 
@@ -15,6 +15,7 @@ def api_root(request):
         'skills': request.build_absolute_uri('/api/skills/'),
         'certifications': request.build_absolute_uri('/api/certifications/'),
         'achievements': request.build_absolute_uri('/api/achievements/'),
+        'hobbies': request.build_absolute_uri('/api/hobbies/'),
     })
 
 
@@ -50,3 +51,8 @@ class CertificationListView(generics.ListAPIView):
 class AchievementListView(generics.ListAPIView):
     queryset = Achievement.objects.all()
     serializer_class = AchievementSerializer
+
+
+class HobbyListView(generics.ListAPIView):
+    queryset = Hobby.objects.all()
+    serializer_class = HobbySerializer

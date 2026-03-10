@@ -226,5 +226,45 @@
       "border_color": "border-blue-500/30",
       "text_color": "text-blue-400"
     }
+  },
+  {
+    "model": "portfolio.hobby",
+    "pk": 1,
+    "fields": {
+      "name": "Cricket",
+      "icon": "🏏",
+      "description": "Playing and following cricket tournaments passionately",
+      "order": 1
+    }
+  },
+  {
+    "model": "portfolio.hobby",
+    "pk": 2,
+    "fields": {
+      "name": "Tech Exploration",
+      "icon": "🔬",
+      "description": "Exploring emerging technologies and latest frameworks",
+      "order": 2
+    }
+  },
+  {
+    "model": "portfolio.hobby",
+    "pk": 3,
+    "fields": {
+      "name": "Coding Challenges",
+      "icon": "💻",
+      "description": "Solving problems on LeetCode, HackerRank, and more",
+      "order": 3
+    }
+  },
+  {
+    "model": "portfolio.hobby",
+    "pk": 4,
+    "fields": {
+      "name": "Problem Solving",
+      "icon": "🧩",
+      "description": "Analytical thinking and algorithmic problem solving",
+      "order": 4
+    }
   }
 ]

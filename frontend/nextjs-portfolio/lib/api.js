@@ -4,6 +4,7 @@ import {
   skills as staticSkills,
   certifications as staticCertifications,
   achievements as staticAchievements,
+  hobbies as staticHobbies,
 } from './data';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -50,6 +51,13 @@ export async function getAchievements() {
     const { data } = await apiClient.get('/api/achievements/');
     return data;
   }, staticAchievements);
+}
+
+export async function getHobbies() {
+  return safeFetch(async () => {
+    const { data } = await apiClient.get('/api/hobbies/');
+    return data;
+  }, staticHobbies);
 }
 
 export async function getGitHubRepos(username = 'manojagragari') {

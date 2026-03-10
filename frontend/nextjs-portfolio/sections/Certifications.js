@@ -1,7 +1,8 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { certifications } from '../lib/data';
+import { getCertifications } from '../lib/api';
 import { FaExternalLinkAlt } from 'react-icons/fa';
 
 const containerVariants = {
@@ -21,6 +22,16 @@ const colorMap = {
 };
 
 export default function Certifications() {
+  const [certifications, setCertifications] = useState([]);
+
+  useEffect(() => {
+    async function loadCertifications() {
+      const data = await getCertifications();
+      setCertifications(data || []);
+    }
+    loadCertifications();
+  }, []);
+
   return (
     <section id="certifications" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_100%,rgba(168,85,247,0.05)_0%,transparent_55%)]" />

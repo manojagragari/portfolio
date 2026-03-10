@@ -1,7 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { hobbies } from '../lib/data';
+import { getHobbies } from '../lib/api';
+import { hobbies as fallbackHobbies } from '../lib/data';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -13,6 +15,16 @@ const cardVariants = {
 };
 
 export default function Hobbies() {
+  const [hobbies, setHobbies] = useState([]);
+
+  useEffect(() => {
+    async function loadHobbies() {
+      const data = await getHobbies();
+      setHobbies(data && data.length ? data : fallbackHobbies);
+    }
+    loadHobbies();
+  }, []);
+
   return (
     <section id="hobbies" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,rgba(0,229,255,0.04)_0%,transparent_60%)]" />

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, Skill, Certification, Achievement
+from .models import Project, Skill, Certification, Achievement, Hobby
 
 
 @admin.register(Project)
@@ -29,3 +29,10 @@ class AchievementAdmin(admin.ModelAdmin):
     list_display = ('title', 'platform', 'year')
     list_filter = ('year',)
     search_fields = ('title',)
+
+
+@admin.register(Hobby)
+class HobbyAdmin(admin.ModelAdmin):
+    list_display = ('name', 'order')
+    list_editable = ('order',)
+    search_fields = ('name', 'description')

@@ -82,3 +82,16 @@ class Achievement(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Hobby(models.Model):
+    name = models.CharField(max_length=100)
+    icon = models.CharField(max_length=10, default='🎯')
+    description = models.CharField(max_length=250)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'name']
+
+    def __str__(self):
+        return self.name
