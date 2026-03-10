@@ -7,10 +7,9 @@ import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { FiDownload, FiMail, FiArrowDown } from 'react-icons/fi';
 
 const ROLES = [
-  'Data Science Student',
-  'Web Developer',
-  'Android Developer',
-  'Python Full Stack Learner',
+  'Data Science',
+  'Python Full Stack Development',
+  'Android Development',
 ];
 
 function TypingText() {
