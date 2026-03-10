@@ -1,0 +1,52 @@
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .models import Project, Skill, Certification, Achievement
+from .serializers import (
+    ProjectSerializer, SkillSerializer,
+    CertificationSerializer, AchievementSerializer,
+)
+
+
+@api_view(['GET'])
+def api_root(request):
+    return Response({
+        'projects': request.build_absolute_uri('/api/projects/'),
+        'skills': request.build_absolute_uri('/api/skills/'),
+        'certifications': request.build_absolute_uri('/api/certifications/'),
+        'achievements': request.build_absolute_uri('/api/achievements/'),
+    })
+
+
+class ProjectListView(generics.ListAPIView):
+    serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        queryset = Project.objects.all()
+        category = self.request.query_params.get('category')
+        featured = self.request.query_params.get('featured')
+        if category:
+            queryset = queryset.filter(category=category)
+        if featured is not None:
+            queryset = queryset.filter(featured=featured.lower() == 'true')
+        return queryset
+
+
+class ProjectDetailView(generics.RetrieveAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+
+
+class SkillListView(generics.ListAPIView):
+    queryset = Skill.objects.all()
+    serializer_class = SkillSerializer
+
+
+class CertificationListView(generics.ListAPIView):
+    queryset = Certification.objects.all()
+    serializer_class = CertificationSerializer
+
+
+class AchievementListView(generics.ListAPIView):
+    queryset = Achievement.objects.all()
+    serializer_class = AchievementSerializer

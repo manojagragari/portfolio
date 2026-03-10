@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: manoj-portfolio-api
+    runtime: python
+    rootDir: backend/django-portfolio-api
+    buildCommand: bash build.sh
+    startCommand: gunicorn portfolio_api.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: manoj-portfolio-api.onrender.com
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://manoj-portfolio-web.onrender.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: manoj-portfolio-db
+          property: connectionString
+
+  - type: web
+    name: manoj-portfolio-web
+    runtime: node
+    rootDir: frontend/nextjs-portfolio
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.11.1
+      - key: NEXT_PUBLIC_API_URL
+        value: https://manoj-portfolio-api.onrender.com
+
+databases:
+  - name: manoj-portfolio-db
+    databaseName: portfolio
+    user: portfolio_user

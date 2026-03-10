@@ -1,0 +1,170 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { FaGithub, FaExternalLinkAlt, FaAndroid } from 'react-icons/fa';
+import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
+import { DiJava } from 'react-icons/di';
+import { projects } from '../lib/data';
+
+const androidStack = [
+  { name: 'Java', icon: <DiJava className="text-red-500 text-2xl" /> },
+  { name: 'Kotlin', icon: <SiKotlin className="text-purple-500 text-2xl" /> },
+  { name: 'Android Studio', icon: <SiAndroidstudio className="text-green-500 text-2xl" /> },
+  { name: 'Jetpack Compose', icon: <SiJetpackcompose className="text-blue-500 text-2xl" /> },
+];
+
+export default function AndroidDevelopment() {
+  const androidProjects = projects.android;
+
+  return (
+    <section id="android-development" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_100%_50%,rgba(16,185,129,0.05)_0%,transparent_60%)]" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-500/20 to-transparent" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <p className="text-green-400/60 font-mono text-xs tracking-widest uppercase mb-3">
+            //&nbsp;05. MOBILE ENGINEERING
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold font-orbitron text-white mb-4">
+            Android Development
+          </h2>
+          <div className="w-20 h-0.5 bg-gradient-to-r from-green-500 to-teal-500 mx-auto mb-8" />
+          <p className="text-gray-400 max-w-2xl mx-auto text-base leading-relaxed">
+            Building modern, user-friendly Android applications using Jetpack Compose and
+            Material Design principles. Focused on clean architecture, smooth UX, and
+            offline-first development.
+          </p>
+        </motion.div>
+
+        {/* Tech stack */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-wrap justify-center gap-4 mb-16"
+        >
+          {androidStack.map(({ name, icon }, i) => (
+            <motion.div
+              key={name}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              whileHover={{ y: -4, scale: 1.05 }}
+              className="glass-card border border-white/8 px-6 py-4 flex items-center gap-3 cursor-default transition-all duration-200 hover:border-green-500/30"
+            >
+              {icon}
+              <span className="text-sm text-gray-300 font-medium">{name}</span>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Projects */}
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          {androidProjects.map((project) => (
+            <motion.article
+              key={project.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              whileHover={{ y: -6 }}
+              className="glass-card-hover border group overflow-hidden"
+            >
+              <div className="h-1 bg-gradient-to-r from-green-500 to-teal-500 opacity-70" />
+              <div className="p-6">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <h3 className="text-lg font-bold font-orbitron text-white group-hover:text-green-400 transition-colors leading-tight">
+                    {project.title}
+                  </h3>
+                  <span className="tech-badge border border-green-500/30 text-green-400 bg-green-500/10 flex-shrink-0">
+                    Android
+                  </span>
+                </div>
+                <p className="text-gray-400 text-sm leading-relaxed mb-4">{project.description}</p>
+                <ul className="space-y-1 mb-5">
+                  {project.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
+                      <span className="text-green-500 mt-0.5 flex-shrink-0">▸</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {project.tech_stack.map((t) => (
+                    <span key={t} className="tech-badge border border-green-500/30 text-green-400 bg-green-500/8">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href={project.github_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  <FaGithub /> View on GitHub
+                </a>
+              </div>
+            </motion.article>
+          ))}
+
+          {/* Android illustration card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="glass-card border border-green-500/20 p-8 flex flex-col items-center justify-center gap-6"
+          >
+            <motion.div
+              animate={{ y: [-8, 8, -8] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <FaAndroid className="text-green-400 text-8xl drop-shadow-[0_0_20px_rgba(16,185,129,0.7)]" />
+            </motion.div>
+            <div className="text-center">
+              <h4 className="text-white font-bold font-orbitron mb-2">Modern Android Dev</h4>
+              <p className="text-gray-500 text-sm">
+                Building with Jetpack Compose for declarative, responsive UIs that delight users
+                on every screen size.
+              </p>
+            </div>
+            <div className="flex gap-3 flex-wrap justify-center">
+              {['MVVM', 'Compose UI', 'Material 3', 'Offline-First'].map((tag) => (
+                <span key={tag} className="tech-badge border border-green-500/30 text-green-400 bg-green-500/10">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-center mt-10"
+        >
+          <Link
+            href="/android-projects"
+            className="btn-outline-cyan border-green-500/50 text-green-400 hover:bg-green-500/10 hover:border-green-400"
+          >
+            <FaExternalLinkAlt className="text-sm" />
+            View All Android Projects
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  );
+}

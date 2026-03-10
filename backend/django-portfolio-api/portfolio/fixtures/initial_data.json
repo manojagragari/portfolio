@@ -1,0 +1,226 @@
+[
+  {
+    "model": "portfolio.project",
+    "pk": 1,
+    "fields": {
+      "title": "Electro Shop Management System",
+      "category": "web",
+      "description": "A comprehensive full-stack shop management system with inventory tracking, sales analytics dashboard, invoice management, and payment tracking.",
+      "long_description": "The Electro Shop Management System is a production-ready full-stack application that streamlines shop operations. Powered by Django REST Framework on the backend and Next.js on the frontend, it provides real-time inventory management, analytics charts powered by Matplotlib & Seaborn, seamless invoice generation, and a complete payment tracking module.",
+      "features": ["Real-time inventory management with stock alerts", "Sales analytics dashboard powered by Matplotlib & Seaborn", "Invoice generation and management system", "Payment tracking with transaction history", "Admin dashboard with role-based access"],
+      "tech_stack": ["Python", "Django", "DRF", "React", "Next.js", "Tailwind CSS", "Matplotlib", "Seaborn", "SQLite"],
+      "github_url": "https://github.com/manojagragari",
+      "live_url": null,
+      "image": null,
+      "featured": true,
+      "order": 1,
+      "gradient": "from-cyan-500/20 to-blue-500/20",
+      "accent_color": "cyan"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 2,
+    "fields": {
+      "title": "Personal Learning & Notes Platform",
+      "category": "web",
+      "description": "A personal platform for organizing learning resources, tracking progress, and managing notes with a clean intuitive interface.",
+      "long_description": "The Personal Learning & Notes Platform is a purpose-built productivity tool for students and self-learners. Built entirely with Next.js and Tailwind CSS, it provides a smooth experience for note taking, resource organization, and progress tracking.",
+      "features": ["Organized note management by topics and subjects", "Learning progress tracker with visual stats", "Resource and bookmark management", "Responsive and accessible UI"],
+      "tech_stack": ["Next.js", "React", "JavaScript", "Tailwind CSS"],
+      "github_url": "https://github.com/manojagragari",
+      "live_url": null,
+      "image": null,
+      "featured": true,
+      "order": 2,
+      "gradient": "from-purple-500/20 to-pink-500/20",
+      "accent_color": "purple"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 3,
+    "fields": {
+      "title": "CGPA Calculator Android App",
+      "category": "android",
+      "description": "A modern Android application to calculate and track CGPA throughout the academic year with a beautiful, intuitive Material Design interface.",
+      "long_description": "The CGPA Calculator Android App helps students calculate and track their Cumulative Grade Point Average with ease. Built with Jetpack Compose for a declarative UI, it supports multi-semester management, visualizes grade distributions, and provides instant CGPA feedback.",
+      "features": ["Instant CGPA calculation with grade input", "Semester-wise grade management", "Visual grade distribution charts", "Modern Jetpack Compose Material Design UI", "Offline-first with local data persistence"],
+      "tech_stack": ["Java", "Kotlin", "Android Studio", "Jetpack Compose", "Material Design"],
+      "github_url": "https://github.com/manojagragari",
+      "live_url": null,
+      "image": null,
+      "featured": true,
+      "order": 1,
+      "gradient": "from-green-500/20 to-teal-500/20",
+      "accent_color": "green"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 4,
+    "fields": {
+      "title": "Data Analysis & Visualization Suite",
+      "category": "data_science",
+      "description": "A collection of data science projects demonstrating proficiency in Python data analysis, visualization, and business intelligence.",
+      "long_description": "This project suite showcases hands-on data science work including exploratory data analysis (EDA), insightful data visualizations, statistical modeling, and Power BI dashboards. Each project applies the full Python data science stack to extract actionable insights from real-world datasets.",
+      "features": ["Exploratory Data Analysis (EDA) on real datasets", "Advanced data visualization with Matplotlib & Seaborn", "Statistical analysis and feature engineering", "Business intelligence dashboards with Power BI", "Jupyter Notebook workflows with detailed documentation"],
+      "tech_stack": ["Python", "Pandas", "NumPy", "Matplotlib", "Seaborn", "Power BI", "Jupyter Notebook"],
+      "github_url": "https://github.com/manojagragari",
+      "live_url": null,
+      "image": null,
+      "featured": true,
+      "order": 1,
+      "gradient": "from-orange-500/20 to-yellow-500/20",
+      "accent_color": "blue"
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 1,
+    "fields": {
+      "category": "Programming Languages",
+      "icon": "💻",
+      "color": "cyan",
+      "items": ["C++", "Python", "JavaScript", "Java", "C"],
+      "order": 1
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 2,
+    "fields": {
+      "category": "Web Development",
+      "icon": "🌐",
+      "color": "purple",
+      "items": ["React", "Next.js", "Django", "DRF", "Flask", "Tailwind CSS", "HTML & CSS"],
+      "order": 2
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 3,
+    "fields": {
+      "category": "Tools & IDEs",
+      "icon": "🛠️",
+      "color": "blue",
+      "items": ["Git & GitHub", "VS Code", "Android Studio", "Jupyter Notebook", "Postman"],
+      "order": 3
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 4,
+    "fields": {
+      "category": "Data & Analytics",
+      "icon": "📊",
+      "color": "green",
+      "items": ["Power BI", "Pandas", "NumPy", "Matplotlib", "Seaborn", "SQL"],
+      "order": 4
+    }
+  },
+  {
+    "model": "portfolio.skill",
+    "pk": 5,
+    "fields": {
+      "category": "Soft Skills",
+      "icon": "🧠",
+      "color": "purple",
+      "items": ["Problem Solving", "Team Collaboration", "Analytical Thinking", "Time Management"],
+      "order": 5
+    }
+  },
+  {
+    "model": "portfolio.certification",
+    "pk": 1,
+    "fields": {
+      "title": "Frontend Developer (React)",
+      "issuer": "HackerRank",
+      "year": 2023,
+      "url": "https://www.hackerrank.com",
+      "icon": "⚛️",
+      "color": "cyan"
+    }
+  },
+  {
+    "model": "portfolio.certification",
+    "pk": 2,
+    "fields": {
+      "title": "Master Generative AI",
+      "issuer": "Infosys Springboard",
+      "year": 2024,
+      "url": "https://springboard.infosys.com",
+      "icon": "🤖",
+      "color": "purple"
+    }
+  },
+  {
+    "model": "portfolio.certification",
+    "pk": 3,
+    "fields": {
+      "title": "C++ with OOPs",
+      "issuer": "Cipher School",
+      "year": 2023,
+      "url": "https://www.cipherschools.com",
+      "icon": "🔷",
+      "color": "blue"
+    }
+  },
+  {
+    "model": "portfolio.certification",
+    "pk": 4,
+    "fields": {
+      "title": "JavaScript Algorithms & Data Structures",
+      "issuer": "FreeCodeCamp",
+      "year": 2023,
+      "url": "https://www.freecodecamp.org",
+      "icon": "📜",
+      "color": "green"
+    }
+  },
+  {
+    "model": "portfolio.achievement",
+    "pk": 1,
+    "fields": {
+      "title": "5 Star Python",
+      "platform": "HackerRank",
+      "description": "Achieved 5 Star rating in Python on HackerRank by solving 50+ Python challenges across core programming, data structures, and algorithms.",
+      "year": 2023,
+      "icon": "⭐",
+      "color": "cyan",
+      "gradient": "from-cyan-500/10 to-transparent",
+      "border_color": "border-cyan-500/30",
+      "text_color": "text-cyan-400"
+    }
+  },
+  {
+    "model": "portfolio.achievement",
+    "pk": 2,
+    "fields": {
+      "title": "Top 5 – University Hackathon",
+      "platform": "LPU Hackathon",
+      "description": "Secured Top 5 position among 100+ teams at the University-level Hackathon, building an innovative solution under 24 hours.",
+      "year": 2024,
+      "icon": "🏆",
+      "color": "purple",
+      "gradient": "from-purple-500/10 to-transparent",
+      "border_color": "border-purple-500/30",
+      "text_color": "text-purple-400"
+    }
+  },
+  {
+    "model": "portfolio.achievement",
+    "pk": 3,
+    "fields": {
+      "title": "Working Prototype in 24 Hours",
+      "platform": "Hackathon Sprint",
+      "description": "Built a complete, fully functional working prototype from scratch within a 24-hour Hackathon sprint, demonstrating rapid development skills.",
+      "year": 2024,
+      "icon": "⚡",
+      "color": "blue",
+      "gradient": "from-blue-500/10 to-transparent",
+      "border_color": "border-blue-500/30",
+      "text_color": "text-blue-400"
+    }
+  }
+]

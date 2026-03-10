@@ -1,0 +1,90 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import { achievements } from '../lib/data';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
+};
+const cardVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } },
+};
+
+export default function Achievements() {
+  return (
+    <section id="achievements" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_0%,rgba(0,229,255,0.05)_0%,transparent_55%)]" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/15 to-transparent" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <p className="text-cyan-400/60 font-mono text-xs tracking-widest uppercase mb-3">
+            //&nbsp;07. MILESTONES
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold font-orbitron text-white mb-4">
+            Achievements
+          </h2>
+          <div className="w-20 h-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto" />
+        </motion.div>
+
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid md:grid-cols-3 gap-6"
+        >
+          {achievements.map((item) => (
+            <motion.div
+              key={item.id}
+              variants={cardVariants}
+              whileHover={{ y: -6 }}
+              className={`glass-card border ${item.borderColor} p-6 transition-all duration-300 group relative overflow-hidden`}
+            >
+              {/* BG gradient */}
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-60 group-hover:opacity-100 transition-opacity pointer-events-none`}
+              />
+
+              <div className="relative z-10">
+                {/* Icon */}
+                <div className="flex items-center justify-between mb-5">
+                  <span className="text-4xl">{item.icon}</span>
+                  <span className={`text-xs font-mono ${item.textColor} border border-current/30 px-2 py-0.5 rounded-full opacity-70`}>
+                    {item.year}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h3 className={`text-lg font-bold font-orbitron ${item.textColor} mb-2 leading-tight`}>
+                  {item.title}
+                </h3>
+
+                {/* Platform */}
+                <p className="text-xs font-mono text-gray-500 mb-3">
+                  📍 {item.platform}
+                </p>
+
+                {/* Description */}
+                <p className="text-sm text-gray-400 leading-relaxed">{item.description}</p>
+              </div>
+
+              {/* Corner accents */}
+              <span className={`absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 ${item.borderColor} opacity-50`} />
+              <span className={`absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 ${item.borderColor} opacity-50`} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
