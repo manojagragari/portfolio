@@ -9,4 +9,6 @@ urlpatterns = [
     path('certifications/', views.CertificationListView.as_view(), name='certification-list'),
     path('achievements/', views.AchievementListView.as_view(), name='achievement-list'),
     path('hobbies/', views.HobbyListView.as_view(), name='hobby-list'),
+    path('education/', views.EducationListView.as_view(), name='education-list'),
+    path('contact/', views.ContactMethodListView.as_view(), name='contact-list'),
 ]

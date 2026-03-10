@@ -1,10 +1,12 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   FaGithub, FaLinkedin, FaInstagram, FaEnvelope, FaPhone,
 } from 'react-icons/fa';
-import { contact } from '../lib/data';
+import { getContactMethods } from '../lib/api';
+import { contact as fallbackContact } from '../lib/data';
 
 const iconMap = {
   github: FaGithub,
@@ -24,6 +26,18 @@ const cardVariants = {
 };
 
 export default function Contact() {
+  const [contact, setContact] = useState([]);
+
+  useEffect(() => {
+    async function loadContact() {
+      const data = await getContactMethods();
+      setContact(data && data.length ? data : fallbackContact);
+    }
+    loadContact();
+  }, []);
+
+  const preferred = contact.find((item) => item.icon === 'email') || fallbackContact.find((item) => item.icon === 'email');
+
   return (
     <section id="contact" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,229,255,0.06)_0%,transparent_65%)]" />
@@ -60,6 +74,8 @@ export default function Contact() {
         >
           {contact.map((item) => {
             const Icon = iconMap[item.icon];
+            const borderClass = item.border_color || item.borderColor || 'border-cyan-500/30';
+            const hoverBgClass = item.hover_bg || item.hoverBg || 'hover:bg-cyan-500/20';
             return (
               <motion.a
                 key={item.id}
@@ -68,10 +84,10 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 variants={cardVariants}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className={`glass-card border ${item.borderColor} ${item.bg} ${item.hoverBg} p-5 flex items-center gap-4 transition-all duration-300 group`}
+                className={`glass-card border ${borderClass} ${item.bg} ${hoverBgClass} p-5 flex items-center gap-4 transition-all duration-300 group`}
               >
                 <div
-                  className={`w-11 h-11 rounded-xl ${item.bg} border ${item.borderColor} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}
+                  className={`w-11 h-11 rounded-xl ${item.bg} border ${borderClass} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}
                 >
                   <Icon className={`text-xl ${item.color}`} />
                 </div>
@@ -95,10 +111,10 @@ export default function Contact() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,229,255,0.04)_0%,transparent_70%)] pointer-events-none" />
           <p className="text-gray-400 text-sm mb-2 relative z-10">Preferred contact</p>
           <a
-            href="mailto:manojagrahari7521@gmail.com"
+            href={preferred ? preferred.href : 'mailto:manojagrahari7521@gmail.com'}
             className="text-xl font-bold font-orbitron text-cyan-400 hover:text-cyan-300 transition-colors relative z-10 text-glow-cyan"
           >
-            manojagrahari7521@gmail.com
+            {preferred ? preferred.value : 'manojagrahari7521@gmail.com'}
           </a>
           <p className="text-gray-600 text-xs mt-2 relative z-10 font-mono">
             Response within 24 hours

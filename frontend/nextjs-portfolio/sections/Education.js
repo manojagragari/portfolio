@@ -1,7 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { education } from '../lib/data';
+import { getEducation } from '../lib/api';
+import { education as fallbackEducation } from '../lib/data';
 
 const colorMap = {
   cyan: {
@@ -38,6 +40,16 @@ const cardVariants = {
 };
 
 export default function Education() {
+  const [education, setEducation] = useState([]);
+
+  useEffect(() => {
+    async function loadEducation() {
+      const data = await getEducation();
+      setEducation(data && data.length ? data : fallbackEducation);
+    }
+    loadEducation();
+  }, []);
+
   return (
     <section id="education" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
       {/* Subtle bg */}

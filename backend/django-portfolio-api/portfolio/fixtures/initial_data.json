@@ -266,5 +266,122 @@
       "description": "Analytical thinking and algorithmic problem solving",
       "order": 4
     }
+  },
+  {
+    "model": "portfolio.education",
+    "pk": 1,
+    "fields": {
+      "institution": "Lovely Professional University",
+      "degree": "B.Tech – Computer Science & Engineering",
+      "grade": "CGPA: 7.61",
+      "period": "Aug 2023 – Present",
+      "location": "Punjab, India",
+      "icon": "🎓",
+      "color": "cyan",
+      "order": 1
+    }
+  },
+  {
+    "model": "portfolio.education",
+    "pk": 2,
+    "fields": {
+      "institution": "Siddharth Public School",
+      "degree": "Intermediate (Class XII)",
+      "grade": "77%",
+      "period": "Apr 2022 – Mar 2023",
+      "location": "Siddharth Nagar, Uttar Pradesh",
+      "icon": "📚",
+      "color": "purple",
+      "order": 2
+    }
+  },
+  {
+    "model": "portfolio.education",
+    "pk": 3,
+    "fields": {
+      "institution": "Blue Ink School International",
+      "degree": "Matriculation (Class X)",
+      "grade": "75%",
+      "period": "Apr 2020 – Mar 2021",
+      "location": "Siddharth Nagar, Uttar Pradesh",
+      "icon": "🏫",
+      "color": "blue",
+      "order": 3
+    }
+  },
+  {
+    "model": "portfolio.contactmethod",
+    "pk": 1,
+    "fields": {
+      "label": "LinkedIn",
+      "value": "Manoj Agrahari",
+      "href": "https://www.linkedin.com/in/manojagrahari",
+      "icon": "linkedin",
+      "color": "text-blue-400",
+      "border_color": "border-blue-500/30",
+      "bg": "bg-blue-500/10",
+      "hover_bg": "hover:bg-blue-500/20",
+      "order": 1
+    }
+  },
+  {
+    "model": "portfolio.contactmethod",
+    "pk": 2,
+    "fields": {
+      "label": "GitHub",
+      "value": "manojagrahari",
+      "href": "https://github.com/manojagrahari",
+      "icon": "github",
+      "color": "text-white",
+      "border_color": "border-white/20",
+      "bg": "bg-white/5",
+      "hover_bg": "hover:bg-white/10",
+      "order": 2
+    }
+  },
+  {
+    "model": "portfolio.contactmethod",
+    "pk": 3,
+    "fields": {
+      "label": "Instagram",
+      "value": "manojagrahari72",
+      "href": "https://instagram.com/manojagrahari72",
+      "icon": "instagram",
+      "color": "text-pink-400",
+      "border_color": "border-pink-500/30",
+      "bg": "bg-pink-500/10",
+      "hover_bg": "hover:bg-pink-500/20",
+      "order": 3
+    }
+  },
+  {
+    "model": "portfolio.contactmethod",
+    "pk": 4,
+    "fields": {
+      "label": "Email",
+      "value": "manojagrahari7521@gmail.com",
+      "href": "mailto:manojagrahari7521@gmail.com",
+      "icon": "email",
+      "color": "text-cyan-400",
+      "border_color": "border-cyan-500/30",
+      "bg": "bg-cyan-500/10",
+      "hover_bg": "hover:bg-cyan-500/20",
+      "order": 4
+    }
+  },
+  {
+    "model": "portfolio.contactmethod",
+    "pk": 5,
+    "fields": {
+      "label": "Phone",
+      "value": "+91 7307683053",
+      "href": "tel:+917307683053",
+      "icon": "phone",
+      "color": "text-green-400",
+      "border_color": "border-green-500/30",
+      "bg": "bg-green-500/10",
+      "hover_bg": "hover:bg-green-500/20",
+      "order": 5
+    }
   }
 ]

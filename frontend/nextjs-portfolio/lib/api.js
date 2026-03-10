@@ -5,6 +5,8 @@ import {
   certifications as staticCertifications,
   achievements as staticAchievements,
   hobbies as staticHobbies,
+  education as staticEducation,
+  contact as staticContact,
 } from './data';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
@@ -58,6 +60,20 @@ export async function getHobbies() {
     const { data } = await apiClient.get('/api/hobbies/');
     return data;
   }, staticHobbies);
+}
+
+export async function getEducation() {
+  return safeFetch(async () => {
+    const { data } = await apiClient.get('/api/education/');
+    return data;
+  }, staticEducation);
+}
+
+export async function getContactMethods() {
+  return safeFetch(async () => {
+    const { data } = await apiClient.get('/api/contact/');
+    return data;
+  }, staticContact);
 }
 
 export async function getGitHubRepos(username = 'manojagragari') {

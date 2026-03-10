@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, Skill, Certification, Achievement, Hobby
+from .models import Project, Skill, Certification, Achievement, Hobby, Education, ContactMethod
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -37,3 +37,21 @@ class HobbySerializer(serializers.ModelSerializer):
     class Meta:
         model = Hobby
         fields = ['id', 'name', 'icon', 'description', 'order']
+
+
+class EducationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Education
+        fields = [
+            'id', 'institution', 'degree', 'grade', 'period',
+            'location', 'icon', 'color', 'order',
+        ]
+
+
+class ContactMethodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactMethod
+        fields = [
+            'id', 'label', 'value', 'href', 'icon', 'color',
+            'border_color', 'bg', 'hover_bg', 'order',
+        ]

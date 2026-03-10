@@ -95,3 +95,38 @@ class Hobby(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Education(models.Model):
+    institution = models.CharField(max_length=200)
+    degree = models.CharField(max_length=200)
+    grade = models.CharField(max_length=100)
+    period = models.CharField(max_length=100)
+    location = models.CharField(max_length=200)
+    icon = models.CharField(max_length=10, default='🎓')
+    color = models.CharField(max_length=20, default='cyan')
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.institution
+
+
+class ContactMethod(models.Model):
+    label = models.CharField(max_length=50)
+    value = models.CharField(max_length=200)
+    href = models.CharField(max_length=300)
+    icon = models.CharField(max_length=20)
+    color = models.CharField(max_length=50, default='text-cyan-400')
+    border_color = models.CharField(max_length=100, default='border-cyan-500/30')
+    bg = models.CharField(max_length=100, default='bg-cyan-500/10')
+    hover_bg = models.CharField(max_length=100, default='hover:bg-cyan-500/20')
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.label
