@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaGithub, FaArrowLeft, FaFilter } from 'react-icons/fa';
@@ -8,7 +8,7 @@ import { BsBarChartFill } from 'react-icons/bs';
 import {
   SiPython, SiPandas, SiNumpy, SiJupyter,
 } from 'react-icons/si';
-import { projects } from '../../lib/data';
+import { getProjects } from '../../lib/api';
 import Footer from '../../sections/Footer';
 
 const allTech = ['All', 'Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Power BI', 'Jupyter Notebook'];
@@ -17,12 +17,20 @@ const techBadges = ['tech-badge-purple', 'tech-badge-blue', 'tech-badge-cyan'];
 
 export default function DataSciencePage() {
   const [filter, setFilter] = useState('All');
+  const [dsProjects, setDsProjects] = useState([]);
 
-  const dsProjects = projects.data_science;
+  useEffect(() => {
+    async function loadProjects() {
+      const data = await getProjects('data_science');
+      setDsProjects(data || []);
+    }
+    loadProjects();
+  }, []);
+
   const filtered =
     filter === 'All'
       ? dsProjects
-      : dsProjects.filter((p) => p.tech_stack.includes(filter));
+      : dsProjects.filter((p) => (p.tech_stack || []).includes(filter));
 
   return (
     <>
@@ -113,7 +121,7 @@ export default function DataSciencePage() {
                     <div className="mb-5">
                       <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Key Focus Areas</p>
                       <ul className="space-y-2">
-                        {project.features.map((f) => (
+                        {(project.features || []).map((f) => (
                           <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
                             <span className="text-purple-500 mt-0.5 flex-shrink-0">▸</span>
                             {f}
@@ -122,7 +130,7 @@ export default function DataSciencePage() {
                       </ul>
                     </div>
                     <div className="flex flex-wrap gap-2 mb-6">
-                      {project.tech_stack.map((t, i) => (
+                      {(project.tech_stack || []).map((t, i) => (
                         <span key={t} className={`tech-badge ${techBadges[i % techBadges.length]}`}>{t}</span>
                       ))}
                     </div>

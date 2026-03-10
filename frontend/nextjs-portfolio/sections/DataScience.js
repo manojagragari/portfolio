@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
@@ -7,7 +8,7 @@ import {
   SiPython, SiPandas, SiNumpy, SiJupyter,
 } from 'react-icons/si';
 import { BsBarChartFill } from 'react-icons/bs';
-import { projects } from '../lib/data';
+import { getProjects } from '../lib/api';
 
 const dsStack = [
   { name: 'Python', icon: <SiPython className="text-yellow-400 text-2xl" /> },
@@ -26,7 +27,15 @@ const miniStats = [
 ];
 
 export default function DataScience() {
-  const dsProjects = projects.data_science;
+  const [dsProjects, setDsProjects] = useState([]);
+
+  useEffect(() => {
+    async function loadProjects() {
+      const data = await getProjects('data_science');
+      setDsProjects(data || []);
+    }
+    loadProjects();
+  }, []);
 
   return (
     <section id="data-science" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
@@ -124,7 +133,7 @@ export default function DataScience() {
                 </div>
                 <p className="text-gray-400 text-sm leading-relaxed mb-4">{project.description}</p>
                 <ul className="space-y-1 mb-5">
-                  {project.features.slice(0, 4).map((f) => (
+                  {(project.features || []).slice(0, 4).map((f) => (
                     <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
                       <span className="text-purple-500 mt-0.5 flex-shrink-0">▸</span>
                       {f}
@@ -132,7 +141,7 @@ export default function DataScience() {
                   ))}
                 </ul>
                 <div className="flex flex-wrap gap-2 mb-5">
-                  {project.tech_stack.map((t, i) => (
+                  {(project.tech_stack || []).map((t, i) => (
                     <span
                       key={t}
                       className={`tech-badge ${i % 2 === 0 ? 'tech-badge-purple' : 'tech-badge-blue'}`}

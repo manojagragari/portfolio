@@ -1,11 +1,12 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaGithub, FaExternalLinkAlt, FaAndroid } from 'react-icons/fa';
 import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
 import { DiJava } from 'react-icons/di';
-import { projects } from '../lib/data';
+import { getProjects } from '../lib/api';
 
 const androidStack = [
   { name: 'Java', icon: <DiJava className="text-red-500 text-2xl" /> },
@@ -15,7 +16,15 @@ const androidStack = [
 ];
 
 export default function AndroidDevelopment() {
-  const androidProjects = projects.android;
+  const [androidProjects, setAndroidProjects] = useState([]);
+
+  useEffect(() => {
+    async function loadProjects() {
+      const data = await getProjects('android');
+      setAndroidProjects(data || []);
+    }
+    loadProjects();
+  }, []);
 
   return (
     <section id="android-development" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
@@ -93,7 +102,7 @@ export default function AndroidDevelopment() {
                 </div>
                 <p className="text-gray-400 text-sm leading-relaxed mb-4">{project.description}</p>
                 <ul className="space-y-1 mb-5">
-                  {project.features.map((f) => (
+                  {(project.features || []).map((f) => (
                     <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
                       <span className="text-green-500 mt-0.5 flex-shrink-0">▸</span>
                       {f}
@@ -101,7 +110,7 @@ export default function AndroidDevelopment() {
                   ))}
                 </ul>
                 <div className="flex flex-wrap gap-2 mb-5">
-                  {project.tech_stack.map((t) => (
+                  {(project.tech_stack || []).map((t) => (
                     <span key={t} className="tech-badge border border-green-500/30 text-green-400 bg-green-500/8">
                       {t}
                     </span>

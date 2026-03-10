@@ -1,15 +1,24 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaGithub, FaArrowLeft, FaAndroid } from 'react-icons/fa';
 import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
 import { DiJava } from 'react-icons/di';
-import { projects } from '../../lib/data';
+import { getProjects } from '../../lib/api';
 import Footer from '../../sections/Footer';
 
 export default function AndroidProjectsPage() {
-  const androidProjects = projects.android;
+  const [androidProjects, setAndroidProjects] = useState([]);
+
+  useEffect(() => {
+    async function loadProjects() {
+      const data = await getProjects('android');
+      setAndroidProjects(data || []);
+    }
+    loadProjects();
+  }, []);
 
   return (
     <>
@@ -88,7 +97,7 @@ export default function AndroidProjectsPage() {
                   <div className="mb-5">
                     <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Key Features</p>
                     <ul className="space-y-2">
-                      {project.features.map((f) => (
+                      {(project.features || []).map((f) => (
                         <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
                           <span className="text-green-500 mt-0.5 flex-shrink-0">▸</span>
                           {f}
@@ -98,7 +107,7 @@ export default function AndroidProjectsPage() {
                   </div>
 
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tech_stack.map((t) => (
+                    {(project.tech_stack || []).map((t) => (
                       <span key={t} className="tech-badge border border-green-500/30 text-green-400 bg-green-500/8">
                         {t}
                       </span>

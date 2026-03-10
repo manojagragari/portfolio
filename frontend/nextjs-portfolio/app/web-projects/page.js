@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaFilter } from 'react-icons/fa';
-import { projects } from '../../lib/data';
+import { getProjects } from '../../lib/api';
 import Footer from '../../sections/Footer';
 
 const allTech = ['All', 'Python', 'Django', 'DRF', 'React', 'Next.js', 'Tailwind CSS', 'JavaScript', 'Matplotlib', 'Seaborn'];
@@ -13,11 +13,20 @@ const stackColors = ['tech-badge-cyan', 'tech-badge-purple', 'tech-badge-blue'];
 
 export default function WebProjectsPage() {
   const [filter, setFilter] = useState('All');
+  const [webProjects, setWebProjects] = useState([]);
+
+  useEffect(() => {
+    async function loadProjects() {
+      const data = await getProjects('web');
+      setWebProjects(data || []);
+    }
+    loadProjects();
+  }, []);
 
   const filtered =
     filter === 'All'
-      ? projects.web
-      : projects.web.filter((p) => p.tech_stack.includes(filter));
+      ? webProjects
+      : webProjects.filter((p) => (p.tech_stack || []).includes(filter));
 
   return (
     <>
@@ -112,7 +121,7 @@ export default function WebProjectsPage() {
                     <div className="mb-5">
                       <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Key Features</p>
                       <ul className="grid grid-cols-1 gap-1.5">
-                        {project.features.map((f) => (
+                        {(project.features || []).map((f) => (
                           <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
                             <span className="text-cyan-500 mt-0.5 flex-shrink-0">▸</span>
                             {f}
@@ -123,7 +132,7 @@ export default function WebProjectsPage() {
 
                     {/* Tech stack */}
                     <div className="flex flex-wrap gap-2 mb-6">
-                      {project.tech_stack.map((t, i) => (
+                      {(project.tech_stack || []).map((t, i) => (
                         <span key={t} className={`tech-badge ${stackColors[i % stackColors.length]}`}>{t}</span>
                       ))}
                     </div>

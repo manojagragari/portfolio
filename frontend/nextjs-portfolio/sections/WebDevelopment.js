@@ -1,10 +1,11 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaGithub, FaExternalLinkAlt, FaReact, FaCode } from 'react-icons/fa';
 import { SiDjango, SiTailwindcss, SiNextdotjs, SiPython, SiFlask, SiSqlite } from 'react-icons/si';
-import { projects } from '../lib/data';
+import { getProjects } from '../lib/api';
 
 const techIcons = {
   React: <FaReact className="text-cyan-400" />,
@@ -40,6 +41,16 @@ const webStack = [
 ];
 
 export default function WebDevelopment() {
+  const [webProjects, setWebProjects] = useState([]);
+
+  useEffect(() => {
+    async function loadProjects() {
+      const data = await getProjects('web');
+      setWebProjects(data || []);
+    }
+    loadProjects();
+  }, []);
+
   return (
     <section id="web-development" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_100%_50%,rgba(0,229,255,0.05)_0%,transparent_60%)]" />
@@ -100,7 +111,7 @@ export default function WebDevelopment() {
           transition={{ staggerChildren: 0.15 }}
           className="grid md:grid-cols-2 gap-8 mb-10"
         >
-          {projects.web.map((project, idx) => (
+          {webProjects.map((project, idx) => (
             <motion.article
               key={project.id}
               variants={cardVariants}
@@ -128,7 +139,7 @@ export default function WebDevelopment() {
 
                 {/* Features */}
                 <ul className="space-y-1 mb-5">
-                  {project.features.slice(0, 3).map((f) => (
+                  {(project.features || []).slice(0, 3).map((f) => (
                     <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
                       <span className="text-cyan-500 mt-0.5 flex-shrink-0">▸</span>
                       {f}
@@ -138,7 +149,7 @@ export default function WebDevelopment() {
 
                 {/* Tech stack */}
                 <div className="flex flex-wrap gap-2 mb-5">
-                  {project.tech_stack.map((t, i) => (
+                  {(project.tech_stack || []).map((t, i) => (
                     <span key={t} className={`tech-badge ${stackColors[i % stackColors.length]}`}>
                       {t}
                     </span>
