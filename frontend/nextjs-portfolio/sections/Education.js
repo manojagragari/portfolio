@@ -45,7 +45,12 @@ export default function Education() {
   useEffect(() => {
     async function loadEducation() {
       const data = await getEducation();
-      setEducation(data && data.length ? data : fallbackEducation);
+      const normalized = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.results)
+          ? data.results
+          : [];
+      setEducation(normalized.length ? normalized : fallbackEducation);
     }
     loadEducation();
   }, []);
