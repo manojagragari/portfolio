@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import {
   SiPython, SiPandas, SiNumpy, SiJupyter,
@@ -113,7 +114,12 @@ export default function DataScience() {
           transition={{ staggerChildren: 0.15 }}
           className="grid md:grid-cols-2 gap-8 mb-10"
         >
-          {dsProjects.map((project) => (
+          {dsProjects.map((project) => {
+            const imageUrl = project.image
+              ? (project.image.startsWith('http') ? project.image : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${project.image}`)
+              : null;
+
+            return (
             <motion.article
               key={project.id}
               initial={{ opacity: 0, y: 40 }}
@@ -124,6 +130,20 @@ export default function DataScience() {
               className="glass-card-hover border group overflow-hidden"
             >
               <div className="h-1 bg-gradient-to-r from-purple-500 to-blue-500 opacity-70" />
+              
+              {/* Project Image */}
+              {imageUrl && (
+                <div className="relative w-full h-48 bg-gradient-to-b from-purple-500/10 to-transparent overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt={project.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              )}
+
               <div className="p-6">
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <h3 className="text-lg font-bold font-orbitron text-white group-hover:text-purple-400 transition-colors leading-tight">
@@ -143,7 +163,8 @@ export default function DataScience() {
                 <div className="flex flex-wrap gap-2 mb-5">
                   {(project.tech_stack || []).map((t, i) => (
                     <span
-                      key={t}
+            );
+          }           key={t}
                       className={`tech-badge ${i % 2 === 0 ? 'tech-badge-purple' : 'tech-badge-blue'}`}
                     >
                       {t}

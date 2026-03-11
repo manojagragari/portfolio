@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaGithub, FaArrowLeft, FaAndroid } from 'react-icons/fa';
 import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
 import { DiJava } from 'react-icons/di';
@@ -73,7 +74,12 @@ export default function AndroidProjectsPage() {
         {/* Projects */}
         <div className="max-w-5xl mx-auto px-6 pb-24">
           <div className="grid md:grid-cols-2 gap-8 items-start">
-            {androidProjects.map((project, idx) => (
+            {androidProjects.map((project, idx) => {
+              const imageUrl = project.image
+                ? (project.image.startsWith('http') ? project.image : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${project.image}`)
+                : null;
+
+              return (
               <motion.article
                 key={project.id}
                 initial={{ opacity: 0, y: 40 }}
@@ -83,6 +89,20 @@ export default function AndroidProjectsPage() {
                 className="glass-card border border-green-500/20 hover:border-green-500/40 group overflow-hidden transition-all duration-300"
               >
                 <div className="h-1 bg-gradient-to-r from-green-500 to-teal-500 opacity-70" />
+                
+                {/* Project Image */}
+                {imageUrl && (
+                  <div className="relative w-full h-48 bg-gradient-to-b from-green-500/10 to-transparent overflow-hidden">
+                    <Image
+                      src={imageUrl}
+                      alt={project.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                )}
+
                 <div className="p-7">
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <h2 className="text-xl font-bold font-orbitron text-white group-hover:text-green-400 transition-colors leading-tight">
@@ -105,7 +125,8 @@ export default function AndroidProjectsPage() {
                       ))}
                     </ul>
                   </div>
-
+  );
+            }
                   <div className="flex flex-wrap gap-2 mb-6">
                     {(project.tech_stack || []).map((t) => (
                       <span key={t} className="tech-badge border border-green-500/30 text-green-400 bg-green-500/8">

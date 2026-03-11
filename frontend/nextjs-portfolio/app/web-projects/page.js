@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaFilter } from 'react-icons/fa';
 import { getProjects } from '../../lib/api';
 import Footer from '../../sections/Footer';
@@ -96,7 +97,12 @@ export default function WebProjectsPage() {
             </div>
           ) : (
             <div className="grid md:grid-cols-2 gap-8">
-              {filtered.map((project, idx) => (
+              {filtered.map((project, idx) => {
+                const imageUrl = project.image
+                  ? (project.image.startsWith('http') ? project.image : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${project.image}`)
+                  : null;
+
+                return (
                 <motion.article
                   key={project.id}
                   initial={{ opacity: 0, y: 40 }}
@@ -106,6 +112,20 @@ export default function WebProjectsPage() {
                   className="glass-card-hover border group overflow-hidden"
                 >
                   <div className={`h-1 bg-gradient-to-r ${project.gradient.replace('/20', '')} opacity-70`} />
+                  
+                  {/* Project Image */}
+                  {imageUrl && (
+                    <div className="relative w-full h-48 bg-gradient-to-b from-cyan-500/10 to-transparent overflow-hidden">
+                      <Image
+                        src={imageUrl}
+                        alt={project.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
+                  )}
+
                   <div className="p-7">
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <h2 className="text-xl font-bold font-orbitron text-white group-hover:text-cyan-400 transition-colors leading-tight">
@@ -141,7 +161,8 @@ export default function WebProjectsPage() {
                     <div className="flex gap-4">
                       <a
                         href={project.github_url}
-                        target="_blank"
+                );
+              }         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 text-sm text-gray-400 hover:text-cyan-400 transition-colors"
                       >

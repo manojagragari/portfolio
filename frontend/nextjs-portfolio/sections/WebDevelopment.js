@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt, FaReact, FaCode } from 'react-icons/fa';
 import { SiDjango, SiTailwindcss, SiNextdotjs, SiPython, SiFlask, SiSqlite } from 'react-icons/si';
 import { getProjects } from '../lib/api';
@@ -111,7 +112,12 @@ export default function WebDevelopment() {
           transition={{ staggerChildren: 0.15 }}
           className="grid md:grid-cols-2 gap-8 mb-10"
         >
-          {webProjects.map((project, idx) => (
+          {webProjects.map((project, idx) => {
+            const imageUrl = project.image
+              ? (project.image.startsWith('http') ? project.image : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${project.image}`)
+              : null;
+
+            return (
             <motion.article
               key={project.id}
               variants={cardVariants}
@@ -122,6 +128,19 @@ export default function WebDevelopment() {
               <div
                 className={`h-1 bg-gradient-to-r ${project.gradient.replace('/20', '')} opacity-70`}
               />
+
+              {/* Project Image */}
+              {imageUrl && (
+                <div className="relative w-full h-48 bg-gradient-to-b from-cyan-500/10 to-transparent overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt={project.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              )}
 
               <div className="p-6">
                 {/* Header */}
@@ -167,7 +186,8 @@ export default function WebDevelopment() {
                     <FaGithub />
                     GitHub
                   </a>
-                  {project.live_url && (
+            );
+          }       {project.live_url && (
                     <a
                       href={project.live_url}
                       target="_blank"

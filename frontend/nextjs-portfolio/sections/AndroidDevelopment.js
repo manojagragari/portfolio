@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt, FaAndroid } from 'react-icons/fa';
 import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
 import { DiJava } from 'react-icons/di';
@@ -80,7 +81,12 @@ export default function AndroidDevelopment() {
 
         {/* Projects */}
         <div className="grid md:grid-cols-2 gap-8 items-center">
-          {androidProjects.map((project) => (
+          {androidProjects.map((project) => {
+            const imageUrl = project.image
+              ? (project.image.startsWith('http') ? project.image : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${project.image}`)
+              : null;
+
+            return (
             <motion.article
               key={project.id}
               initial={{ opacity: 0, y: 40 }}
@@ -91,6 +97,20 @@ export default function AndroidDevelopment() {
               className="glass-card-hover border group overflow-hidden"
             >
               <div className="h-1 bg-gradient-to-r from-green-500 to-teal-500 opacity-70" />
+              
+              {/* Project Image */}
+              {imageUrl && (
+                <div className="relative w-full h-48 bg-gradient-to-b from-green-500/10 to-transparent overflow-hidden">
+                  <Image
+                    src={imageUrl}
+                    alt={project.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              )}
+
               <div className="p-6">
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <h3 className="text-lg font-bold font-orbitron text-white group-hover:text-green-400 transition-colors leading-tight">
@@ -107,7 +127,8 @@ export default function AndroidDevelopment() {
                       <span className="text-green-500 mt-0.5 flex-shrink-0">▸</span>
                       {f}
                     </li>
-                  ))}
+            );
+          }       ))}
                 </ul>
                 <div className="flex flex-wrap gap-2 mb-5">
                   {(project.tech_stack || []).map((t) => (
