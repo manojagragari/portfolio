@@ -145,8 +145,7 @@ export default function DataSciencePage() {
                           <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
                             <span className="text-purple-500 mt-0.5 flex-shrink-0">▸</span>
                             {f}
-                );
-              }           </li>
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -165,7 +164,8 @@ export default function DataSciencePage() {
                     </a>
                   </div>
                 </motion.article>
-              ))}
+                );
+              })}
 
               {/* Skills chart card */}
               <motion.div

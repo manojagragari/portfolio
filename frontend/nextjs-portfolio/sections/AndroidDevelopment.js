@@ -127,8 +127,7 @@ export default function AndroidDevelopment() {
                       <span className="text-green-500 mt-0.5 flex-shrink-0">▸</span>
                       {f}
                     </li>
-            );
-          }       ))}
+                  ))}
                 </ul>
                 <div className="flex flex-wrap gap-2 mb-5">
                   {(project.tech_stack || []).map((t) => (
@@ -147,7 +146,8 @@ export default function AndroidDevelopment() {
                 </a>
               </div>
             </motion.article>
-          ))}
+            );
+          })}
 
           {/* Android illustration card */}
           <motion.div

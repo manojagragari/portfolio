@@ -125,8 +125,7 @@ export default function AndroidProjectsPage() {
                       ))}
                     </ul>
                   </div>
-  );
-            }
+
                   <div className="flex flex-wrap gap-2 mb-6">
                     {(project.tech_stack || []).map((t) => (
                       <span key={t} className="tech-badge border border-green-500/30 text-green-400 bg-green-500/8">
@@ -145,7 +144,7 @@ export default function AndroidProjectsPage() {
                   </a>
                 </div>
               </motion.article>
-            ))}
+              );})}
 
             {/* Stack card */}
             <motion.div

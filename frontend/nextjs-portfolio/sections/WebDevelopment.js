@@ -186,8 +186,7 @@ export default function WebDevelopment() {
                     <FaGithub />
                     GitHub
                   </a>
-            );
-          }       {project.live_url && (
+                  {project.live_url && (
                     <a
                       href={project.live_url}
                       target="_blank"
@@ -205,7 +204,8 @@ export default function WebDevelopment() {
               <span className="absolute top-3 right-3 w-2 h-2 border-t border-r border-cyan-500/30 opacity-0 group-hover:opacity-100 transition-opacity" />
               <span className="absolute bottom-3 left-3 w-2 h-2 border-b border-l border-cyan-500/30 opacity-0 group-hover:opacity-100 transition-opacity" />
             </motion.article>
-          ))}
+            );
+          })}
         </motion.div>
 
         {/* See all button */}

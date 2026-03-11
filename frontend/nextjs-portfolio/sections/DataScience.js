@@ -163,8 +163,7 @@ export default function DataScience() {
                 <div className="flex flex-wrap gap-2 mb-5">
                   {(project.tech_stack || []).map((t, i) => (
                     <span
-            );
-          }           key={t}
+                      key={t}
                       className={`tech-badge ${i % 2 === 0 ? 'tech-badge-purple' : 'tech-badge-blue'}`}
                     >
                       {t}
@@ -183,7 +182,8 @@ export default function DataScience() {
                 </div>
               </div>
             </motion.article>
-          ))}
+            );
+          })}
 
           {/* Animated chart card */}
           <motion.div

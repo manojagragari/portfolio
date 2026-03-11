@@ -161,8 +161,7 @@ export default function WebProjectsPage() {
                     <div className="flex gap-4">
                       <a
                         href={project.github_url}
-                );
-              }         target="_blank"
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 text-sm text-gray-400 hover:text-cyan-400 transition-colors"
                       >
@@ -181,7 +180,8 @@ export default function WebProjectsPage() {
                     </div>
                   </div>
                 </motion.article>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
