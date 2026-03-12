@@ -50,6 +50,7 @@
       "features": ["Instant CGPA calculation with grade input", "Semester-wise grade management", "Visual grade distribution charts", "Modern Jetpack Compose Material Design UI", "Offline-first with local data persistence"],
       "tech_stack": ["Java", "Kotlin", "Android Studio", "Jetpack Compose", "Material Design"],
       "github_url": "https://github.com/manojagragari",
+      "apk_url": null,
       "live_url": null,
       "image": null,
       "featured": true,
@@ -57,6 +58,27 @@
       "gradient": "from-green-500/20 to-teal-500/20",
       "accent_color": "green",
       "created_at": "2026-02-12T10:00:00Z"
+    }
+  },
+  {
+    "model": "portfolio.project",
+    "pk": 5,
+    "fields": {
+      "title": "Cricket Live & News Analytics App",
+      "category": "android",
+      "description": "An Android app that delivers live cricket news, ICC team rankings, match history, and player performance insights through a dynamic interactive UI.",
+      "long_description": "The Cricket Live & News Analytics App is an Android application built to combine real-time cricket news with match-focused analytics. It integrates a News API to surface the latest cricket updates, presents the Top 10 ICC Cricket Teams (2026), and lets users open individual team cards to explore match history, player statistics, and performance trends in an interactive Jetpack Compose interface.",
+      "features": ["Latest cricket news using API integration", "Top 10 ICC Teams list (2026)", "Clickable team cards to view match history", "Player statistics and performance analytics", "Match insights including total matches played, wins, and losses", "Dynamic UI with interactive components"],
+      "tech_stack": ["Kotlin", "Android Studio", "Jetpack Compose", "REST API Integration", "JSON Data Handling"],
+      "github_url": "https://github.com/manojagragari/Endterm1",
+      "apk_url": "/projects/cricket-live-news-analytics-app.apk",
+      "live_url": null,
+      "image": null,
+      "featured": true,
+      "order": 2,
+      "gradient": "from-green-500/20 to-teal-500/20",
+      "accent_color": "green",
+      "created_at": "2026-03-12T10:00:00Z"
     }
   },
   {

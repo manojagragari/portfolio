@@ -15,6 +15,7 @@ class Project(models.Model):
     features = models.JSONField(default=list)
     tech_stack = models.JSONField(default=list)
     github_url = models.URLField(blank=True, null=True)
+    apk_url = models.CharField(max_length=300, blank=True, null=True)
     live_url = models.URLField(blank=True, null=True)
     image = models.ImageField(upload_to='projects/', blank=True, null=True)
     featured = models.BooleanField(default=False)

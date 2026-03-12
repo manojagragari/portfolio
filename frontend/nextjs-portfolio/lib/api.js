@@ -8,6 +8,7 @@ import {
   education as staticEducation,
   contact as staticContact,
 } from './data';
+import { enrichProjectAssets } from './projectAssets';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -30,8 +31,8 @@ export async function getProjects(category = null) {
   return safeFetch(async () => {
     const params = category ? { category } : {};
     const { data } = await apiClient.get('/api/projects/', { params });
-    return data;
-  }, category ? (staticProjects[category] || []) : Object.values(staticProjects).flat());
+    return data.map(enrichProjectAssets);
+  }, (category ? (staticProjects[category] || []) : Object.values(staticProjects).flat()).map(enrichProjectAssets));
 }
 
 export async function getSkills() {

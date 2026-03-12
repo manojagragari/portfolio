@@ -7,7 +7,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = [
             'id', 'title', 'category', 'description', 'long_description',
-            'features', 'tech_stack', 'github_url', 'live_url', 'image',
+            'features', 'tech_stack', 'github_url', 'apk_url', 'live_url', 'image',
             'featured', 'order', 'gradient', 'accent_color', 'created_at',
         ]
 

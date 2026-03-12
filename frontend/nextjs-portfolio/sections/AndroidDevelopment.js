@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaGithub, FaExternalLinkAlt, FaAndroid } from 'react-icons/fa';
+import { FaGithub, FaExternalLinkAlt, FaAndroid, FaDownload } from 'react-icons/fa';
 import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
 import { DiJava } from 'react-icons/di';
 import { getProjects } from '../lib/api';
@@ -82,8 +82,11 @@ export default function AndroidDevelopment() {
         {/* Projects */}
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {androidProjects.map((project) => {
-            const imageUrl = project.image
-              ? (project.image.startsWith('http') ? project.image : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${project.image}`)
+            const imageSource = project.image || project.screenshots?.[0] || null;
+            const imageUrl = imageSource
+              ? (imageSource.startsWith('http') || imageSource.startsWith('/')
+                ? imageSource
+                : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${imageSource}`)
               : null;
 
             return (
@@ -136,14 +139,30 @@ export default function AndroidDevelopment() {
                     </span>
                   ))}
                 </div>
-                <a
-                  href={project.github_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-green-400 transition-colors"
-                >
-                  <FaGithub /> View on GitHub
-                </a>
+                {project.screenshots?.length > 1 && (
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-green-400/60 mb-4">
+                    {project.screenshots.length} app screenshots available
+                  </p>
+                )}
+                <div className="flex flex-wrap items-center gap-4">
+                  <a
+                    href={project.github_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-green-400 transition-colors"
+                  >
+                    <FaGithub /> View on GitHub
+                  </a>
+                  {project.apk_url && (
+                    <a
+                      href={project.apk_url}
+                      download
+                      className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-green-400 transition-colors"
+                    >
+                      <FaDownload /> Download APK
+                    </a>
+                  )}
+                </div>
               </div>
             </motion.article>
             );

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaGithub, FaArrowLeft, FaAndroid } from 'react-icons/fa';
+import { FaGithub, FaArrowLeft, FaAndroid, FaDownload } from 'react-icons/fa';
 import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
 import { DiJava } from 'react-icons/di';
 import { getProjects } from '../../lib/api';
@@ -75,8 +75,11 @@ export default function AndroidProjectsPage() {
         <div className="max-w-5xl mx-auto px-6 pb-24">
           <div className="grid md:grid-cols-2 gap-8 items-start">
             {androidProjects.map((project, idx) => {
-              const imageUrl = project.image
-                ? (project.image.startsWith('http') ? project.image : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${project.image}`)
+              const imageSource = project.image || project.screenshots?.[0] || null;
+              const imageUrl = imageSource
+                ? (imageSource.startsWith('http') || imageSource.startsWith('/')
+                  ? imageSource
+                  : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${imageSource}`)
                 : null;
 
               return (
@@ -134,14 +137,47 @@ export default function AndroidProjectsPage() {
                     ))}
                   </div>
 
-                  <a
-                    href={project.github_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-gray-400 hover:text-green-400 transition-colors"
-                  >
-                    <FaGithub /> View on GitHub
-                  </a>
+                  {project.screenshots?.length > 0 && (
+                    <div className="mb-6">
+                      <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">App Screenshots</p>
+                      <div className="grid grid-cols-2 gap-3">
+                        {project.screenshots.map((screenshot, screenshotIndex) => (
+                          <div
+                            key={`${project.id}-screenshot-${screenshotIndex}`}
+                            className="relative aspect-[9/16] overflow-hidden rounded-xl border border-white/10 bg-white/5"
+                          >
+                            <Image
+                              src={screenshot}
+                              alt={`${project.title} screenshot ${screenshotIndex + 1}`}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 50vw, 240px"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex flex-wrap items-center gap-4">
+                    <a
+                      href={project.github_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-gray-400 hover:text-green-400 transition-colors"
+                    >
+                      <FaGithub /> View on GitHub
+                    </a>
+                    {project.apk_url && (
+                      <a
+                        href={project.apk_url}
+                        download
+                        className="flex items-center gap-2 text-sm text-gray-400 hover:text-green-400 transition-colors"
+                      >
+                        <FaDownload /> Download APK
+                      </a>
+                    )}
+                  </div>
                 </div>
               </motion.article>
               );})}
