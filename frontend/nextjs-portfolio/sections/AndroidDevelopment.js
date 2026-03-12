@@ -80,7 +80,7 @@ export default function AndroidDevelopment() {
         </motion.div>
 
         {/* Projects */}
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-center">
           {androidProjects.map((project) => {
             const imageSource = project.image || project.screenshots?.[0] || null;
             const imageUrl = imageSource

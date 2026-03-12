@@ -73,7 +73,7 @@ export default function AndroidProjectsPage() {
 
         {/* Projects */}
         <div className="max-w-5xl mx-auto px-6 pb-24">
-          <div className="grid md:grid-cols-2 gap-8 items-start">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start">
             {androidProjects.map((project, idx) => {
               const imageSource = project.image || project.screenshots?.[0] || null;
               const imageUrl = imageSource

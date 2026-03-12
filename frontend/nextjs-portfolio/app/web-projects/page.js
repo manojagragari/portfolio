@@ -96,7 +96,7 @@ export default function WebProjectsPage() {
               No projects found for &quot;{filter}&quot;
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
               {filtered.map((project, idx) => {
                 const imageUrl = project.image
                   ? (project.image.startsWith('http') ? project.image : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${project.image}`)
