@@ -134,6 +134,30 @@ export const projects = {
       gradient: 'from-green-500/20 to-teal-500/20',
       accentColor: 'green',
     },
+    {
+      id: 6,
+      title: 'Android Calculator App',
+      category: 'android',
+      description:
+        'A fully functional calculator Android app built with XML UI and Kotlin logic for fast, responsive arithmetic operations.',
+      longDescription:
+        'The Android Calculator App is a clean and responsive mobile application developed using XML for the user interface and Kotlin for backend logic. It supports essential arithmetic operations such as addition, subtraction, multiplication, and division with real-time result updates and optimized layout behavior across Android devices.',
+      features: [
+        'Clean calculator UI designed using XML layouts',
+        'Functional arithmetic operations (+, -, x, /)',
+        'Button click handling and backend logic implementation',
+        'Real-time result display',
+        'Optimized layout for Android devices',
+      ],
+      tech_stack: ['Kotlin', 'Android Studio', 'XML Layout Design', 'Android SDK'],
+      github_url: 'https://github.com/manojagragari/firstone',
+      apk_url: '/projects/android-calculator-app.apk',
+      live_url: null,
+      featured: true,
+      order: 3,
+      gradient: 'from-green-500/20 to-teal-500/20',
+      accentColor: 'green',
+    },
   ],
   data_science: [
     {
