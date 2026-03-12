@@ -1,4 +1,8 @@
 const projectAssets = {
+  'Personal Learning & Notes Platform': {
+    coverImage: '/projects/notes-platform/cover.png',
+    imageFit: 'contain',
+  },
   'Android Calculator App': {
     coverImage: '/projects/android-calculator-app/cover.png',
     imageFit: 'contain',

@@ -113,8 +113,14 @@ export default function WebDevelopment() {
           className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-10"
         >
           {webProjects.map((project, idx) => {
-            const imageUrl = project.image
-              ? (project.image.startsWith('http') ? project.image : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${project.image}`)
+            const imageSource = project.cover_image || project.image || null;
+            const imageFitClass = project.image_fit === 'contain'
+              ? 'object-contain p-2 bg-black/30'
+              : 'object-cover group-hover:scale-105';
+            const imageUrl = imageSource
+              ? (imageSource.startsWith('http') || imageSource.startsWith('/')
+                ? imageSource
+                : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${imageSource}`)
               : null;
 
             return (
@@ -136,7 +142,7 @@ export default function WebDevelopment() {
                     src={imageUrl}
                     alt={project.title}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className={`${imageFitClass} transition-transform duration-300`}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
