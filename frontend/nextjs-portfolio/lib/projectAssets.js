@@ -1,4 +1,10 @@
 const projectAssets = {
+  'Android Calculator App': {
+    screenshots: [
+      '/projects/android-calculator-app/screenshots/01-calculator-ui.jpg',
+      '/projects/android-calculator-app/screenshots/02-app-installed.jpg',
+    ],
+  },
   'Cricket Live & News Analytics App': {
     screenshots: [
       '/projects/cricket-live-news-analytics-app/screenshots/01-home.jpg',
