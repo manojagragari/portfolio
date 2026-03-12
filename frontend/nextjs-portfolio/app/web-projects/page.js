@@ -36,7 +36,7 @@ export default function WebProjectsPage() {
         <section className="relative py-20 overflow-hidden">
           <div className="absolute inset-0 bg-cyber-grid opacity-40" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,229,255,0.08)_0%,transparent_65%)]" />
-          <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+          <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-cyan-400 transition-colors mb-8"
@@ -70,7 +70,7 @@ export default function WebProjectsPage() {
         </section>
 
         {/* Filter bar */}
-        <div className="max-w-7xl mx-auto px-6 mb-10">
+        <div className="max-w-6xl mx-auto px-6 mb-10">
           <div className="flex items-center gap-2 flex-wrap">
             <FaFilter className="text-gray-600 text-sm" />
             {allTech.map((tech) => (
@@ -90,7 +90,7 @@ export default function WebProjectsPage() {
         </div>
 
         {/* Projects grid */}
-        <div className="max-w-7xl mx-auto px-6 pb-24">
+        <div className="max-w-6xl mx-auto px-6 pb-24">
           {filtered.length === 0 ? (
             <div className="text-center py-16 text-gray-600 font-mono">
               No projects found for &quot;{filter}&quot;

@@ -1,16 +1,16 @@
-import { Orbitron, Inter } from 'next/font/google';
+import { Space_Grotesk, Outfit } from 'next/font/google';
 import './globals.css';
 import Navbar from '../components/Navbar';
 import LoadingScreen from '../components/LoadingScreen';
 import ScrollProgress from '../components/ScrollProgress';
 
-const orbitron = Orbitron({
+const displayFont = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-orbitron',
   display: 'swap',
 });
 
-const inter = Inter({
+const bodyFont = Outfit({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
@@ -48,7 +48,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${orbitron.variable} ${inter.variable}`}>
+    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
       <body className="bg-[#0a0a0a] text-white antialiased overflow-x-hidden">
         <LoadingScreen />
         <ScrollProgress />

@@ -10,10 +10,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        orbitron: ['var(--font-orbitron)', 'Orbitron', 'sans-serif'],
-        inter: ['var(--font-inter)', 'Inter', 'sans-serif'],
-        sans: ['var(--font-inter)', 'Inter', 'sans-serif'],
-        mono: ['Courier New', 'monospace'],
+        orbitron: ['var(--font-orbitron)', 'Space Grotesk', 'sans-serif'],
+        inter: ['var(--font-inter)', 'Outfit', 'sans-serif'],
+        sans: ['var(--font-inter)', 'Outfit', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
       },
       colors: {
         cyber: {

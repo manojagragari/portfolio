@@ -28,7 +28,7 @@ export default function AndroidProjectsPage() {
         <section className="relative py-20 overflow-hidden">
           <div className="absolute inset-0 bg-cyber-grid opacity-40" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(16,185,129,0.08)_0%,transparent_65%)]" />
-          <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+          <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-green-400 transition-colors mb-8"
@@ -72,7 +72,7 @@ export default function AndroidProjectsPage() {
         </section>
 
         {/* Projects */}
-        <div className="max-w-5xl mx-auto px-6 pb-24">
+        <div className="max-w-6xl mx-auto px-6 pb-24">
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start">
             {androidProjects.map((project, idx) => {
               const imageSource = project.image || project.screenshots?.[0] || null;
