@@ -1,4 +1,8 @@
 const projectAssets = {
+  'Tesla Global Performance & Sustainability Dashboard': {
+    coverImage: '/projects/tesla-dashboard/cover.png',
+    imageFit: 'cover',
+  },
   'Personal Learning & Notes Platform': {
     coverImage: '/projects/notes-platform/cover.png',
     imageFit: 'contain',
