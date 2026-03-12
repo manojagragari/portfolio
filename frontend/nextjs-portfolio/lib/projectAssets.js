@@ -12,6 +12,8 @@ const projectAssets = {
     ],
   },
   'Cricket Live & News Analytics App': {
+    coverImage: '/projects/cricket-live-news-analytics-app/cover.png',
+    imageFit: 'cover',
     screenshots: [
       '/projects/cricket-live-news-analytics-app/screenshots/01-home.jpg',
       '/projects/cricket-live-news-analytics-app/screenshots/02-teams.jpg',
