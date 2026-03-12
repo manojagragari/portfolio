@@ -1,5 +1,7 @@
 const projectAssets = {
   'Android Calculator App': {
+    coverImage: '/projects/android-calculator-app/cover.png',
+    imageFit: 'contain',
     screenshots: [
       '/projects/android-calculator-app/screenshots/01-calculator-ui.jpg',
       '/projects/android-calculator-app/screenshots/02-app-installed.jpg',
@@ -28,6 +30,8 @@ export function enrichProjectAssets(project) {
   return {
     ...project,
     screenshots,
-    image: project.image || screenshots[0] || null,
+    cover_image: assetConfig.coverImage || null,
+    image_fit: assetConfig.imageFit || 'cover',
+    image: project.image || assetConfig.coverImage || screenshots[0] || null,
   };
 }

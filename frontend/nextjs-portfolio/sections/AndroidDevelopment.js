@@ -82,7 +82,10 @@ export default function AndroidDevelopment() {
         {/* Projects */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-center">
           {androidProjects.map((project) => {
-            const imageSource = project.image || project.screenshots?.[0] || null;
+            const imageSource = project.cover_image || project.image || project.screenshots?.[0] || null;
+            const imageFitClass = project.image_fit === 'contain'
+              ? 'object-contain p-2 bg-black/30'
+              : 'object-cover group-hover:scale-105';
             const imageUrl = imageSource
               ? (imageSource.startsWith('http') || imageSource.startsWith('/')
                 ? imageSource
@@ -108,7 +111,7 @@ export default function AndroidDevelopment() {
                     src={imageUrl}
                     alt={project.title}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className={`${imageFitClass} transition-transform duration-300`}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
