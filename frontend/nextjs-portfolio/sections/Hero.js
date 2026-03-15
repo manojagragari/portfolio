@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { FiDownload, FiMail, FiArrowDown } from 'react-icons/fi';
+import { getProfile } from '../lib/api';
 
 const ROLES = [
   'Data Science',
@@ -87,6 +88,20 @@ function OrbitRings() {
 }
 
 export default function Hero() {
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    getProfile().then((data) => setProfile(data));
+  }, []);
+
+  const profileImageSrc = profile?.profile_image || '/profile.jpg';
+  const socialLinks = [
+    { icon: FaGithub, href: profile?.github_url || 'https://github.com/manojagrahari', label: 'GitHub' },
+    { icon: FaLinkedin, href: profile?.linkedin_url || 'https://www.linkedin.com/in/manojagrahari', label: 'LinkedIn' },
+    { icon: FaInstagram, href: profile?.instagram_url || 'https://instagram.com/manojagrahari72', label: 'Instagram' },
+    { icon: FiMail, href: `mailto:${profile?.email || 'manojagrahari7521@gmail.com'}`, label: 'Email' },
+  ];
+
   return (
     <section
       id="hero"
@@ -179,10 +194,7 @@ export default function Hero() {
             className="flex gap-3 justify-center lg:justify-start"
           >
             {[
-              { icon: FaGithub, href: 'https://github.com/manojagrahari', label: 'GitHub' },
-              { icon: FaLinkedin, href: 'https://www.linkedin.com/in/manojagrahari', label: 'LinkedIn' },
-              { icon: FaInstagram, href: 'https://instagram.com/manojagrahari72', label: 'Instagram' },
-              { icon: FiMail, href: 'mailto:manojagrahari7521@gmail.com', label: 'Email' },
+              ...socialLinks,
             ].map(({ icon: Icon, href, label }) => (
               <a
                 key={label}
@@ -211,9 +223,10 @@ export default function Hero() {
             {/* Image container */}
             <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-cyan-500/30 shadow-[0_0_40px_rgba(0,229,255,0.15)]">
               <img
-                src="/profile.jpg"
+                src={profileImageSrc}
                 alt="Manoj Agrahari"
                 className="w-full h-full object-cover"
+                loading="eager"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
                   if (e.currentTarget.nextElementSibling) {

@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Project, Skill, Certification, Achievement, Hobby, Education, ContactMethod
+from .models import Project, ProjectGalleryImage, Skill, Certification, Achievement, Hobby, Education, ContactMethod, Profile
+
+
+class ProjectGalleryInline(admin.TabularInline):
+    model = ProjectGalleryImage
+    extra = 1
+    fields = ('image', 'caption', 'order')
 
 
 @admin.register(Project)
@@ -9,6 +15,7 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description')
     list_editable = ('featured', 'order')
     ordering = ('order',)
+    inlines = [ProjectGalleryInline]
 
 
 @admin.register(Skill)
@@ -50,3 +57,8 @@ class ContactMethodAdmin(admin.ModelAdmin):
     list_display = ('label', 'value', 'href', 'order')
     list_editable = ('order',)
     search_fields = ('label', 'value', 'href')
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'phone')

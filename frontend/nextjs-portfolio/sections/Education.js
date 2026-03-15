@@ -40,7 +40,7 @@ const cardVariants = {
 };
 
 export default function Education() {
-  const [education, setEducation] = useState([]);
+  const [education, setEducation] = useState(null); // null = loading
 
   useEffect(() => {
     async function loadEducation() {
@@ -80,6 +80,20 @@ export default function Education() {
         </motion.div>
 
         {/* Timeline */}
+        {education === null ? (
+          <div className="space-y-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="pl-16 relative">
+                <div className="absolute left-4 top-6 w-5 h-5 rounded-full bg-cyan-500/20 animate-pulse" />
+                <div className="glass-card border border-cyan-500/10 p-6 animate-pulse">
+                  <div className="h-4 bg-white/10 rounded w-2/3 mb-3" />
+                  <div className="h-3 bg-white/5 rounded w-1/2 mb-2" />
+                  <div className="h-3 bg-white/5 rounded w-1/3" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -138,6 +152,7 @@ export default function Education() {
             })}
           </div>
         </motion.div>
+        )}
       </div>
     </section>
   );

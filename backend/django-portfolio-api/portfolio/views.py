@@ -1,11 +1,11 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Project, Skill, Certification, Achievement, Hobby, Education, ContactMethod
+from .models import Project, Skill, Certification, Achievement, Hobby, Education, ContactMethod, Profile
 from .serializers import (
     ProjectSerializer, SkillSerializer,
     CertificationSerializer, AchievementSerializer, HobbySerializer,
-    EducationSerializer, ContactMethodSerializer,
+    EducationSerializer, ContactMethodSerializer, ProfileSerializer,
 )
 
 
@@ -19,6 +19,7 @@ def api_root(request):
         'hobbies': request.build_absolute_uri('/api/hobbies/'),
         'education': request.build_absolute_uri('/api/education/'),
         'contact': request.build_absolute_uri('/api/contact/'),
+        'profile': request.build_absolute_uri('/api/profile/'),
     })
 
 
@@ -69,3 +70,11 @@ class EducationListView(generics.ListAPIView):
 class ContactMethodListView(generics.ListAPIView):
     queryset = ContactMethod.objects.all()
     serializer_class = ContactMethodSerializer
+
+
+class ProfileView(generics.RetrieveAPIView):
+    serializer_class = ProfileSerializer
+
+    def get_object(self):
+        profile, _ = Profile.objects.get_or_create(id=1)
+        return profile

@@ -1,14 +1,22 @@
 from rest_framework import serializers
-from .models import Project, Skill, Certification, Achievement, Hobby, Education, ContactMethod
+from .models import Project, ProjectGalleryImage, Skill, Certification, Achievement, Hobby, Education, ContactMethod, Profile
+
+
+class ProjectGalleryImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectGalleryImage
+        fields = ['id', 'image', 'caption', 'order']
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    gallery_images = ProjectGalleryImageSerializer(many=True, read_only=True)
+
     class Meta:
         model = Project
         fields = [
             'id', 'title', 'category', 'description', 'long_description',
             'features', 'tech_stack', 'github_url', 'apk_url', 'live_url', 'image',
-            'featured', 'order', 'gradient', 'accent_color', 'created_at',
+            'gallery_images', 'featured', 'order', 'gradient', 'accent_color', 'created_at',
         ]
 
 
@@ -21,7 +29,7 @@ class SkillSerializer(serializers.ModelSerializer):
 class CertificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Certification
-        fields = ['id', 'title', 'issuer', 'year', 'url', 'icon', 'color']
+        fields = ['id', 'title', 'issuer', 'year', 'url', 'icon', 'color', 'cover_image', 'cert_image']
 
 
 class AchievementSerializer(serializers.ModelSerializer):
@@ -30,6 +38,17 @@ class AchievementSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'platform', 'description', 'year',
             'icon', 'color', 'gradient', 'border_color', 'text_color',
+            'cover_image', 'reference_url',
+        ]
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = [
+            'id', 'name', 'bio', 'profile_image', 'cover_banner',
+            'github_url', 'linkedin_url', 'instagram_url',
+            'email', 'phone', 'resume_url',
         ]
 
 

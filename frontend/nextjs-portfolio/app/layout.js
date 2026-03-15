@@ -49,6 +49,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
+      <head>
+        {/* Preload hero profile image for fast LCP */}
+        <link rel="preload" as="image" href="/profile.jpg" />
+        {/* DNS prefetch for API */}
+        <link rel="dns-prefetch" href="https://manoj-portfolio-api.onrender.com" />
+      </head>
       <body className="bg-[#0a0a0a] text-white antialiased overflow-x-hidden">
         <LoadingScreen />
         <ScrollProgress />

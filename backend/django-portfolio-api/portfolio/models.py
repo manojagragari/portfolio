@@ -1,4 +1,28 @@
 from django.db import models
+from PIL import Image as PilImage
+import io
+import os
+from django.core.files.base import ContentFile
+
+
+def _convert_to_webp(image_field):
+    """Convert an ImageField's file to WebP in-place and return True if converted."""
+    if not image_field:
+        return False
+    name, ext = os.path.splitext(image_field.name)
+    if ext.lower() == '.webp':
+        return False
+    try:
+        img = PilImage.open(image_field)
+        img = img.convert('RGB')
+        buffer = io.BytesIO()
+        img.save(buffer, format='WEBP', quality=82, method=6)
+        buffer.seek(0)
+        new_name = os.path.basename(name) + '.webp'
+        image_field.save(new_name, ContentFile(buffer.read()), save=False)
+        return True
+    except Exception:
+        return False
 
 
 class Project(models.Model):
@@ -30,6 +54,27 @@ class Project(models.Model):
     def __str__(self):
         return f"[{self.category}] {self.title}"
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        _convert_to_webp(self.image)
+
+
+class ProjectGalleryImage(models.Model):
+    project = models.ForeignKey(Project, related_name='gallery_images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='projects/gallery/')
+    caption = models.CharField(max_length=200, blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"Gallery image for {self.project.title}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        _convert_to_webp(self.image)
+
 
 class Skill(models.Model):
     COLOR_CHOICES = [
@@ -59,12 +104,19 @@ class Certification(models.Model):
     url = models.URLField(blank=True, null=True)
     icon = models.CharField(max_length=10, default='📜')
     color = models.CharField(max_length=20, default='cyan')
+    cover_image = models.ImageField(upload_to='certifications/covers/', blank=True, null=True)
+    cert_image = models.ImageField(upload_to='certifications/docs/', blank=True, null=True)
 
     class Meta:
         ordering = ['-year']
 
     def __str__(self):
         return f"{self.title} – {self.issuer}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        _convert_to_webp(self.cover_image)
+        _convert_to_webp(self.cert_image)
 
 
 class Achievement(models.Model):
@@ -77,12 +129,18 @@ class Achievement(models.Model):
     gradient = models.CharField(max_length=100, default='from-cyan-500/10 to-transparent')
     border_color = models.CharField(max_length=100, default='border-cyan-500/30')
     text_color = models.CharField(max_length=50, default='text-cyan-400')
+    cover_image = models.ImageField(upload_to='achievements/covers/', blank=True, null=True)
+    reference_url = models.URLField(blank=True, null=True)
 
     class Meta:
         ordering = ['-year']
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        _convert_to_webp(self.cover_image)
 
 
 class Hobby(models.Model):
@@ -113,6 +171,28 @@ class Education(models.Model):
 
     def __str__(self):
         return self.institution
+
+
+class Profile(models.Model):
+    """Singleton-style model — only one row should exist (id=1)."""
+    name = models.CharField(max_length=100, default='Manoj Agrahari')
+    bio = models.TextField(blank=True)
+    profile_image = models.ImageField(upload_to='profile/', blank=True, null=True)
+    cover_banner = models.ImageField(upload_to='profile/banners/', blank=True, null=True)
+    github_url = models.URLField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True, null=True)
+    instagram_url = models.URLField(blank=True, null=True)
+    email = models.EmailField(blank=True)
+    phone = models.CharField(max_length=30, blank=True)
+    resume_url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        _convert_to_webp(self.profile_image)
+        _convert_to_webp(self.cover_banner)
 
 
 class ContactMethod(models.Model):

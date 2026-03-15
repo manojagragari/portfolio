@@ -77,6 +77,13 @@ export async function getContactMethods() {
   }, staticContact);
 }
 
+export async function getProfile() {
+  return safeFetch(async () => {
+    const { data } = await apiClient.get('/api/profile/');
+    return data;
+  }, null);
+}
+
 export async function getGitHubRepos(username = 'manojagragari') {
   return safeFetch(async () => {
     const { data } = await axios.get(

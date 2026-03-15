@@ -22,7 +22,7 @@ const colorMap = {
 };
 
 export default function Certifications() {
-  const [certifications, setCertifications] = useState([]);
+  const [certifications, setCertifications] = useState(null);
 
   useEffect(() => {
     async function loadCertifications() {
@@ -61,6 +61,7 @@ export default function Certifications() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
+        key={certifications ? 'loaded' : 'empty'}
         >
           {certifications.map((cert) => {
             const color = colorMap[cert.color] || colorMap.cyan;
@@ -71,8 +72,21 @@ export default function Certifications() {
                 whileHover={{ y: -6, scale: 1.02 }}
                 className={`glass-card border ${color} p-5 transition-all duration-300 group relative cursor-default`}
               >
+                {/* Cover image */}
+                {cert.cover_image && (
+                  <div className="w-full h-28 mb-4 rounded overflow-hidden bg-black/20">
+                    <img
+                      src={cert.cover_image}
+                      alt={cert.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
                 {/* Icon */}
-                <div className="text-4xl mb-4">{cert.icon}</div>
+                {!cert.cover_image && (
+                  <div className="text-4xl mb-4">{cert.icon}</div>
+                )}
 
                 {/* Title */}
                 <h3 className="text-white font-bold text-sm font-orbitron mb-2 leading-tight group-hover:text-cyan-100 transition-colors">
@@ -84,21 +98,22 @@ export default function Certifications() {
                 <p className="text-xs text-gray-600 mb-4">{cert.year}</p>
 
                 {/* Verified badge */}
-                <div className={`inline-flex items-center gap-1 text-xs border ${color} px-2.5 py-1 rounded-full`}>
-                  <span>✓</span> Verified
-                </div>
-
-                {/* External link */}
+                {/* Verify button */}
                 {cert.url && (
                   <a
                     href={cert.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`View ${cert.title}`}
-                    className="absolute top-4 right-4 text-gray-600 hover:text-cyan-400 transition-colors"
+                    className={`inline-flex items-center gap-1.5 text-xs border ${color} px-3 py-1.5 rounded-full hover:opacity-80 transition-opacity`}
                   >
-                    <FaExternalLinkAlt className="text-xs" />
+                    <FaExternalLinkAlt className="text-[10px]" />
+                    Verify Certificate
                   </a>
+                )}
+                {!cert.url && (
+                  <div className={`inline-flex items-center gap-1 text-xs border ${color} px-2.5 py-1 rounded-full`}>
+                    <span>✓</span> Verified
+                  </div>
                 )}
 
                 {/* Corner accent */}

@@ -14,7 +14,7 @@ const cardVariants = {
 };
 
 export default function Achievements() {
-  const [achievements, setAchievements] = useState([]);
+  const [achievements, setAchievements] = useState(null);
 
   useEffect(() => {
     async function loadAchievements() {
@@ -54,7 +54,7 @@ export default function Achievements() {
           viewport={{ once: true, amount: 0.2 }}
           className="grid md:grid-cols-3 gap-6"
         >
-          {achievements.map((item) => {
+          {(achievements || []).map((item) => {
             const borderClass = item.border_color || item.borderColor || 'border-cyan-500/30';
             const textClass = item.text_color || item.textColor || 'text-cyan-400';
             return (
@@ -70,6 +70,18 @@ export default function Achievements() {
               />
 
               <div className="relative z-10">
+                {/* Cover image */}
+                {item.cover_image && (
+                  <div className="w-full h-32 mb-4 rounded overflow-hidden bg-black/20">
+                    <img
+                      src={item.cover_image}
+                      alt={item.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+
                 {/* Icon */}
                 <div className="flex items-center justify-between mb-5">
                   <span className="text-4xl">{item.icon}</span>
@@ -90,6 +102,18 @@ export default function Achievements() {
 
                 {/* Description */}
                 <p className="text-sm text-gray-400 leading-relaxed">{item.description}</p>
+
+                {/* Reference link */}
+                {item.reference_url && (
+                  <a
+                    href={item.reference_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-1 mt-4 text-xs border border-current/30 px-2.5 py-1 rounded-full ${item.text_color || item.textColor || 'text-cyan-400'} hover:opacity-80 transition-opacity`}
+                  >
+                    View Reference ↗
+                  </a>
+                )}
               </div>
 
               {/* Corner accents */}
