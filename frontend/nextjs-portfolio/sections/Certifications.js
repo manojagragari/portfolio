@@ -123,6 +123,18 @@ export default function Certifications() {
                   </div>
                 )}
 
+                {cert.cert_image && (
+                  <a
+                    href={cert.cert_image}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-[11px] mt-2 text-gray-500 hover:text-cyan-400 transition-colors"
+                  >
+                    <FaExternalLinkAlt className="text-[10px]" />
+                    View Support File
+                  </a>
+                )}
+
                 {/* Corner accent */}
                 <span className="absolute bottom-3 right-3 w-2 h-2 border-b border-r border-current opacity-20" />
               </motion.div>

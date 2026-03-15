@@ -36,11 +36,14 @@ export function enrichProjectAssets(project) {
     return project;
   }
 
-  const screenshots = assetConfig.screenshots || [];
+  const backendScreenshots = Array.isArray(project.screenshots) ? project.screenshots : [];
+  const staticScreenshots = assetConfig.screenshots || [];
+  const screenshots = backendScreenshots.length ? backendScreenshots : staticScreenshots;
+
   return {
     ...project,
     screenshots,
-    cover_image: assetConfig.coverImage || null,
+    cover_image: project.cover_image || assetConfig.coverImage || null,
     image_fit: assetConfig.imageFit || 'cover',
     image: project.image || assetConfig.coverImage || screenshots[0] || null,
   };

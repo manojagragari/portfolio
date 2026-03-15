@@ -32,12 +32,15 @@ function resolveMediaUrl(url) {
 }
 
 function normalizeProject(project) {
+  const galleryImages = Array.isArray(project.gallery_images)
+    ? project.gallery_images.map((img) => ({ ...img, image: resolveMediaUrl(img.image) }))
+    : [];
+
   return {
     ...project,
     image: resolveMediaUrl(project.image),
-    gallery_images: Array.isArray(project.gallery_images)
-      ? project.gallery_images.map((img) => ({ ...img, image: resolveMediaUrl(img.image) }))
-      : [],
+    gallery_images: galleryImages,
+    screenshots: galleryImages.map((img) => img.image).filter(Boolean),
   };
 }
 
