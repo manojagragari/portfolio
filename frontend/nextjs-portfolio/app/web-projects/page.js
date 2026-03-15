@@ -163,6 +163,28 @@ export default function WebProjectsPage() {
                       ))}
                     </div>
 
+                    {project.screenshots?.length > 0 && (
+                      <div className="mb-6">
+                        <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Supportive Images</p>
+                        <div className="grid grid-cols-2 gap-3">
+                          {project.screenshots.map((screenshot, screenshotIndex) => (
+                            <div
+                              key={`${project.id}-web-shot-${screenshotIndex}`}
+                              className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-white/5"
+                            >
+                              <Image
+                                src={screenshot}
+                                alt={`${project.title} supportive image ${screenshotIndex + 1}`}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 50vw, 260px"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     {/* Links */}
                     <div className="flex gap-4">
                       <a
