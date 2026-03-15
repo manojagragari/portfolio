@@ -18,6 +18,55 @@ const apiClient = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+function resolveMediaUrl(url) {
+  if (!url || typeof url !== 'string') {
+    return url;
+  }
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  if (url.startsWith('/')) {
+    return `${API_BASE}${url}`;
+  }
+  return `${API_BASE}/${url}`;
+}
+
+function normalizeProject(project) {
+  return {
+    ...project,
+    image: resolveMediaUrl(project.image),
+    gallery_images: Array.isArray(project.gallery_images)
+      ? project.gallery_images.map((img) => ({ ...img, image: resolveMediaUrl(img.image) }))
+      : [],
+  };
+}
+
+function normalizeCertification(cert) {
+  return {
+    ...cert,
+    cover_image: resolveMediaUrl(cert.cover_image),
+    cert_image: resolveMediaUrl(cert.cert_image),
+  };
+}
+
+function normalizeAchievement(item) {
+  return {
+    ...item,
+    cover_image: resolveMediaUrl(item.cover_image),
+  };
+}
+
+function normalizeProfile(profile) {
+  if (!profile) {
+    return profile;
+  }
+  return {
+    ...profile,
+    profile_image: resolveMediaUrl(profile.profile_image),
+    cover_banner: resolveMediaUrl(profile.cover_banner),
+  };
+}
+
 async function safeFetch(apiFn, fallback) {
   try {
     const result = await apiFn();
@@ -31,7 +80,7 @@ export async function getProjects(category = null) {
   return safeFetch(async () => {
     const params = category ? { category } : {};
     const { data } = await apiClient.get('/api/projects/', { params });
-    return data.map(enrichProjectAssets);
+    return data.map(normalizeProject).map(enrichProjectAssets);
   }, (category ? (staticProjects[category] || []) : Object.values(staticProjects).flat()).map(enrichProjectAssets));
 }
 
@@ -45,14 +94,14 @@ export async function getSkills() {
 export async function getCertifications() {
   return safeFetch(async () => {
     const { data } = await apiClient.get('/api/certifications/');
-    return data;
+    return data.map(normalizeCertification);
   }, staticCertifications);
 }
 
 export async function getAchievements() {
   return safeFetch(async () => {
     const { data } = await apiClient.get('/api/achievements/');
-    return data;
+    return data.map(normalizeAchievement);
   }, staticAchievements);
 }
 
@@ -80,7 +129,7 @@ export async function getContactMethods() {
 export async function getProfile() {
   return safeFetch(async () => {
     const { data } = await apiClient.get('/api/profile/');
-    return data;
+    return normalizeProfile(data);
   }, null);
 }
 
