@@ -63,7 +63,7 @@ export default function Certifications() {
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5"
         key={certifications ? 'loaded' : 'empty'}
         >
-          {certifications.map((cert) => {
+          {(certifications || []).map((cert) => {
             const color = colorMap[cert.color] || colorMap.cyan;
             return (
               <motion.div
