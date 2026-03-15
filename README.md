@@ -238,7 +238,7 @@ CORS_ALLOWED_ORIGINS=http://localhost:3000
    - Framework preset: `Next.js`
    - Root Directory: `frontend/nextjs-portfolio`
    - Build command: `npm run build`
-   - Output Directory: `out`
+   - Output Directory: leave empty (use Vercel default)
 
 3. **Set environment variables in Vercel**
    ```
