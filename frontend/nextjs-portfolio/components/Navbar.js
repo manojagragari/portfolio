@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes, FaGithub } from 'react-icons/fa';
+import { FaBars, FaTimes, FaGithub, FaMoon, FaSun } from 'react-icons/fa';
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -23,7 +23,21 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [theme, setTheme] = useState('dark');
   const pathname = usePathname();
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+    setTheme(savedTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    localStorage.setItem('portfolio-theme', nextTheme);
+    document.documentElement.setAttribute('data-theme', nextTheme);
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -121,6 +135,13 @@ export default function Navbar() {
           >
             <FaGithub className="text-lg" />
           </a>
+          <button
+            onClick={toggleTheme}
+            className="ml-2 w-9 h-9 rounded-lg border border-white/10 hover:border-cyan-500/50 flex items-center justify-center text-gray-400 hover:text-cyan-400 transition-all duration-200 hover:bg-cyan-500/10"
+            aria-label="Toggle dark and light mode"
+          >
+            {theme === 'dark' ? <FaSun className="text-sm" /> : <FaMoon className="text-sm" />}
+          </button>
         </div>
 
         {/* Mobile hamburger */}
@@ -168,6 +189,12 @@ export default function Navbar() {
                   {label}
                 </a>
               ))}
+              <button
+                onClick={toggleTheme}
+                className="px-4 py-3 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all text-left"
+              >
+                {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              </button>
             </div>
           </motion.div>
         )}

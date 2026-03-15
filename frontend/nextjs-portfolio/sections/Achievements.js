@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getAchievements } from '../lib/api';
+import Image from 'next/image';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -73,11 +74,15 @@ export default function Achievements() {
                 {/* Cover image */}
                 {item.cover_image && (
                   <div className="w-full h-32 mb-4 rounded overflow-hidden bg-black/20">
-                    <img
+                    <Image
                       src={item.cover_image}
                       alt={item.title}
-                      loading="lazy"
+                      width={640}
+                      height={256}
+                      sizes="(max-width: 768px) 100vw, 33vw"
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      quality={75}
                     />
                   </div>
                 )}

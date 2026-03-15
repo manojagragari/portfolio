@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getCertifications } from '../lib/api';
-import { FaExternalLinkAlt } from 'react-icons/fa';
+import Image from 'next/image';
+import { FaExternalLinkAlt, FaCertificate } from 'react-icons/fa';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -75,17 +76,23 @@ export default function Certifications() {
                 {/* Cover image */}
                 {cert.cover_image && (
                   <div className="w-full h-28 mb-4 rounded overflow-hidden bg-black/20">
-                    <img
+                    <Image
                       src={cert.cover_image}
                       alt={cert.title}
-                      loading="lazy"
+                      width={560}
+                      height={224}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      quality={75}
                     />
                   </div>
                 )}
                 {/* Icon */}
                 {!cert.cover_image && (
-                  <div className="text-4xl mb-4">{cert.icon}</div>
+                  <div className="text-4xl mb-4">
+                    <FaCertificate className="text-current" />
+                  </div>
                 )}
 
                 {/* Title */}

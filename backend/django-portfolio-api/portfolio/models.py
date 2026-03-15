@@ -5,18 +5,28 @@ import os
 from django.core.files.base import ContentFile
 
 
-def _convert_to_webp(image_field):
-    """Convert an ImageField's file to WebP in-place and return True if converted."""
+def _optimize_image(image_field, max_width=1600, quality=80):
+    """Convert uploads to WebP and resize large images. Returns True if field changed."""
     if not image_field:
         return False
-    name, ext = os.path.splitext(image_field.name)
-    if ext.lower() == '.webp':
-        return False
     try:
+        name, ext = os.path.splitext(image_field.name)
         img = PilImage.open(image_field)
+        should_resize = img.width > max_width
+        is_webp = ext.lower() == '.webp'
+
+        # Fast path: already webp and no resize needed.
+        if is_webp and not should_resize:
+            return False
+
         img = img.convert('RGB')
+        if should_resize:
+            ratio = max_width / float(img.width)
+            new_height = int(img.height * ratio)
+            img = img.resize((max_width, new_height), PilImage.Resampling.LANCZOS)
+
         buffer = io.BytesIO()
-        img.save(buffer, format='WEBP', quality=82, method=6)
+        img.save(buffer, format='WEBP', quality=quality, method=6, optimize=True)
         buffer.seek(0)
         new_name = os.path.basename(name) + '.webp'
         image_field.save(new_name, ContentFile(buffer.read()), save=False)
@@ -55,8 +65,10 @@ class Project(models.Model):
         return f"[{self.category}] {self.title}"
 
     def save(self, *args, **kwargs):
+        optimize_images = kwargs.pop('optimize_images', True)
         super().save(*args, **kwargs)
-        _convert_to_webp(self.image)
+        if optimize_images and _optimize_image(self.image, max_width=1600):
+            super().save(update_fields=['image'])
 
 
 class ProjectGalleryImage(models.Model):
@@ -72,8 +84,10 @@ class ProjectGalleryImage(models.Model):
         return f"Gallery image for {self.project.title}"
 
     def save(self, *args, **kwargs):
+        optimize_images = kwargs.pop('optimize_images', True)
         super().save(*args, **kwargs)
-        _convert_to_webp(self.image)
+        if optimize_images and _optimize_image(self.image, max_width=1400):
+            super().save(update_fields=['image'])
 
 
 class Skill(models.Model):
@@ -114,9 +128,17 @@ class Certification(models.Model):
         return f"{self.title} – {self.issuer}"
 
     def save(self, *args, **kwargs):
+        optimize_images = kwargs.pop('optimize_images', True)
         super().save(*args, **kwargs)
-        _convert_to_webp(self.cover_image)
-        _convert_to_webp(self.cert_image)
+        if not optimize_images:
+            return
+        updated_fields = []
+        if _optimize_image(self.cover_image, max_width=1400):
+            updated_fields.append('cover_image')
+        if _optimize_image(self.cert_image, max_width=1800):
+            updated_fields.append('cert_image')
+        if updated_fields:
+            super().save(update_fields=updated_fields)
 
 
 class Achievement(models.Model):
@@ -139,8 +161,10 @@ class Achievement(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        optimize_images = kwargs.pop('optimize_images', True)
         super().save(*args, **kwargs)
-        _convert_to_webp(self.cover_image)
+        if optimize_images and _optimize_image(self.cover_image, max_width=1400):
+            super().save(update_fields=['cover_image'])
 
 
 class Hobby(models.Model):
@@ -190,9 +214,17 @@ class Profile(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        optimize_images = kwargs.pop('optimize_images', True)
         super().save(*args, **kwargs)
-        _convert_to_webp(self.profile_image)
-        _convert_to_webp(self.cover_banner)
+        if not optimize_images:
+            return
+        updated_fields = []
+        if _optimize_image(self.profile_image, max_width=1000):
+            updated_fields.append('profile_image')
+        if _optimize_image(self.cover_banner, max_width=2000):
+            updated_fields.append('cover_banner')
+        if updated_fields:
+            super().save(update_fields=updated_fields)
 
 
 class ContactMethod(models.Model):
