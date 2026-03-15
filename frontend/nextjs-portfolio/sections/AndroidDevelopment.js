@@ -147,6 +147,29 @@ export default function AndroidDevelopment() {
                     {project.screenshots.length} app screenshots available
                   </p>
                 )}
+
+                {project.screenshots?.length > 0 && (
+                  <div className="mb-5">
+                    <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-2">Supportive Images</p>
+                    <div className="grid grid-cols-3 gap-2">
+                      {project.screenshots.slice(0, 3).map((screenshot, screenshotIndex) => (
+                        <div
+                          key={`${project.id}-section-shot-${screenshotIndex}`}
+                          className="relative aspect-[9/16] overflow-hidden rounded-lg border border-white/10 bg-white/5"
+                        >
+                          <Image
+                            src={screenshot}
+                            alt={`${project.title} supportive image ${screenshotIndex + 1}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 28vw, 140px"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex flex-wrap items-center gap-4">
                   <a
                     href={project.github_url}
