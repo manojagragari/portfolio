@@ -224,25 +224,34 @@ CORS_ALLOWED_ORIGINS=http://localhost:3000
 
 ## 🚢 Deployment
 
-### Frontend (Render.com)
+### Frontend (Vercel - Recommended)
 
 1. **Push code to GitHub**
    ```bash
-   git init
    git add .
-   git commit -m "Initial commit"
+   git commit -m "Prepare for deployment"
    git push origin main
    ```
 
-2. **Create New Web Service on Render**
-   - Repository: Your GitHub repository URL
-   - Branch: `main`
-   - Build command: `cd frontend/nextjs-portfolio && npm install && npm run build`
-   - Start command: `cd frontend/nextjs-portfolio && npm start`
-   - Environment variables:
-     ```
-     NEXT_PUBLIC_API_URL=https://your-backend.onrender.com
-     ```
+2. **Import project in Vercel**
+   - Create project from your GitHub repository
+   - Framework preset: `Next.js`
+   - Root Directory: `frontend/nextjs-portfolio`
+   - Build command: `npm run build`
+   - Output Directory: `out`
+
+3. **Set environment variables in Vercel**
+   ```
+   NEXT_PUBLIC_API_URL=https://your-backend-domain
+   ```
+
+4. **Deploy**
+   - Vercel will generate a production URL like `https://your-app.vercel.app`
+   - Add your custom domain in Vercel Project Settings (optional)
+
+### Backend (Render.com - Recommended for Django)
+
+Vercel is great for the Next.js frontend, but this Django setup is better on Render because it needs database migrations and a persistent database.
 
 ### Backend (Render.com)
 
@@ -261,7 +270,8 @@ CORS_ALLOWED_ORIGINS=http://localhost:3000
      DEBUG=False
      ALLOWED_HOSTS=your-backend.onrender.com
      DATABASE_URL=postgres://...  # From PostgreSQL service
-     CORS_ALLOWED_ORIGINS=https://your-frontend.onrender.com
+   CORS_ALLOWED_ORIGINS=https://your-app.vercel.app https://your-custom-domain.com
+   CORS_ALLOWED_ORIGIN_REGEXES=^https://.*\.vercel\.app$
      ```
 
 3. **Run migrations on production**

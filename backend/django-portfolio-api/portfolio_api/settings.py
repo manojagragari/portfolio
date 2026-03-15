@@ -2,6 +2,7 @@ import os
 import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
+import re
 
 load_dotenv()
 
@@ -11,8 +12,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-dev-key-chang
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS_STRING = os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1')
-ALLOWED_HOSTS = ALLOWED_HOSTS_STRING.split(' ')
+
+def env_list(name, default=''):
+    value = os.environ.get(name, default)
+    # Allow values separated by spaces or commas.
+    return [item for item in re.split(r'[\s,]+', value.strip()) if item]
+
+ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', 'localhost 127.0.0.1')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -78,11 +84,11 @@ else:
     }
 
 # ─── CORS ───────────────────────────────────────────────────────────────────
-CORS_ALLOWED_ORIGINS_STRING = os.environ.get(
+CORS_ALLOWED_ORIGINS = env_list(
     'CORS_ALLOWED_ORIGINS',
     'http://localhost:3000 http://127.0.0.1:3000'
 )
-CORS_ALLOWED_ORIGINS = CORS_ALLOWED_ORIGINS_STRING.split(' ')
+CORS_ALLOWED_ORIGIN_REGEXES = env_list('CORS_ALLOWED_ORIGIN_REGEXES', '')
 CORS_ALLOW_CREDENTIALS = True
 
 # ─── Password validation ─────────────────────────────────────────────────────
