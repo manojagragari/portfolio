@@ -362,7 +362,7 @@ export const contact = [
     id: 2,
     label: 'GitHub',
     value: 'manojagragari',
-    href: 'https://github.com/manojagrahari',
+    href: 'https://github.com/manojagragari',
     icon: 'github',
     color: 'text-white',
     borderColor: 'border-white/20',
