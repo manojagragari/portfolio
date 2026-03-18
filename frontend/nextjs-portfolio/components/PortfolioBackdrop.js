@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export default function PortfolioBackdrop() {
   return (
-    <div className="fixed inset-0 pointer-events-none z-0">
+    <div className="portfolio-backdrop fixed inset-0 pointer-events-none z-0">
       <div className="absolute inset-0 portfolio-surface" />
       <div className="absolute inset-0 portfolio-lines opacity-20" />
       <motion.div
