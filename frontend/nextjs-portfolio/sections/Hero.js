@@ -1,53 +1,26 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { FiDownload, FiMail, FiArrowDown } from 'react-icons/fi';
 import { getProfile } from '../lib/api';
 
-const ROLES = [
-  'Data Science',
-  'Python Full Stack Development',
-  'Android Development',
-];
+const ROLE_TAGS = ['Data Science', 'Python Full-Stack', 'Android Development'];
 
-function TypingText() {
-  const [text, setText] = useState('');
-  const [roleIdx, setRoleIdx] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-  const timer = useRef(null);
-
-  useEffect(() => {
-    const full = ROLES[roleIdx];
-    const tick = () => {
-      if (!deleting) {
-        if (text.length < full.length) {
-          setText(full.slice(0, text.length + 1));
-          timer.current = setTimeout(tick, 100);
-        } else {
-          timer.current = setTimeout(() => setDeleting(true), 2000);
-        }
-      } else {
-        if (text.length > 0) {
-          setText(full.slice(0, text.length - 1));
-          timer.current = setTimeout(tick, 55);
-        } else {
-          setDeleting(false);
-          setRoleIdx((prev) => (prev + 1) % ROLES.length);
-        }
-      }
-    };
-    timer.current = setTimeout(tick, 120);
-    return () => clearTimeout(timer.current);
-  }, [text, deleting, roleIdx]);
-
+function RoleTags() {
   return (
-    <span className="text-cyan-400 font-mono text-xl md:text-2xl">
-      {text}
-      <span className="inline-block w-0.5 h-5 bg-cyan-400 ml-0.5 animate-blink align-middle" />
-    </span>
+    <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+      {ROLE_TAGS.map((role) => (
+        <span
+          key={role}
+          className="rounded-full border border-cyan-500/35 bg-cyan-500/10 px-3 py-1 text-xs md:text-sm font-medium text-cyan-200"
+        >
+          {role}
+        </span>
+      ))}
+    </div>
   );
 }
 
@@ -145,14 +118,17 @@ export default function Hero() {
             <span className="text-white">Agrahari</span>
           </motion.h1>
 
-          {/* Typing role */}
+          {/* Role tags */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="h-9 mb-6"
+            className="mb-6"
           >
-            <TypingText />
+            <RoleTags />
+            <p className="mt-3 text-sm md:text-base text-gray-300">
+              I design and build practical products across AI, web, and mobile.
+            </p>
           </motion.div>
 
           {/* Bio */}
@@ -162,9 +138,8 @@ export default function Hero() {
             transition={{ delay: 1.0 }}
             className="text-gray-400 text-base md:text-lg max-w-lg mx-auto lg:mx-0 mb-10 leading-relaxed"
           >
-            Passionate B.Tech CSE student at Lovely Professional University specialising in
-            full-stack web development, Android development and data science. Building
-            futuristic, data-driven solutions one commit at a time.
+            B.Tech CSE student at Lovely Professional University. I enjoy solving real
+            problems with clean engineering and thoughtful product design.
           </motion.p>
 
           {/* CTA Buttons */}
