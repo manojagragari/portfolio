@@ -9,7 +9,6 @@ import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
 import { DiJava } from 'react-icons/di';
 import { getProjects } from '../../lib/api';
 import Footer from '../../sections/Footer';
-import PortfolioBackdrop from '../../components/PortfolioBackdrop';
 
 export default function AndroidProjectsPage() {
   const [androidProjects, setAndroidProjects] = useState([]);
@@ -23,11 +22,12 @@ export default function AndroidProjectsPage() {
   }, []);
 
   return (
-    <div className="relative">
-      <PortfolioBackdrop />
-      <div className="relative z-10 min-h-screen portfolio-surface pt-20">
+    <>
+      <div className="min-h-screen bg-[#0a0a0a] pt-20">
         {/* Banner */}
         <section className="relative py-20 overflow-hidden">
+          <div className="absolute inset-0 bg-cyber-grid opacity-40" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(16,185,129,0.08)_0%,transparent_65%)]" />
           <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
             <Link
               href="/"
@@ -214,8 +214,8 @@ export default function AndroidProjectsPage() {
             </motion.div>
           </div>
         </div>
-        <Footer />
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

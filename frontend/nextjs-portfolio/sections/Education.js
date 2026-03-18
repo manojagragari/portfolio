@@ -56,7 +56,10 @@ export default function Education() {
   }, []);
 
   return (
-    <section id="education" className="relative portfolio-surface py-24 overflow-hidden">
+    <section id="education" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
+      {/* Subtle bg */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(59,130,246,0.05)_0%,transparent_60%)]" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6">
         {/* Section header */}

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaInstagram, FaHeart } from 'react-icons/fa';
 import { FiMail } from 'react-icons/fi';
 
 const socials = [
@@ -20,7 +20,7 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative portfolio-surface border-t border-white/5 py-12 overflow-hidden">
+    <footer className="relative bg-[#080808] border-t border-white/5 py-12 overflow-hidden">
       {/* Top glow line */}
       <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
 
@@ -81,6 +81,18 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Divider */}
+        <div className="h-px bg-white/5 mb-6" />
+
+        {/* Bottom */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-600 font-mono">
+          <p>
+            © {new Date().getFullYear()} Manoj Agrahari. All rights reserved.
+          </p>
+          <p className="flex items-center gap-1">
+            Built with <FaHeart className="text-red-500 text-xs" /> using Next.js & Django
+          </p>
+        </div>
       </div>
     </footer>
   );
