@@ -30,17 +30,6 @@
     background-color: #f7f9fc !important;
   }
 
-  :root[data-theme='light'] .portfolio-backdrop {
-    display: none !important;
-  }
-
-  :root[data-theme='light'] .portfolio-surface,
-  :root[data-theme='light'] .portfolio-lines,
-  :root[data-theme='light'] .noise-overlay {
-    background: transparent !important;
-    background-image: none !important;
-  }
-
   :root[data-theme='light'] .text-white {
     color: #0f172a !important;
   }
