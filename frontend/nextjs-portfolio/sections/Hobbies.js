@@ -26,9 +26,7 @@ export default function Hobbies() {
   }, []);
 
   return (
-    <section id="hobbies" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,rgba(0,229,255,0.04)_0%,transparent_60%)]" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+    <section id="hobbies" className="relative portfolio-surface py-24 overflow-hidden">
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header */}

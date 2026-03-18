@@ -1,88 +1,25 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { FiDownload, FiMail, FiArrowDown } from 'react-icons/fi';
 import { getProfile } from '../lib/api';
 
-const ROLES = [
-  'Data Science',
-  'Python Full Stack Development',
-  'Android Development',
-];
+const ROLE_TAGS = ['Data Science', 'Python Full-Stack', 'Android Development'];
 
-function TypingText() {
-  const [text, setText] = useState('');
-  const [roleIdx, setRoleIdx] = useState(0);
-  const [deleting, setDeleting] = useState(false);
-  const timer = useRef(null);
-
-  useEffect(() => {
-    const full = ROLES[roleIdx];
-    const tick = () => {
-      if (!deleting) {
-        if (text.length < full.length) {
-          setText(full.slice(0, text.length + 1));
-          timer.current = setTimeout(tick, 100);
-        } else {
-          timer.current = setTimeout(() => setDeleting(true), 2000);
-        }
-      } else {
-        if (text.length > 0) {
-          setText(full.slice(0, text.length - 1));
-          timer.current = setTimeout(tick, 55);
-        } else {
-          setDeleting(false);
-          setRoleIdx((prev) => (prev + 1) % ROLES.length);
-        }
-      }
-    };
-    timer.current = setTimeout(tick, 120);
-    return () => clearTimeout(timer.current);
-  }, [text, deleting, roleIdx]);
-
+function RoleTags() {
   return (
-    <span className="text-cyan-400 font-mono text-xl md:text-2xl">
-      {text}
-      <span className="inline-block w-0.5 h-5 bg-cyan-400 ml-0.5 animate-blink align-middle" />
-    </span>
-  );
-}
-
-function OrbitRings() {
-  return (
-    <div className="absolute inset-0 pointer-events-none">
-      {/* Ring 1 – slow outer */}
-      <motion.div
-        className="absolute rounded-full border border-cyan-400/20"
-        style={{ inset: '-24px' }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-      >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(0,229,255,0.9)]" />
-      </motion.div>
-      {/* Ring 2 – medium counter-clockwise */}
-      <motion.div
-        className="absolute rounded-full border border-purple-500/20"
-        style={{ inset: '-52px' }}
-        animate={{ rotate: -360 }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
-      >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-purple-500 rounded-full shadow-[0_0_10px_rgba(168,85,247,0.9)]" />
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-purple-500 rounded-full shadow-[0_0_10px_rgba(168,85,247,0.9)]" />
-      </motion.div>
-      {/* Ring 3 – large slow */}
-      <motion.div
-        className="absolute rounded-full border border-blue-500/15"
-        style={{ inset: '-84px' }}
-        animate={{ rotate: 360 }}
-        transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-      >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-blue-400 rounded-full shadow-[0_0_8px_rgba(96,165,250,0.9)]" />
-        <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-blue-400 rounded-full shadow-[0_0_8px_rgba(96,165,250,0.9)]" />
-      </motion.div>
+    <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+      {ROLE_TAGS.map((role) => (
+        <span
+          key={role}
+          className="rounded-full border border-cyan-500/35 bg-cyan-500/10 px-3 py-1 text-xs md:text-sm font-medium text-cyan-200"
+        >
+          {role}
+        </span>
+      ))}
     </div>
   );
 }
@@ -105,15 +42,23 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a] pt-16"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-black to-[#0a0a0a] pt-16"
     >
-      {/* Grid background */}
-      <div className="absolute inset-0 bg-cyber-grid opacity-60" />
-      {/* Radial glow overlays */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(0,229,255,0.07)_0%,transparent_55%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(168,85,247,0.07)_0%,transparent_55%)]" />
+      {/* Small white line texture */}
+      <div className="absolute inset-0 bg-[repeating-linear-gradient(180deg,rgba(255,255,255,0.07)_0px,rgba(255,255,255,0.07)_1px,transparent_1px,transparent_36px)] opacity-20" />
+
+      {/* One soft off-center purple glow with barely visible motion */}
+      <motion.div
+        className="absolute -top-28 right-[12%] h-[24rem] w-[24rem] rounded-full bg-purple-500/20 blur-[120px]"
+        animate={{ x: [0, 18, 0], y: [0, 10, 0], scale: [1, 1.03, 1] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
+      {/* Light grain overlay */}
+      <div className="absolute inset-0 noise-overlay opacity-30" />
+
       {/* Bottom divider glow */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 flex flex-col lg:flex-row items-center justify-between gap-16 w-full">
         {/* ── LEFT ── */}
@@ -145,14 +90,17 @@ export default function Hero() {
             <span className="text-white">Agrahari</span>
           </motion.h1>
 
-          {/* Typing role */}
+          {/* Role tags */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="h-9 mb-6"
+            className="mb-6"
           >
-            <TypingText />
+            <RoleTags />
+            <p className="mt-3 text-sm md:text-base text-gray-300">
+              I design and build practical products across AI, web, and mobile.
+            </p>
           </motion.div>
 
           {/* Bio */}
@@ -162,9 +110,8 @@ export default function Hero() {
             transition={{ delay: 1.0 }}
             className="text-gray-400 text-base md:text-lg max-w-lg mx-auto lg:mx-0 mb-10 leading-relaxed"
           >
-            Passionate B.Tech CSE student at Lovely Professional University specialising in
-            full-stack web development, Android development and data science. Building
-            futuristic, data-driven solutions one commit at a time.
+            B.Tech CSE student at Lovely Professional University. I enjoy solving real
+            problems with clean engineering and thoughtful product design.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -210,7 +157,7 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* ── RIGHT ── Profile image with orbit rings */}
+        {/* ── RIGHT ── Profile image */}
         <motion.div
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
@@ -218,10 +165,8 @@ export default function Hero() {
           className="flex-shrink-0 relative"
         >
           <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80">
-            <OrbitRings />
-
             {/* Image container */}
-            <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-cyan-500/30 shadow-[0_0_40px_rgba(0,229,255,0.15)]">
+            <div className="relative w-full h-full rounded-full overflow-hidden border border-white/15 shadow-[0_16px_60px_rgba(0,0,0,0.55)]">
               <img
                 src={profileImageSrc}
                 alt="Manoj Agrahari"
@@ -241,30 +186,16 @@ export default function Hero() {
             </div>
 
             {/* Glow beneath image */}
-            <div className="absolute inset-x-12 -bottom-6 h-10 bg-cyan-500/15 blur-2xl rounded-full" />
+            <div className="absolute inset-x-12 -bottom-6 h-10 bg-purple-500/15 blur-2xl rounded-full" />
           </div>
 
-          {/* Floating tech tags */}
+          {/* Single glass card */}
           <motion.div
-            animate={{ y: [-5, 5, -5] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -top-3 -right-6 glass-card px-3 py-1.5 text-cyan-400 text-xs font-mono border border-cyan-500/30"
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute -bottom-5 -right-4 glass-card px-4 py-2.5 text-gray-200 text-xs font-mono border border-white/15"
           >
-            {'<React />'}
-          </motion.div>
-          <motion.div
-            animate={{ y: [5, -5, 5] }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -bottom-3 -left-6 glass-card px-3 py-1.5 text-purple-400 text-xs font-mono border border-purple-500/30"
-          >
-            {'{ Django }'}
-          </motion.div>
-          <motion.div
-            animate={{ y: [-4, 6, -4] }}
-            transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-1/2 -right-10 -translate-y-1/2 glass-card px-3 py-1.5 text-blue-400 text-xs font-mono border border-blue-500/30"
-          >
-            {'# Python'}
+            Open to internships and collaborations
           </motion.div>
         </motion.div>
       </div>

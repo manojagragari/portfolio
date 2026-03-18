@@ -39,9 +39,7 @@ export default function Contact() {
   const preferred = contact.find((item) => item.icon === 'email') || fallbackContact.find((item) => item.icon === 'email');
 
   return (
-    <section id="contact" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,229,255,0.06)_0%,transparent_65%)]" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
+    <section id="contact" className="relative portfolio-surface py-24 overflow-hidden">
 
       <div className="relative z-10 max-w-4xl mx-auto px-6">
         {/* Header */}

@@ -26,9 +26,7 @@ export default function Achievements() {
   }, []);
 
   return (
-    <section id="achievements" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_0%,rgba(0,229,255,0.05)_0%,transparent_55%)]" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/15 to-transparent" />
+    <section id="achievements" className="relative portfolio-surface py-24 overflow-hidden">
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         {/* Header */}

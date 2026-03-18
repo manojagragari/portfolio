@@ -9,6 +9,7 @@ import Certifications from '../sections/Certifications';
 import Hobbies from '../sections/Hobbies';
 import Contact from '../sections/Contact';
 import Footer from '../sections/Footer';
+import PortfolioBackdrop from '../components/PortfolioBackdrop';
 
 export const metadata = {
   title: 'Manoj Agrahari | Portfolio',
@@ -18,18 +19,21 @@ export const metadata = {
 
 export default function HomePage() {
   return (
-    <>
-      <Hero />
-      <Education />
-      <WebDevelopment />
-      <DataScience />
-      <AndroidDevelopment />
-      <Skills />
-      <Achievements />
-      <Certifications />
-      <Hobbies />
-      <Contact />
-      <Footer />
-    </>
+    <div className="relative">
+      <PortfolioBackdrop />
+      <div className="relative z-10">
+        <Hero />
+        <Education />
+        <WebDevelopment />
+        <DataScience />
+        <AndroidDevelopment />
+        <Skills />
+        <Achievements />
+        <Certifications />
+        <Hobbies />
+        <Contact />
+        <Footer />
+      </div>
+    </div>
   );
 }

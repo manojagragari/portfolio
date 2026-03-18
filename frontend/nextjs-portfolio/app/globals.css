@@ -208,6 +208,20 @@
 }
 
 @layer utilities {
+  .portfolio-surface {
+    background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+  }
+
+  .portfolio-lines {
+    background-image: repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.07) 0px,
+      rgba(255, 255, 255, 0.07) 1px,
+      transparent 1px,
+      transparent 36px
+    );
+  }
+
   .text-glow-cyan {
     text-shadow: 0 0 10px rgba(0, 229, 255, 0.8), 0 0 20px rgba(0, 229, 255, 0.4);
   }
@@ -246,6 +260,13 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+  }
+
+  .noise-overlay {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 0.6px, transparent 0.6px);
+    background-size: 3px 3px;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
   }
 }
 

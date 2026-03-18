@@ -28,9 +28,7 @@ export default function AndroidDevelopment() {
   }, []);
 
   return (
-    <section id="android-development" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_100%_50%,rgba(16,185,129,0.05)_0%,transparent_60%)]" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-green-500/20 to-transparent" />
+    <section id="android-development" className="relative portfolio-surface py-24 overflow-hidden">
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         {/* Header */}

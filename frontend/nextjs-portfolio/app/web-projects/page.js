@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaFilter } from 'react-icons/fa';
 import { getProjects } from '../../lib/api';
 import Footer from '../../sections/Footer';
+import PortfolioBackdrop from '../../components/PortfolioBackdrop';
 
 const allTech = ['All', 'Python', 'Django', 'DRF', 'React', 'Next.js', 'Tailwind CSS', 'JavaScript', 'Matplotlib', 'Seaborn'];
 
@@ -30,12 +31,11 @@ export default function WebProjectsPage() {
       : webProjects.filter((p) => (p.tech_stack || []).includes(filter));
 
   return (
-    <>
-      <div className="min-h-screen bg-[#0a0a0a] pt-20">
+    <div className="relative">
+      <PortfolioBackdrop />
+      <div className="relative z-10 min-h-screen portfolio-surface pt-20">
         {/* Hero banner */}
         <section className="relative py-20 overflow-hidden">
-          <div className="absolute inset-0 bg-cyber-grid opacity-40" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,229,255,0.08)_0%,transparent_65%)]" />
           <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
             <Link
               href="/"
@@ -213,8 +213,8 @@ export default function WebProjectsPage() {
             </div>
           )}
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </>
+    </div>
   );
 }
