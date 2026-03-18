@@ -72,8 +72,8 @@ export default function AndroidProjectsPage() {
         </section>
 
         {/* Projects */}
-        <div className="max-w-6xl mx-auto px-6 pb-24">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start">
+        <div className="max-w-7xl mx-auto px-6 pb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start justify-items-center">
             {androidProjects.map((project, idx) => {
               const imageSource = project.cover_image || project.image || project.screenshots?.[0] || null;
               const imageFitClass = project.image_fit === 'contain'
@@ -92,7 +92,7 @@ export default function AndroidProjectsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
                 whileHover={{ y: -6 }}
-                className="glass-card border border-green-500/20 hover:border-green-500/40 group overflow-hidden transition-all duration-300"
+                className="glass-card border border-green-500/20 hover:border-green-500/40 group overflow-hidden transition-all duration-300 w-full max-w-[34rem]"
               >
                 <div className="h-1 bg-gradient-to-r from-green-500 to-teal-500 opacity-70" />
                 
@@ -190,7 +190,7 @@ export default function AndroidProjectsPage() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="glass-card border border-green-500/15 p-7"
+              className="glass-card border border-green-500/15 p-7 w-full max-w-[34rem] lg:col-span-2 justify-self-center"
             >
               <p className="text-xs font-mono text-green-400/60 tracking-widest mb-4">ANDROID TECH STACK</p>
               <div className="space-y-4">

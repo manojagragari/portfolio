@@ -17,9 +17,13 @@ const bodyFont = Outfit({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://manojagrahari.me'),
   title: 'Manoj Agrahari | Portfolio',
   description:
     'Data Science Student | Web Developer | Android Developer. B.Tech CSE student at Lovely Professional University building futuristic solutions.',
+  alternates: {
+    canonical: '/',
+  },
   keywords: [
     'Manoj Agrahari',
     'Portfolio',
@@ -36,6 +40,8 @@ export const metadata = {
   openGraph: {
     title: 'Manoj Agrahari | Portfolio',
     description: 'Data Science Student | Web Developer | Android Developer',
+    url: 'https://manojagrahari.me',
+    siteName: 'Manoj Agrahari Portfolio',
     type: 'website',
     locale: 'en_US',
   },
@@ -43,6 +49,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Manoj Agrahari | Portfolio',
     description: 'Data Science Student | Web Developer | Android Developer',
+    creator: '@manojagrahari',
   },
 };
 

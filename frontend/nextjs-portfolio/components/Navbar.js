@@ -76,6 +76,8 @@ export default function Navbar() {
     return pathname.startsWith(href);
   };
 
+  const getSectionHref = (href) => (pathname === '/' ? href : `/${href}`);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -118,13 +120,13 @@ export default function Navbar() {
           ))}
           <div className="w-px h-5 bg-white/10 mx-2" />
           {sectionLinks.map(({ label, href }) => (
-            <a
+            <Link
               key={href}
-              href={href}
+              href={getSectionHref(href)}
               className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200"
             >
               {label}
-            </a>
+            </Link>
           ))}
           <a
             href="https://github.com/manojagragari"
@@ -180,14 +182,14 @@ export default function Navbar() {
               ))}
               <div className="h-px bg-white/5 my-1" />
               {sectionLinks.map(({ label, href }) => (
-                <a
+                <Link
                   key={href}
-                  href={href}
+                  href={getSectionHref(href)}
                   onClick={() => setMobileOpen(false)}
                   className="px-4 py-3 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all"
                 >
                   {label}
-                </a>
+                </Link>
               ))}
               <button
                 onClick={toggleTheme}

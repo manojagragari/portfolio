@@ -94,13 +94,13 @@ export default function DataSciencePage() {
         </div>
 
         {/* Projects */}
-        <div className="max-w-6xl mx-auto px-6 pb-24">
+        <div className="max-w-7xl mx-auto px-6 pb-24">
           {filtered.length === 0 ? (
             <div className="text-center py-16 text-gray-600 font-mono">
               No projects found for &quot;{filter}&quot;
             </div>
           ) : (
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 justify-items-center">
               {filtered.map((project, idx) => {
                 const imageSource = project.cover_image || project.image || null;
                 const imageFitClass = project.image_fit === 'contain'
@@ -119,7 +119,7 @@ export default function DataSciencePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                   whileHover={{ y: -6 }}
-                  className="glass-card border border-purple-500/20 hover:border-purple-500/40 group overflow-hidden transition-all duration-300"
+                  className="glass-card border border-purple-500/20 hover:border-purple-500/40 group overflow-hidden transition-all duration-300 w-full max-w-[34rem]"
                 >
                   <div className="h-1 bg-gradient-to-r from-purple-500 to-blue-500 opacity-70" />
                   
@@ -201,7 +201,7 @@ export default function DataSciencePage() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="glass-card border border-purple-500/15 p-7"
+                className="glass-card border border-purple-500/15 p-7 w-full max-w-[34rem] lg:col-span-2 justify-self-center"
               >
                 <p className="text-xs font-mono text-purple-400/60 tracking-widest mb-6">PROFICIENCY OVERVIEW</p>
                 <div className="space-y-4">

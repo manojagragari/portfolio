@@ -90,13 +90,13 @@ export default function WebProjectsPage() {
         </div>
 
         {/* Projects grid */}
-        <div className="max-w-6xl mx-auto px-6 pb-24">
+        <div className="max-w-7xl mx-auto px-6 pb-24">
           {filtered.length === 0 ? (
             <div className="text-center py-16 text-gray-600 font-mono">
               No projects found for &quot;{filter}&quot;
             </div>
           ) : (
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 justify-items-center">
               {filtered.map((project, idx) => {
                 const imageSource = project.cover_image || project.image || null;
                 const imageFitClass = project.image_fit === 'contain'
@@ -115,7 +115,7 @@ export default function WebProjectsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                   whileHover={{ y: -6 }}
-                  className="glass-card-hover border group overflow-hidden"
+                  className="glass-card-hover border group overflow-hidden w-full max-w-[34rem]"
                 >
                   <div className={`h-1 bg-gradient-to-r ${project.gradient.replace('/20', '')} opacity-70`} />
                   
