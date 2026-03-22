@@ -37,8 +37,9 @@ export function enrichProjectAssets(project) {
   }
 
   const backendScreenshots = Array.isArray(project.screenshots) ? project.screenshots : [];
-  const screenshots = backendScreenshots;
-  const backendPrimaryImage = project.cover_image || project.image || null;
+  const configScreenshots = Array.isArray(assetConfig.screenshots) ? assetConfig.screenshots : [];
+  const screenshots = backendScreenshots.length > 0 ? backendScreenshots : configScreenshots;
+  const backendPrimaryImage = project.cover_image || project.image || assetConfig.coverImage || null;
 
   return {
     ...project,

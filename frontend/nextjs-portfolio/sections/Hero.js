@@ -129,16 +129,6 @@ export default function Hero() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="flex-1 text-center lg:text-left"
         >
-          {/* Greeting line */}
-          <motion.p
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-cyan-400/70 font-mono text-xs tracking-widest uppercase mb-4"
-          >
-            &gt;_ Hello, World! I&apos;m
-          </motion.p>
-
           {/* Name */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}

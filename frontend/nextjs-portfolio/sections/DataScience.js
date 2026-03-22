@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
@@ -10,6 +10,7 @@ import {
 import { BsBarChartFill } from 'react-icons/bs';
 import { getProjects } from '../lib/api';
 import ResilientImage from '../components/ResilientImage';
+import ScreenshotLightbox from '../components/ScreenshotLightbox';
 
 const dsStack = [
   { name: 'Python', icon: <SiPython className="text-yellow-400 text-2xl" /> },
@@ -27,16 +28,92 @@ const miniStats = [
   { label: 'Python Projects', value: '10+', color: 'text-blue-400', glow: 'shadow-glow-blue' },
 ];
 
+const SKILL_DISTRIBUTION_BUCKETS = [
+  {
+    name: 'Python & Data Stack',
+    terms: ['python', 'pandas', 'numpy', 'matplotlib', 'seaborn', 'jupyter notebook', 'jupyter'],
+  },
+  {
+    name: 'BI & Analytics',
+    terms: ['power bi', 'dax', 'data analytics', 'data visualization'],
+  },
+  {
+    name: 'Web Product Engineering',
+    terms: ['react', 'next.js', 'django', 'drf', 'tailwind css', 'flask', 'sqlite'],
+  },
+  {
+    name: 'Android Engineering',
+    terms: ['kotlin', 'java', 'android studio', 'jetpack compose', 'android sdk', 'material design'],
+  },
+];
+
+function buildSkillDistribution(projects) {
+  const techStack = projects.flatMap((project) => (
+    Array.isArray(project.tech_stack)
+      ? project.tech_stack.map((tech) => String(tech).toLowerCase())
+      : []
+  ));
+
+  if (techStack.length === 0) {
+    return SKILL_DISTRIBUTION_BUCKETS.map(({ name }) => ({ name, pct: 0 }));
+  }
+
+  const hitCounts = SKILL_DISTRIBUTION_BUCKETS.map(({ name, terms }) => {
+    const hitCount = techStack.reduce((total, tech) => (
+      terms.some((term) => tech.includes(term)) ? total + 1 : total
+    ), 0);
+
+    return { name, hitCount };
+  });
+
+  const maxHitCount = Math.max(...hitCounts.map((bucket) => bucket.hitCount), 1);
+
+  return hitCounts.map(({ name, hitCount }) => ({
+    name,
+    pct: Math.min(100, Math.round((hitCount / maxHitCount) * 100)),
+  }));
+}
+
 export default function DataScience() {
   const [dsProjects, setDsProjects] = useState([]);
+  const [allProjects, setAllProjects] = useState([]);
+  const [lightboxState, setLightboxState] = useState({
+    isOpen: false,
+    images: [],
+    initialIndex: 0,
+    title: '',
+  });
+
+  const openLightbox = (images, startIndex, title) => {
+    setLightboxState({
+      isOpen: true,
+      images,
+      initialIndex: startIndex,
+      title,
+    });
+  };
+
+  const closeLightbox = () => {
+    setLightboxState((previous) => ({ ...previous, isOpen: false }));
+  };
 
   useEffect(() => {
     async function loadProjects() {
-      const data = await getProjects('data_science');
-      setDsProjects(data || []);
+      const [dataScienceProjects, everyProject] = await Promise.all([
+        getProjects('data_science'),
+        getProjects(),
+      ]);
+
+      setDsProjects(dataScienceProjects || []);
+      setAllProjects(everyProject || []);
     }
     loadProjects();
   }, []);
+
+  const skillDistribution = useMemo(
+    () => buildSkillDistribution(allProjects),
+    [allProjects]
+  );
 
   return (
     <section id="data-science" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
@@ -74,7 +151,7 @@ export default function DataScience() {
           transition={{ duration: 0.5 }}
           className="grid grid-cols-3 gap-4 mb-14"
         >
-          {miniStats.map(({ label, value, color, glow }) => (
+          {miniStats.map(({ label, value, color }) => (
             <div key={label} className={`glass-card border border-white/8 p-5 text-center`}>
               <div className={`text-3xl font-black font-orbitron ${color} mb-1`}>{value}</div>
               <div className="text-xs text-gray-500 font-mono">{label}</div>
@@ -115,7 +192,9 @@ export default function DataScience() {
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10"
         >
           {dsProjects.map((project) => {
-            const imageSource = project.cover_image || project.image || null;
+            const screenshots = Array.isArray(project.screenshots) ? project.screenshots : [];
+            const screenshotCount = screenshots.length;
+            const imageSource = project.cover_image || project.image || screenshots[0] || null;
             const imageFitClass = project.image_fit === 'contain'
               ? 'object-contain p-2 bg-black/30'
               : 'object-cover group-hover:scale-105';
@@ -177,6 +256,37 @@ export default function DataScience() {
                       </span>
                     ))}
                   </div>
+
+                  {screenshotCount > 0 && (
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-purple-400/70">
+                      Screenshot Attached ({screenshotCount})
+                    </p>
+                  )}
+
+                  {screenshotCount > 0 && (
+                    <div>
+                      <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-2">Preview</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        {screenshots.slice(0, 3).map((screenshot, screenshotIndex) => (
+                          <button
+                            type="button"
+                            key={`${project.id}-ds-shot-${screenshotIndex}`}
+                            onClick={() => openLightbox(screenshots, screenshotIndex, `${project.title} Screenshots`)}
+                            className="relative aspect-video overflow-hidden rounded-lg border border-white/10 bg-white/5 cursor-zoom-in"
+                            aria-label={`Open ${project.title} screenshot ${screenshotIndex + 1}`}
+                          >
+                            <ResilientImage
+                              src={screenshot}
+                              alt={`${project.title} screenshot ${screenshotIndex + 1}`}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 28vw, 140px"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex gap-3 pt-4 mt-4 border-t border-white/10">
@@ -204,15 +314,10 @@ export default function DataScience() {
           >
             <div>
               <p className="text-xs font-mono text-purple-400/60 tracking-widest mb-2">SKILLS DISTRIBUTION</p>
-              <h4 className="text-white font-bold font-orbitron text-sm mb-6">Python Ecosystem Proficiency</h4>
+              <h4 className="text-white font-bold font-orbitron text-sm mb-6">Current Project Stack Coverage</h4>
             </div>
             <div className="space-y-3">
-              {[
-                { name: 'Pandas / NumPy', pct: 88 },
-                { name: 'Matplotlib / Seaborn', pct: 82 },
-                { name: 'Power BI', pct: 78 },
-                { name: 'Statistical Analysis', pct: 75 },
-              ].map(({ name, pct }) => (
+              {skillDistribution.map(({ name, pct }) => (
                 <div key={name}>
                   <div className="flex justify-between text-xs mb-1">
                     <span className="text-gray-400">{name}</span>
@@ -245,6 +350,14 @@ export default function DataScience() {
           </Link>
         </motion.div>
       </div>
+
+      <ScreenshotLightbox
+        isOpen={lightboxState.isOpen}
+        images={lightboxState.images}
+        initialIndex={lightboxState.initialIndex}
+        title={lightboxState.title}
+        onClose={closeLightbox}
+      />
     </section>
   );
 }

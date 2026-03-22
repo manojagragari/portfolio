@@ -7,6 +7,7 @@ import { FaGithub, FaExternalLinkAlt, FaReact, FaCode } from 'react-icons/fa';
 import { SiDjango, SiTailwindcss, SiNextdotjs, SiPython, SiFlask, SiSqlite } from 'react-icons/si';
 import { getProjects } from '../lib/api';
 import ResilientImage from '../components/ResilientImage';
+import ScreenshotLightbox from '../components/ScreenshotLightbox';
 
 const techIcons = {
   React: <FaReact className="text-cyan-400" />,
@@ -43,6 +44,25 @@ const webStack = [
 
 export default function WebDevelopment() {
   const [webProjects, setWebProjects] = useState([]);
+  const [lightboxState, setLightboxState] = useState({
+    isOpen: false,
+    images: [],
+    initialIndex: 0,
+    title: '',
+  });
+
+  const openLightbox = (images, startIndex, title) => {
+    setLightboxState({
+      isOpen: true,
+      images,
+      initialIndex: startIndex,
+      title,
+    });
+  };
+
+  const closeLightbox = () => {
+    setLightboxState((previous) => ({ ...previous, isOpen: false }));
+  };
 
   useEffect(() => {
     async function loadProjects() {
@@ -112,11 +132,13 @@ export default function WebDevelopment() {
           transition={{ staggerChildren: 0.15 }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10"
         >
-          {webProjects.map((project, idx) => {
+          {webProjects.map((project) => {
             const imageSource = project.cover_image || project.image || null;
             const imageFitClass = project.image_fit === 'contain'
               ? 'object-contain p-2 bg-black/30'
               : 'object-cover group-hover:scale-105';
+            const screenshots = Array.isArray(project.screenshots) ? project.screenshots : [];
+            const screenshotCount = screenshots.length;
             const imageUrl = imageSource
               ? (imageSource.startsWith('http') || imageSource.startsWith('/')
                 ? imageSource
@@ -181,6 +203,37 @@ export default function WebDevelopment() {
                       </span>
                     ))}
                   </div>
+
+                  {screenshotCount > 0 && (
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-cyan-400/70">
+                      Screenshot Attached ({screenshotCount})
+                    </p>
+                  )}
+
+                  {screenshotCount > 0 && (
+                    <div>
+                      <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-2">Preview</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        {screenshots.slice(0, 3).map((screenshot, screenshotIndex) => (
+                          <button
+                            type="button"
+                            key={`${project.id}-web-shot-${screenshotIndex}`}
+                            onClick={() => openLightbox(screenshots, screenshotIndex, `${project.title} Screenshots`)}
+                            className="relative aspect-video overflow-hidden rounded-lg border border-white/10 bg-white/5 cursor-zoom-in"
+                            aria-label={`Open ${project.title} screenshot ${screenshotIndex + 1}`}
+                          >
+                            <ResilientImage
+                              src={screenshot}
+                              alt={`${project.title} screenshot ${screenshotIndex + 1}`}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 28vw, 140px"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Links */}
@@ -229,6 +282,14 @@ export default function WebDevelopment() {
           </Link>
         </motion.div>
       </div>
+
+      <ScreenshotLightbox
+        isOpen={lightboxState.isOpen}
+        images={lightboxState.images}
+        initialIndex={lightboxState.initialIndex}
+        title={lightboxState.title}
+        onClose={closeLightbox}
+      />
     </section>
   );
 }

@@ -7,6 +7,7 @@ import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaFilter } from 'react-icons/
 import { getProjects } from '../../lib/api';
 import Footer from '../../sections/Footer';
 import ResilientImage from '../../components/ResilientImage';
+import ScreenshotLightbox from '../../components/ScreenshotLightbox';
 
 const allTech = ['All', 'Python', 'Django', 'DRF', 'React', 'Next.js', 'Tailwind CSS', 'JavaScript', 'Matplotlib', 'Seaborn'];
 
@@ -15,6 +16,25 @@ const stackColors = ['tech-badge-cyan', 'tech-badge-purple', 'tech-badge-blue'];
 export default function WebProjectsPage() {
   const [filter, setFilter] = useState('All');
   const [webProjects, setWebProjects] = useState([]);
+  const [lightboxState, setLightboxState] = useState({
+    isOpen: false,
+    images: [],
+    initialIndex: 0,
+    title: '',
+  });
+
+  const openLightbox = (images, startIndex, title) => {
+    setLightboxState({
+      isOpen: true,
+      images,
+      initialIndex: startIndex,
+      title,
+    });
+  };
+
+  const closeLightbox = () => {
+    setLightboxState((previous) => ({ ...previous, isOpen: false }));
+  };
 
   useEffect(() => {
     async function loadProjects() {
@@ -169,9 +189,12 @@ export default function WebProjectsPage() {
                           <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Supportive Images</p>
                           <div className="grid grid-cols-2 gap-3">
                             {project.screenshots.map((screenshot, screenshotIndex) => (
-                              <div
+                              <button
+                                type="button"
                                 key={`${project.id}-web-shot-${screenshotIndex}`}
-                                className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-white/5"
+                                onClick={() => openLightbox(project.screenshots, screenshotIndex, `${project.title} Screenshots`)}
+                                className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-white/5 cursor-zoom-in"
+                                aria-label={`Open ${project.title} screenshot ${screenshotIndex + 1}`}
                               >
                                 <ResilientImage
                                   src={screenshot}
@@ -180,7 +203,7 @@ export default function WebProjectsPage() {
                                   className="object-cover"
                                   sizes="(max-width: 768px) 50vw, 260px"
                                 />
-                              </div>
+                              </button>
                             ))}
                           </div>
                         </div>
@@ -216,6 +239,13 @@ export default function WebProjectsPage() {
           )}
         </div>
       </div>
+      <ScreenshotLightbox
+        isOpen={lightboxState.isOpen}
+        images={lightboxState.images}
+        initialIndex={lightboxState.initialIndex}
+        title={lightboxState.title}
+        onClose={closeLightbox}
+      />
       <Footer />
     </>
   );

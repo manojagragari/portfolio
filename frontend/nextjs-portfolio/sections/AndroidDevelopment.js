@@ -8,6 +8,7 @@ import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
 import { DiJava } from 'react-icons/di';
 import { getProjects } from '../lib/api';
 import ResilientImage from '../components/ResilientImage';
+import ScreenshotLightbox from '../components/ScreenshotLightbox';
 
 const androidStack = [
   { name: 'Java', icon: <DiJava className="text-red-500 text-2xl" /> },
@@ -18,6 +19,25 @@ const androidStack = [
 
 export default function AndroidDevelopment() {
   const [androidProjects, setAndroidProjects] = useState([]);
+  const [lightboxState, setLightboxState] = useState({
+    isOpen: false,
+    images: [],
+    initialIndex: 0,
+    title: '',
+  });
+
+  const openLightbox = (images, startIndex, title) => {
+    setLightboxState({
+      isOpen: true,
+      images,
+      initialIndex: startIndex,
+      title,
+    });
+  };
+
+  const closeLightbox = () => {
+    setLightboxState((previous) => ({ ...previous, isOpen: false }));
+  };
 
   useEffect(() => {
     async function loadProjects() {
@@ -82,7 +102,9 @@ export default function AndroidDevelopment() {
         {/* Projects */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           {androidProjects.map((project) => {
-            const imageSource = project.cover_image || project.image || project.screenshots?.[0] || null;
+            const screenshots = Array.isArray(project.screenshots) ? project.screenshots : [];
+            const screenshotCount = screenshots.length;
+            const imageSource = project.cover_image || project.image || screenshots[0] || null;
             const imageFitClass = project.image_fit === 'contain'
               ? 'object-contain p-2 bg-black/30'
               : 'object-cover group-hover:scale-105';
@@ -143,29 +165,32 @@ export default function AndroidDevelopment() {
                       </span>
                     ))}
                   </div>
-                  {project.screenshots?.length > 1 && (
+                  {screenshotCount > 0 && (
                     <p className="text-[11px] uppercase tracking-[0.2em] text-green-400/60">
-                      {project.screenshots.length} app screenshots available
+                      Screenshot Attached ({screenshotCount})
                     </p>
                   )}
 
-                  {project.screenshots?.length > 0 && (
+                  {screenshotCount > 0 && (
                     <div>
-                      <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-2">Supportive Images</p>
+                      <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-2">Preview</p>
                       <div className="grid grid-cols-3 gap-2">
-                        {project.screenshots.slice(0, 3).map((screenshot, screenshotIndex) => (
-                          <div
+                        {screenshots.slice(0, 3).map((screenshot, screenshotIndex) => (
+                          <button
+                            type="button"
                             key={`${project.id}-section-shot-${screenshotIndex}`}
-                            className="relative aspect-[9/16] overflow-hidden rounded-lg border border-white/10 bg-white/5"
+                            onClick={() => openLightbox(screenshots, screenshotIndex, `${project.title} Screenshots`)}
+                            className="relative aspect-[9/16] overflow-hidden rounded-lg border border-white/10 bg-white/5 cursor-zoom-in"
+                            aria-label={`Open ${project.title} screenshot ${screenshotIndex + 1}`}
                           >
                             <ResilientImage
                               src={screenshot}
-                              alt={`${project.title} supportive image ${screenshotIndex + 1}`}
+                              alt={`${project.title} screenshot ${screenshotIndex + 1}`}
                               fill
                               className="object-cover"
                               sizes="(max-width: 768px) 28vw, 140px"
                             />
-                          </div>
+                          </button>
                         ))}
                       </div>
                     </div>
@@ -242,6 +267,14 @@ export default function AndroidDevelopment() {
           </Link>
         </motion.div>
       </div>
+
+      <ScreenshotLightbox
+        isOpen={lightboxState.isOpen}
+        images={lightboxState.images}
+        initialIndex={lightboxState.initialIndex}
+        title={lightboxState.title}
+        onClose={closeLightbox}
+      />
     </section>
   );
 }
