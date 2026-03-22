@@ -25,9 +25,9 @@ services:
       - key: CSRF_TRUSTED_ORIGINS
         value: https://manoj-portfolio-web.onrender.com https://portfolio2-ochre-two.vercel.app https://portfolio2-git-main-manojagragaris-projects.vercel.app https://portfolio2-9bjytn8rx-manojagragaris-projects.vercel.app
       - key: DATABASE_URL
-        fromDatabase:
-          name: manoj-portfolio-db
-          property: connectionString
+        sync: false
+      - key: LOAD_INITIAL_FIXTURES
+        value: "False"
       - key: MEDIA_ROOT
         value: /var/data/media
 
@@ -43,7 +43,3 @@ services:
       - key: NEXT_PUBLIC_API_URL
         value: https://manoj-portfolio-api.onrender.com
 
-databases:
-  - name: manoj-portfolio-db
-    databaseName: portfolio
-    user: portfolio_user

@@ -10,12 +10,17 @@ pip install -r requirements.txt
 # Run migrations
 python manage.py migrate --noinput
 
-# Load initial data only when database is empty.
+# Load initial data only when explicitly enabled and database is empty.
 python manage.py shell <<'PY'
+import os
 from portfolio.models import Project
 from django.core.management import call_command
 
-if Project.objects.count() == 0:
+load_fixtures = os.environ.get('LOAD_INITIAL_FIXTURES', 'False').lower() == 'true'
+
+if not load_fixtures:
+	print('Fixture skipped: LOAD_INITIAL_FIXTURES is disabled')
+elif Project.objects.count() == 0:
 	call_command('loaddata', 'portfolio/fixtures/initial_data.json')
 	print('Initial fixture loaded')
 else:
