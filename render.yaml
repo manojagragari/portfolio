@@ -19,11 +19,11 @@ services:
       - key: ALLOWED_HOSTS
         value: manoj-portfolio-api.onrender.com
       - key: CORS_ALLOWED_ORIGINS
-        value: https://manoj-portfolio-web.onrender.com https://portfolio2-ochre-two.vercel.app https://portfolio2-git-main-manojagragaris-projects.vercel.app https://portfolio2-9bjytn8rx-manojagragaris-projects.vercel.app
+        value: https://manojagrahari.me https://www.manojagrahari.me https://manoj-portfolio-web.onrender.com https://portfolio2-ochre-two.vercel.app https://portfolio2-git-main-manojagragaris-projects.vercel.app https://portfolio2-9bjytn8rx-manojagragaris-projects.vercel.app
       - key: CORS_ALLOWED_ORIGIN_REGEXES
         value: "^https://.*\.vercel\.app$"
       - key: CSRF_TRUSTED_ORIGINS
-        value: https://manoj-portfolio-web.onrender.com https://portfolio2-ochre-two.vercel.app https://portfolio2-git-main-manojagragaris-projects.vercel.app https://portfolio2-9bjytn8rx-manojagragaris-projects.vercel.app
+        value: https://manojagrahari.me https://www.manojagrahari.me https://manoj-portfolio-web.onrender.com https://portfolio2-ochre-two.vercel.app https://portfolio2-git-main-manojagragaris-projects.vercel.app https://portfolio2-9bjytn8rx-manojagragaris-projects.vercel.app
       - key: DATABASE_URL
         sync: false
       - key: LOAD_INITIAL_FIXTURES
