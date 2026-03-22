@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { FaGithub, FaArrowLeft, FaFilter } from 'react-icons/fa';
 import { BsBarChartFill } from 'react-icons/bs';
 import {
@@ -11,6 +10,7 @@ import {
 } from 'react-icons/si';
 import { getProjects } from '../../lib/api';
 import Footer from '../../sections/Footer';
+import ResilientImage from '../../components/ResilientImage';
 
 const allTech = ['All', 'Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Power BI', 'Jupyter Notebook'];
 
@@ -126,7 +126,7 @@ export default function DataSciencePage() {
                   {/* Project Image */}
                   {imageUrl && (
                     <div className="relative w-full h-48 bg-gradient-to-b from-purple-500/10 to-transparent overflow-hidden">
-                      <Image
+                      <ResilientImage
                         src={imageUrl}
                         alt={project.title}
                         fill
@@ -171,7 +171,7 @@ export default function DataSciencePage() {
                                 key={`${project.id}-ds-shot-${screenshotIndex}`}
                                 className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-white/5"
                               >
-                                <Image
+                                <ResilientImage
                                   src={screenshot}
                                   alt={`${project.title} supportive image ${screenshotIndex + 1}`}
                                   fill

@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaFilter } from 'react-icons/fa';
 import { getProjects } from '../../lib/api';
 import Footer from '../../sections/Footer';
+import ResilientImage from '../../components/ResilientImage';
 
 const allTech = ['All', 'Python', 'Django', 'DRF', 'React', 'Next.js', 'Tailwind CSS', 'JavaScript', 'Matplotlib', 'Seaborn'];
 
@@ -122,7 +122,7 @@ export default function WebProjectsPage() {
                   {/* Project Image */}
                   {imageUrl && (
                     <div className="relative w-full h-48 bg-gradient-to-b from-cyan-500/10 to-transparent overflow-hidden">
-                      <Image
+                      <ResilientImage
                         src={imageUrl}
                         alt={project.title}
                         fill
@@ -173,7 +173,7 @@ export default function WebProjectsPage() {
                                 key={`${project.id}-web-shot-${screenshotIndex}`}
                                 className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-white/5"
                               >
-                                <Image
+                                <ResilientImage
                                   src={screenshot}
                                   alt={`${project.title} supportive image ${screenshotIndex + 1}`}
                                   fill

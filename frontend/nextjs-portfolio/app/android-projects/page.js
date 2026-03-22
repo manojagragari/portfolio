@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { FaGithub, FaArrowLeft, FaAndroid, FaDownload } from 'react-icons/fa';
 import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
 import { DiJava } from 'react-icons/di';
 import { getProjects } from '../../lib/api';
 import Footer from '../../sections/Footer';
+import ResilientImage from '../../components/ResilientImage';
 
 export default function AndroidProjectsPage() {
   const [androidProjects, setAndroidProjects] = useState([]);
@@ -99,7 +99,7 @@ export default function AndroidProjectsPage() {
                 {/* Project Image */}
                 {imageUrl && (
                   <div className="relative w-full h-48 bg-gradient-to-b from-green-500/10 to-transparent overflow-hidden">
-                    <Image
+                    <ResilientImage
                       src={imageUrl}
                       alt={project.title}
                       fill
@@ -150,7 +150,7 @@ export default function AndroidProjectsPage() {
                               key={`${project.id}-screenshot-${screenshotIndex}`}
                               className="relative aspect-[9/16] overflow-hidden rounded-xl border border-white/10 bg-white/5"
                             >
-                              <Image
+                              <ResilientImage
                                 src={screenshot}
                                 alt={`${project.title} screenshot ${screenshotIndex + 1}`}
                                 fill

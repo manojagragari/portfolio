@@ -62,12 +62,22 @@ function OrbitRings() {
 
 export default function Hero() {
   const [profile, setProfile] = useState(null);
+  const [profileRetryCount, setProfileRetryCount] = useState(0);
+  const [showProfileFallback, setShowProfileFallback] = useState(false);
 
   useEffect(() => {
     getProfile().then((data) => setProfile(data));
   }, []);
 
-  const profileImageSrc = profile?.profile_image || '/profile.jpg';
+  const baseProfileImageSrc = profile?.profile_image || '/profile.jpg';
+  const profileImageSrc = profileRetryCount > 0
+    ? `${baseProfileImageSrc}${baseProfileImageSrc.includes('?') ? '&' : '?'}retry=${profileRetryCount}`
+    : baseProfileImageSrc;
+
+  useEffect(() => {
+    setProfileRetryCount(0);
+    setShowProfileFallback(false);
+  }, [baseProfileImageSrc]);
   const socialLinks = [
     { icon: FaGithub, href: profile?.github_url || 'https://github.com/manojagragari', label: 'GitHub' },
     { icon: FaLinkedin, href: profile?.linkedin_url || 'https://www.linkedin.com/in/manojagrahari', label: 'LinkedIn' },
@@ -200,17 +210,27 @@ export default function Hero() {
               <img
                 src={profileImageSrc}
                 alt="Manoj Agrahari"
-                className="w-full h-full object-cover"
+                className={`w-full h-full object-cover ${showProfileFallback ? 'hidden' : ''}`}
                 loading="eager"
+                onLoad={() => {
+                  setShowProfileFallback(false);
+                }}
                 onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  if (e.currentTarget.nextElementSibling) {
-                    e.currentTarget.nextElementSibling.style.display = 'flex';
+                  const retryDelays = [1200, 2500, 5000, 8000];
+                  if (profileRetryCount < retryDelays.length) {
+                    const delay = retryDelays[profileRetryCount];
+                    setTimeout(() => {
+                      setProfileRetryCount((count) => count + 1);
+                    }, delay);
+                    return;
                   }
+
+                  e.currentTarget.style.display = 'none';
+                  setShowProfileFallback(true);
                 }}
               />
               {/* Fallback initials */}
-              <div className="w-full h-full bg-gradient-to-br from-cyan-900/60 to-purple-900/60 items-center justify-center hidden absolute inset-0">
+              <div className={`w-full h-full bg-gradient-to-br from-cyan-900/60 to-purple-900/60 items-center justify-center absolute inset-0 ${showProfileFallback ? 'flex' : 'hidden'}`}>
                 <span className="text-7xl font-black font-orbitron gradient-text-cyan-purple">MA</span>
               </div>
             </div>
