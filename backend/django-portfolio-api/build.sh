@@ -7,9 +7,10 @@ set -e  # Exit on error
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# Create media directory with proper permissions if it doesn't exist
-mkdir -p /var/data/media
-chmod 755 /var/data/media
+# Create media directory if available (persistent disk mounted at /var/data during runtime)
+# Note: During build phase, disk may not be available yet - that's OK, Django will handle it
+mkdir -p /var/data/media 2>/dev/null || true
+chmod 755 /var/data/media 2>/dev/null || true
 
 # Run migrations
 python manage.py migrate --noinput
