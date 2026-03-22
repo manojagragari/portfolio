@@ -214,7 +214,7 @@
       "long_description": "This CSE316 academic project applies core Operating System concepts to design and implement a secure file management platform for business use cases. The system supports structured storage and lifecycle management for text documents, images, videos, contracts, and other digital assets. It focuses on secure access control, file organization, retrieval efficiency, auditability, and controlled collaboration. The project demonstrates practical understanding of OS-level concepts such as process flow design, memory-efficient operations, file handling, access permissions, and reliability through backup and recovery-aware design.",
       "features": ["Secure upload, download, edit, delete, and file tracking workflows", "Folder hierarchy and metadata-based file organization", "Fast locate and search for documents across categories", "Role-based access control and permission management", "Version-aware file handling for safer collaboration", "Audit-friendly activity tracking and file lifecycle visibility", "Support for multiple file types including documents, images, videos, and contracts", "Backup and recovery-oriented design for data reliability", "Business-oriented workflow for document management and retrieval"],
       "tech_stack": ["Python", "Operating System Concepts", "File Handling", "Access Control", "Data Structures", "SQL", "UI/UX"],
-      "github_url": "https://github.com/manojagragari",
+      "github_url": "https://github.com/manojagragari/SECURE-FILE-MANAGEMENT-SYSTEM/blob/main/sms.py",
       "live_url": null,
       "image": null,
       "featured": true,
