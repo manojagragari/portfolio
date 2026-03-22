@@ -7,6 +7,10 @@ set -e  # Exit on error
 pip install --upgrade pip
 pip install -r requirements.txt
 
+# Create media directory with proper permissions if it doesn't exist
+mkdir -p /var/data/media
+chmod 755 /var/data/media
+
 # Run migrations
 python manage.py migrate --noinput
 
