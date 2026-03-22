@@ -110,7 +110,7 @@ export default function WebDevelopment() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
           transition={{ staggerChildren: 0.15 }}
-          className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-10"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10"
         >
           {webProjects.map((project, idx) => {
             const imageSource = project.cover_image || project.image || null;

@@ -161,29 +161,6 @@ export const projects = {
   ],
   data_science: [
     {
-      id: 4,
-      title: 'Data Analysis & Visualization Suite',
-      category: 'data_science',
-      description:
-        'A collection of data science projects demonstrating proficiency in Python data analysis, visualization, and business intelligence.',
-      longDescription:
-        'This project suite showcases hands-on data science work including exploratory data analysis (EDA), insightful data visualizations, statistical modeling, and Power BI dashboards. Each project applies the full Python data science stack to extract actionable insights from real-world datasets.',
-      features: [
-        'Exploratory Data Analysis (EDA) on real datasets',
-        'Advanced data visualization with Matplotlib & Seaborn',
-        'Statistical analysis and feature engineering',
-        'Business intelligence dashboards with Power BI',
-        'Jupyter Notebook workflows with detailed documentation',
-      ],
-      tech_stack: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Power BI', 'Jupyter Notebook'],
-      github_url: 'https://github.com/manojagragari',
-      live_url: null,
-      featured: true,
-      order: 1,
-      gradient: 'from-orange-500/20 to-yellow-500/20',
-      accentColor: 'blue',
-    },
-    {
       id: 7,
       title: 'Tesla Global Performance & Sustainability Dashboard',
       category: 'data_science',

@@ -80,7 +80,7 @@ export default function AndroidDevelopment() {
         </motion.div>
 
         {/* Projects */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           {androidProjects.map((project) => {
             const imageSource = project.cover_image || project.image || project.screenshots?.[0] || null;
             const imageFitClass = project.image_fit === 'contain'
