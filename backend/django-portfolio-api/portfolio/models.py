@@ -4,6 +4,7 @@ from django.dispatch import receiver
 from PIL import Image as PilImage
 import io
 import os
+import uuid
 from django.core.files.base import ContentFile
 
 
@@ -30,7 +31,9 @@ def _optimize_image(image_field, max_width=1600, quality=80):
         buffer = io.BytesIO()
         img.save(buffer, format='WEBP', quality=quality, method=6, optimize=True)
         buffer.seek(0)
-        new_name = os.path.basename(name) + '.webp'
+        # Use a unique name to avoid collisions like images.webp / unnamed.webp.
+        unique_suffix = uuid.uuid4().hex[:10]
+        new_name = f"{os.path.basename(name)}-{unique_suffix}.webp"
         image_field.save(new_name, ContentFile(buffer.read()), save=False)
         return True
     except Exception:
@@ -180,7 +183,11 @@ class Certification(models.Model):
 
 # Helper function to delete image files
 def _delete_image_file(image_field):
-    """Delete image file from storage if it exists."""
+    """Delete image file from storage if cleanup is explicitly enabled."""
+    cleanup_enabled = os.environ.get('ENABLE_MEDIA_CLEANUP', 'False').lower() == 'true'
+    if not cleanup_enabled:
+        return
+
     if image_field and image_field.name:
         if os.path.isfile(image_field.path):
             os.remove(image_field.path)

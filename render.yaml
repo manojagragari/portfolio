@@ -30,6 +30,8 @@ services:
         value: "False"
       - key: MEDIA_ROOT
         value: /var/data/media
+      - key: ENABLE_MEDIA_CLEANUP
+        value: "False"
 
   - type: web
     name: manoj-portfolio-web
