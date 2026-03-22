@@ -37,16 +37,14 @@ export function enrichProjectAssets(project) {
   }
 
   const backendScreenshots = Array.isArray(project.screenshots) ? project.screenshots : [];
-  const staticScreenshots = assetConfig.screenshots || [];
-  const screenshots = backendScreenshots.length ? backendScreenshots : staticScreenshots;
+  const screenshots = backendScreenshots;
   const backendPrimaryImage = project.cover_image || project.image || null;
-  const fallbackPrimaryImage = assetConfig.coverImage || screenshots[0] || null;
 
   return {
     ...project,
     screenshots,
-    cover_image: backendPrimaryImage || fallbackPrimaryImage,
+    cover_image: backendPrimaryImage,
     image_fit: project.image_fit || assetConfig.imageFit || 'cover',
-    image: backendPrimaryImage || fallbackPrimaryImage,
+    image: backendPrimaryImage,
   };
 }
