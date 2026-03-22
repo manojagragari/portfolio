@@ -178,7 +178,7 @@ export const projects = {
         'Final integrated leadership dashboard with key KPI overview',
       ],
       tech_stack: ['Power BI', 'DAX', 'Data Visualization', 'Data Analytics'],
-      github_url: 'https://github.com/your-username/tesla-global-performance-dashboard',
+      github_url: 'https://github.com/manojagragari',
       live_url: null,
       featured: true,
       order: 2,

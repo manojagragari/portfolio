@@ -66,6 +66,8 @@ export default function Certifications() {
         >
           {(certifications || []).map((cert) => {
             const color = colorMap[cert.color] || colorMap.cyan;
+            const primaryHref = cert.cert_image || cert.url || null;
+            const primaryLabel = cert.cert_image ? 'View Supportive Document' : 'Verify Certificate';
             return (
               <motion.div
                 key={cert.id}
@@ -106,32 +108,32 @@ export default function Certifications() {
 
                 {/* Verified badge */}
                 {/* Verify button */}
-                {cert.url && (
+                {primaryHref && (
                   <a
-                    href={cert.url}
+                    href={primaryHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`inline-flex items-center gap-1.5 text-xs border ${color} px-3 py-1.5 rounded-full hover:opacity-80 transition-opacity`}
                   >
                     <FaExternalLinkAlt className="text-[10px]" />
-                    Verify Certificate
+                    {primaryLabel}
                   </a>
                 )}
-                {!cert.url && (
+                {!primaryHref && (
                   <div className={`inline-flex items-center gap-1 text-xs border ${color} px-2.5 py-1 rounded-full`}>
                     <span>✓</span> Verified
                   </div>
                 )}
 
-                {cert.cert_image && (
+                {cert.cert_image && cert.url && (
                   <a
-                    href={cert.cert_image}
+                    href={cert.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-[11px] mt-2 text-gray-500 hover:text-cyan-400 transition-colors"
                   >
                     <FaExternalLinkAlt className="text-[10px]" />
-                    View Support File
+                    Verify Certificate
                   </a>
                 )}
 

@@ -69,7 +69,7 @@ export default function Hero() {
 
   const profileImageSrc = profile?.profile_image || '/profile.jpg';
   const socialLinks = [
-    { icon: FaGithub, href: profile?.github_url || 'https://github.com/manojagrahari', label: 'GitHub' },
+    { icon: FaGithub, href: profile?.github_url || 'https://github.com/manojagragari', label: 'GitHub' },
     { icon: FaLinkedin, href: profile?.linkedin_url || 'https://www.linkedin.com/in/manojagrahari', label: 'LinkedIn' },
     { icon: FaInstagram, href: profile?.instagram_url || 'https://instagram.com/manojagrahari72', label: 'Instagram' },
     { icon: FiMail, href: `mailto:${profile?.email || 'manojagrahari7521@gmail.com'}`, label: 'Email' },
