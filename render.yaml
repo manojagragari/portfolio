@@ -5,6 +5,10 @@ services:
     rootDir: backend/django-portfolio-api
     buildCommand: bash build.sh
     startCommand: gunicorn portfolio_api.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    disk:
+      name: media
+      mountPath: /var/data
+      sizeGB: 1
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
@@ -24,6 +28,8 @@ services:
         fromDatabase:
           name: manoj-portfolio-db
           property: connectionString
+      - key: MEDIA_ROOT
+        value: /var/data/media
 
   - type: web
     name: manoj-portfolio-web

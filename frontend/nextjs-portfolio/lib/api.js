@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {
-  projects as staticProjects,
   skills as staticSkills,
   certifications as staticCertifications,
   achievements as staticAchievements,
@@ -84,7 +83,7 @@ export async function getProjects(category = null) {
     const params = category ? { category } : {};
     const { data } = await apiClient.get('/api/projects/', { params });
     return data.map(normalizeProject).map(enrichProjectAssets);
-  }, (category ? (staticProjects[category] || []) : Object.values(staticProjects).flat()).map(enrichProjectAssets));
+  }, []);
 }
 
 export async function getSkills() {

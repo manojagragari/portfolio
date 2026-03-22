@@ -62,6 +62,9 @@ class Project(models.Model):
 
     class Meta:
         ordering = ['order', '-created_at']
+        constraints = [
+            models.UniqueConstraint(fields=['category', 'title'], name='uniq_project_category_title'),
+        ]
 
     def __str__(self):
         return f"[{self.category}] {self.title}"
