@@ -39,12 +39,14 @@ export function enrichProjectAssets(project) {
   const backendScreenshots = Array.isArray(project.screenshots) ? project.screenshots : [];
   const staticScreenshots = assetConfig.screenshots || [];
   const screenshots = backendScreenshots.length ? backendScreenshots : staticScreenshots;
+  const backendPrimaryImage = project.cover_image || project.image || null;
+  const fallbackPrimaryImage = assetConfig.coverImage || screenshots[0] || null;
 
   return {
     ...project,
     screenshots,
-    cover_image: project.cover_image || assetConfig.coverImage || null,
+    cover_image: backendPrimaryImage || fallbackPrimaryImage,
     image_fit: assetConfig.imageFit || 'cover',
-    image: project.image || assetConfig.coverImage || screenshots[0] || null,
+    image: backendPrimaryImage || fallbackPrimaryImage,
   };
 }
