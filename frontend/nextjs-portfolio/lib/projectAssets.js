@@ -5,7 +5,7 @@ const projectAssets = {
   },
   'Personal Learning & Notes Platform': {
     coverImage: '/projects/notes-platform/cover.png',
-    imageFit: 'contain',
+    imageFit: 'cover',
   },
   'Android Calculator App': {
     coverImage: '/projects/android-calculator-app/cover.png',
@@ -46,7 +46,7 @@ export function enrichProjectAssets(project) {
     ...project,
     screenshots,
     cover_image: backendPrimaryImage || fallbackPrimaryImage,
-    image_fit: assetConfig.imageFit || 'cover',
+    image_fit: project.image_fit || assetConfig.imageFit || 'cover',
     image: backendPrimaryImage || fallbackPrimaryImage,
   };
 }
