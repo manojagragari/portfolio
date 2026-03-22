@@ -11,10 +11,10 @@ def health_check(request):
     return JsonResponse({'status': 'ok', 'api': '/api/'})
 
 
-# Cache-aware media serving for fresh uploads
-@cache_control(max_age=3600, public=True)
+# Media should not be cached aggressively; stale 404s can hide recent uploads.
+@cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def serve_media(request, path):
-    """Serve media files with proper cache headers."""
+    """Serve media files without stale caching."""
     return serve(request, path, document_root=settings.MEDIA_ROOT)
 
 
@@ -27,7 +27,7 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 else:
-    # Production: serve media with cache headers to ensure fresh uploads are served
+    # Production media route.
     urlpatterns += [
         re_path(r'^media/(?P<path>.*)$', serve_media),
     ]
