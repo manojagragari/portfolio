@@ -111,11 +111,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
-if DEBUG:
-    MEDIA_ROOT = Path(os.environ.get('MEDIA_ROOT', BASE_DIR / 'media'))
-else:
-    # In production, default to Render persistent disk mount even if env is missing.
-    MEDIA_ROOT = Path(os.environ.get('MEDIA_ROOT', '/var/data/media'))
+# Use MEDIA_ROOT from env when provided (Render disk), otherwise fallback to local writable path.
+MEDIA_ROOT = Path(os.environ.get('MEDIA_ROOT', BASE_DIR / 'media'))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
