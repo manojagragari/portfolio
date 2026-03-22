@@ -9,7 +9,7 @@ const projectAssets = {
   },
   'Android Calculator App': {
     coverImage: '/projects/android-calculator-app/cover.png',
-    imageFit: 'contain',
+    imageFit: 'cover',
     screenshots: [
       '/projects/android-calculator-app/screenshots/01-calculator-ui.jpg',
       '/projects/android-calculator-app/screenshots/02-app-installed.jpg',
