@@ -80,7 +80,7 @@ export default function AndroidDevelopment() {
         </motion.div>
 
         {/* Projects */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-stretch">
           {androidProjects.map((project) => {
             const imageSource = project.cover_image || project.image || project.screenshots?.[0] || null;
             const imageFitClass = project.image_fit === 'contain'
@@ -100,7 +100,7 @@ export default function AndroidDevelopment() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               whileHover={{ y: -6 }}
-              className="glass-card-hover border group overflow-hidden"
+              className="glass-card-hover border group overflow-hidden h-full min-h-[42rem] flex flex-col"
             >
               <div className="h-1 bg-gradient-to-r from-green-500 to-teal-500 opacity-70" />
               
@@ -117,7 +117,7 @@ export default function AndroidDevelopment() {
                 </div>
               )}
 
-              <div className="p-6">
+              <div className="p-6 flex-1 min-h-0 flex flex-col">
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <h3 className="text-lg font-bold font-orbitron text-white group-hover:text-green-400 transition-colors leading-tight">
                     {project.title}
@@ -126,51 +126,53 @@ export default function AndroidDevelopment() {
                     Android
                   </span>
                 </div>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">{project.description}</p>
-                <ul className="space-y-1 mb-5">
-                  {(project.features || []).map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
-                      <span className="text-green-500 mt-0.5 flex-shrink-0">▸</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {(project.tech_stack || []).map((t) => (
-                    <span key={t} className="tech-badge border border-green-500/30 text-green-400 bg-green-500/8">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                {project.screenshots?.length > 1 && (
-                  <p className="text-[11px] uppercase tracking-[0.2em] text-green-400/60 mb-4">
-                    {project.screenshots.length} app screenshots available
-                  </p>
-                )}
-
-                {project.screenshots?.length > 0 && (
-                  <div className="mb-5">
-                    <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-2">Supportive Images</p>
-                    <div className="grid grid-cols-3 gap-2">
-                      {project.screenshots.slice(0, 3).map((screenshot, screenshotIndex) => (
-                        <div
-                          key={`${project.id}-section-shot-${screenshotIndex}`}
-                          className="relative aspect-[9/16] overflow-hidden rounded-lg border border-white/10 bg-white/5"
-                        >
-                          <Image
-                            src={screenshot}
-                            alt={`${project.title} supportive image ${screenshotIndex + 1}`}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 768px) 28vw, 140px"
-                          />
-                        </div>
-                      ))}
-                    </div>
+                <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-4">
+                  <p className="text-gray-400 text-sm leading-relaxed">{project.description}</p>
+                  <ul className="space-y-1">
+                    {(project.features || []).map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
+                        <span className="text-green-500 mt-0.5 flex-shrink-0">▸</span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex flex-wrap gap-2">
+                    {(project.tech_stack || []).map((t) => (
+                      <span key={t} className="tech-badge border border-green-500/30 text-green-400 bg-green-500/8">
+                        {t}
+                      </span>
+                    ))}
                   </div>
-                )}
+                  {project.screenshots?.length > 1 && (
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-green-400/60">
+                      {project.screenshots.length} app screenshots available
+                    </p>
+                  )}
 
-                <div className="flex flex-wrap items-center gap-4">
+                  {project.screenshots?.length > 0 && (
+                    <div>
+                      <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-2">Supportive Images</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        {project.screenshots.slice(0, 3).map((screenshot, screenshotIndex) => (
+                          <div
+                            key={`${project.id}-section-shot-${screenshotIndex}`}
+                            className="relative aspect-[9/16] overflow-hidden rounded-lg border border-white/10 bg-white/5"
+                          >
+                            <Image
+                              src={screenshot}
+                              alt={`${project.title} supportive image ${screenshotIndex + 1}`}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 28vw, 140px"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 pt-4 mt-4 border-t border-white/10">
                   <a
                     href={project.github_url}
                     target="_blank"

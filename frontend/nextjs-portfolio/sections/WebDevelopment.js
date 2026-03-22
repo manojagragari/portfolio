@@ -128,7 +128,7 @@ export default function WebDevelopment() {
               key={project.id}
               variants={cardVariants}
               whileHover={{ y: -6 }}
-              className="glass-card-hover border group overflow-hidden"
+              className="glass-card-hover border group overflow-hidden h-full min-h-[42rem] flex flex-col"
             >
               {/* Card top accent */}
               <div
@@ -148,7 +148,7 @@ export default function WebDevelopment() {
                 </div>
               )}
 
-              <div className="p-6">
+              <div className="p-6 flex-1 min-h-0 flex flex-col">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <h3 className="text-lg font-bold font-orbitron text-white group-hover:text-cyan-400 transition-colors leading-tight">
@@ -157,32 +157,34 @@ export default function WebDevelopment() {
                   <span className="tech-badge tech-badge-cyan flex-shrink-0">Web</span>
                 </div>
 
-                {/* Description */}
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                  {project.description}
-                </p>
+                <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-4">
+                  {/* Description */}
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {project.description}
+                  </p>
 
-                {/* Features */}
-                <ul className="space-y-1 mb-5">
-                  {(project.features || []).slice(0, 3).map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
-                      <span className="text-cyan-500 mt-0.5 flex-shrink-0">▸</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
+                  {/* Features */}
+                  <ul className="space-y-1">
+                    {(project.features || []).slice(0, 3).map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
+                        <span className="text-cyan-500 mt-0.5 flex-shrink-0">▸</span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
 
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {(project.tech_stack || []).map((t, i) => (
-                    <span key={t} className={`tech-badge ${stackColors[i % stackColors.length]}`}>
-                      {t}
-                    </span>
-                  ))}
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-2">
+                    {(project.tech_stack || []).map((t, i) => (
+                      <span key={t} className={`tech-badge ${stackColors[i % stackColors.length]}`}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Links */}
-                <div className="flex gap-3">
+                <div className="flex gap-3 pt-4 mt-4 border-t border-white/10">
                   <a
                     href={project.github_url}
                     target="_blank"

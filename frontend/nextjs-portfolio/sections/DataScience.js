@@ -133,7 +133,7 @@ export default function DataScience() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
               whileHover={{ y: -6 }}
-              className="glass-card-hover border group overflow-hidden"
+              className="glass-card-hover border group overflow-hidden h-full min-h-[42rem] flex flex-col"
             >
               <div className="h-1 bg-gradient-to-r from-purple-500 to-blue-500 opacity-70" />
               
@@ -150,33 +150,36 @@ export default function DataScience() {
                 </div>
               )}
 
-              <div className="p-6">
+              <div className="p-6 flex-1 min-h-0 flex flex-col">
                 <div className="flex items-start justify-between gap-4 mb-3">
                   <h3 className="text-lg font-bold font-orbitron text-white group-hover:text-purple-400 transition-colors leading-tight">
                     {project.title}
                   </h3>
                   <span className="tech-badge tech-badge-purple flex-shrink-0">Data Science</span>
                 </div>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">{project.description}</p>
-                <ul className="space-y-1 mb-5">
-                  {(project.features || []).slice(0, 4).map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
-                      <span className="text-purple-500 mt-0.5 flex-shrink-0">▸</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <div className="flex flex-wrap gap-2 mb-5">
-                  {(project.tech_stack || []).map((t, i) => (
-                    <span
-                      key={t}
-                      className={`tech-badge ${i % 2 === 0 ? 'tech-badge-purple' : 'tech-badge-blue'}`}
-                    >
-                      {t}
-                    </span>
-                  ))}
+                <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-4">
+                  <p className="text-gray-400 text-sm leading-relaxed">{project.description}</p>
+                  <ul className="space-y-1">
+                    {(project.features || []).slice(0, 4).map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-xs text-gray-500">
+                        <span className="text-purple-500 mt-0.5 flex-shrink-0">▸</span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex flex-wrap gap-2">
+                    {(project.tech_stack || []).map((t, i) => (
+                      <span
+                        key={t}
+                        className={`tech-badge ${i % 2 === 0 ? 'tech-badge-purple' : 'tech-badge-blue'}`}
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex gap-3">
+
+                <div className="flex gap-3 pt-4 mt-4 border-t border-white/10">
                   <a
                     href={project.github_url}
                     target="_blank"

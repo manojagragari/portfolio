@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_delete, pre_save
+from django.dispatch import receiver
 from PIL import Image as PilImage
 import io
 import os
@@ -71,6 +73,22 @@ class Project(models.Model):
             super().save(update_fields=['image'])
 
 
+@receiver(pre_save, sender=Project)
+def clean_project_image(sender, instance, **kwargs):
+    """Delete old image file if it's been replaced or cleared."""
+    if instance.pk:
+        old_instance = Project.objects.get(pk=instance.pk)
+        if old_instance.image and old_instance.image != instance.image:
+            _delete_image_file(old_instance.image)
+
+
+@receiver(post_delete, sender=Project)
+def delete_project_image(sender, instance, **kwargs):
+    """Delete image file when project is deleted."""
+    if instance.image:
+        _delete_image_file(instance.image)
+
+
 class ProjectGalleryImage(models.Model):
     project = models.ForeignKey(Project, related_name='gallery_images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='projects/gallery/')
@@ -88,6 +106,22 @@ class ProjectGalleryImage(models.Model):
         super().save(*args, **kwargs)
         if optimize_images and _optimize_image(self.image, max_width=1400):
             super().save(update_fields=['image'])
+
+
+@receiver(pre_save, sender=ProjectGalleryImage)
+def clean_gallery_image(sender, instance, **kwargs):
+    """Delete old image file if it's been replaced."""
+    if instance.pk:
+        old_instance = ProjectGalleryImage.objects.get(pk=instance.pk)
+        if old_instance.image and old_instance.image != instance.image:
+            _delete_image_file(old_instance.image)
+
+
+@receiver(post_delete, sender=ProjectGalleryImage)
+def delete_gallery_image(sender, instance, **kwargs):
+    """Delete image file when gallery image is deleted."""
+    if instance.image:
+        _delete_image_file(instance.image)
 
 
 class Skill(models.Model):
@@ -141,6 +175,37 @@ class Certification(models.Model):
             super().save(update_fields=updated_fields)
 
 
+# Helper function to delete image files
+def _delete_image_file(image_field):
+    """Delete image file from storage if it exists."""
+    if image_field and image_field.name:
+        if os.path.isfile(image_field.path):
+            os.remove(image_field.path)
+
+
+# Signals for automatic image cleanup
+@receiver(pre_save, sender=Certification)
+def clean_certification_images(sender, instance, **kwargs):
+    """Delete old image files if they've been replaced or cleared."""
+    if instance.pk:
+        old_instance = Certification.objects.get(pk=instance.pk)
+        # If cover_image was removed, delete the file
+        if old_instance.cover_image and old_instance.cover_image != instance.cover_image:
+            _delete_image_file(old_instance.cover_image)
+        # If cert_image was removed, delete the file
+        if old_instance.cert_image and old_instance.cert_image != instance.cert_image:
+            _delete_image_file(old_instance.cert_image)
+
+
+@receiver(post_delete, sender=Certification)
+def delete_certification_images(sender, instance, **kwargs):
+    """Delete image files when certification is deleted."""
+    if instance.cover_image:
+        _delete_image_file(instance.cover_image)
+    if instance.cert_image:
+        _delete_image_file(instance.cert_image)
+
+
 class Achievement(models.Model):
     title = models.CharField(max_length=200)
     platform = models.CharField(max_length=100)
@@ -165,6 +230,22 @@ class Achievement(models.Model):
         super().save(*args, **kwargs)
         if optimize_images and _optimize_image(self.cover_image, max_width=1400):
             super().save(update_fields=['cover_image'])
+
+
+@receiver(pre_save, sender=Achievement)
+def clean_achievement_image(sender, instance, **kwargs):
+    """Delete old image file if it's been replaced or cleared."""
+    if instance.pk:
+        old_instance = Achievement.objects.get(pk=instance.pk)
+        if old_instance.cover_image and old_instance.cover_image != instance.cover_image:
+            _delete_image_file(old_instance.cover_image)
+
+
+@receiver(post_delete, sender=Achievement)
+def delete_achievement_image(sender, instance, **kwargs):
+    """Delete image file when achievement is deleted."""
+    if instance.cover_image:
+        _delete_image_file(instance.cover_image)
 
 
 class Hobby(models.Model):
@@ -225,6 +306,26 @@ class Profile(models.Model):
             updated_fields.append('cover_banner')
         if updated_fields:
             super().save(update_fields=updated_fields)
+
+
+@receiver(pre_save, sender=Profile)
+def clean_profile_images(sender, instance, **kwargs):
+    """Delete old image files if they've been replaced or cleared."""
+    if instance.pk:
+        old_instance = Profile.objects.get(pk=instance.pk)
+        if old_instance.profile_image and old_instance.profile_image != instance.profile_image:
+            _delete_image_file(old_instance.profile_image)
+        if old_instance.cover_banner and old_instance.cover_banner != instance.cover_banner:
+            _delete_image_file(old_instance.cover_banner)
+
+
+@receiver(post_delete, sender=Profile)
+def delete_profile_images(sender, instance, **kwargs):
+    """Delete image files when profile is deleted."""
+    if instance.profile_image:
+        _delete_image_file(instance.profile_image)
+    if instance.cover_banner:
+        _delete_image_file(instance.cover_banner)
 
 
 class ContactMethod(models.Model):
