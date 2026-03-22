@@ -100,7 +100,7 @@ export default function DataSciencePage() {
               No projects found for &quot;{filter}&quot;
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 justify-items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
               {filtered.map((project, idx) => {
                 const imageSource = project.cover_image || project.image || null;
                 const imageFitClass = project.image_fit === 'contain'
@@ -119,7 +119,7 @@ export default function DataSciencePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                   whileHover={{ y: -6 }}
-                  className="glass-card border border-purple-500/20 hover:border-purple-500/40 group overflow-hidden transition-all duration-300 w-full max-w-[34rem]"
+                  className="glass-card border border-purple-500/20 hover:border-purple-500/40 group overflow-hidden transition-all duration-300 w-full h-[44rem] flex flex-col"
                 >
                   <div className="h-1 bg-gradient-to-r from-purple-500 to-blue-500 opacity-70" />
                   
@@ -136,58 +136,60 @@ export default function DataSciencePage() {
                     </div>
                   )}
 
-                  <div className="p-7">
+                  <div className="p-7 flex-1 min-h-0 flex flex-col">
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <h2 className="text-xl font-bold font-orbitron text-white group-hover:text-purple-400 transition-colors leading-tight">
                         {project.title}
                       </h2>
                       <span className="tech-badge tech-badge-purple flex-shrink-0">Data Science</span>
                     </div>
-                    <p className="text-gray-400 text-sm leading-relaxed mb-5">{project.longDescription}</p>
-                    <div className="mb-5">
-                      <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Key Focus Areas</p>
-                      <ul className="space-y-2">
-                        {(project.features || []).map((f) => (
-                          <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
-                            <span className="text-purple-500 mt-0.5 flex-shrink-0">▸</span>
-                            {f}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {(project.tech_stack || []).map((t, i) => (
-                        <span key={t} className={`tech-badge ${techBadges[i % techBadges.length]}`}>{t}</span>
-                      ))}
-                    </div>
-
-                    {project.screenshots?.length > 0 && (
-                      <div className="mb-6">
-                        <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Supportive Images</p>
-                        <div className="grid grid-cols-2 gap-3">
-                          {project.screenshots.map((screenshot, screenshotIndex) => (
-                            <div
-                              key={`${project.id}-ds-shot-${screenshotIndex}`}
-                              className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-white/5"
-                            >
-                              <Image
-                                src={screenshot}
-                                alt={`${project.title} supportive image ${screenshotIndex + 1}`}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 50vw, 260px"
-                              />
-                            </div>
+                    <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-5">
+                      <p className="text-gray-400 text-sm leading-relaxed">{project.longDescription || project.long_description || project.description}</p>
+                      <div>
+                        <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Key Focus Areas</p>
+                        <ul className="space-y-2">
+                          {(project.features || []).map((f) => (
+                            <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
+                              <span className="text-purple-500 mt-0.5 flex-shrink-0">▸</span>
+                              {f}
+                            </li>
                           ))}
-                        </div>
+                        </ul>
                       </div>
-                    )}
+                      <div className="flex flex-wrap gap-2">
+                        {(project.tech_stack || []).map((t, i) => (
+                          <span key={t} className={`tech-badge ${techBadges[i % techBadges.length]}`}>{t}</span>
+                        ))}
+                      </div>
+
+                      {project.screenshots?.length > 0 && (
+                        <div>
+                          <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Supportive Images</p>
+                          <div className="grid grid-cols-2 gap-3">
+                            {project.screenshots.map((screenshot, screenshotIndex) => (
+                              <div
+                                key={`${project.id}-ds-shot-${screenshotIndex}`}
+                                className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-white/5"
+                              >
+                                <Image
+                                  src={screenshot}
+                                  alt={`${project.title} supportive image ${screenshotIndex + 1}`}
+                                  fill
+                                  className="object-cover"
+                                  sizes="(max-width: 768px) 50vw, 260px"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
 
                     <a
                       href={project.github_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm text-gray-400 hover:text-purple-400 transition-colors"
+                      className="flex items-center gap-2 text-sm text-gray-400 hover:text-purple-400 transition-colors pt-4 mt-4 border-t border-white/10"
                     >
                       <FaGithub /> View on GitHub
                     </a>

@@ -73,7 +73,7 @@ export default function AndroidProjectsPage() {
 
         {/* Projects */}
         <div className="max-w-7xl mx-auto px-6 pb-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start justify-items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             {androidProjects.map((project, idx) => {
               const imageSource = project.cover_image || project.image || project.screenshots?.[0] || null;
               const imageFitClass = project.image_fit === 'contain'
@@ -92,7 +92,7 @@ export default function AndroidProjectsPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
                 whileHover={{ y: -6 }}
-                className="glass-card border border-green-500/20 hover:border-green-500/40 group overflow-hidden transition-all duration-300 w-full max-w-[34rem]"
+                className="glass-card border border-green-500/20 hover:border-green-500/40 group overflow-hidden transition-all duration-300 w-full h-[44rem] flex flex-col"
               >
                 <div className="h-1 bg-gradient-to-r from-green-500 to-teal-500 opacity-70" />
                 
@@ -109,7 +109,7 @@ export default function AndroidProjectsPage() {
                   </div>
                 )}
 
-                <div className="p-7">
+                <div className="p-7 flex-1 min-h-0 flex flex-col">
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <h2 className="text-xl font-bold font-orbitron text-white group-hover:text-green-400 transition-colors leading-tight">
                       {project.title}
@@ -118,51 +118,53 @@ export default function AndroidProjectsPage() {
                       Android
                     </span>
                   </div>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-5">{project.longDescription}</p>
+                  <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-5">
+                    <p className="text-gray-400 text-sm leading-relaxed">{project.longDescription || project.long_description || project.description}</p>
 
-                  <div className="mb-5">
-                    <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Key Features</p>
-                    <ul className="space-y-2">
-                      {(project.features || []).map((f) => (
-                        <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
-                          <span className="text-green-500 mt-0.5 flex-shrink-0">▸</span>
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {(project.tech_stack || []).map((t) => (
-                      <span key={t} className="tech-badge border border-green-500/30 text-green-400 bg-green-500/8">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  {project.screenshots?.length > 0 && (
-                    <div className="mb-6">
-                      <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">App Screenshots</p>
-                      <div className="grid grid-cols-2 gap-3">
-                        {project.screenshots.map((screenshot, screenshotIndex) => (
-                          <div
-                            key={`${project.id}-screenshot-${screenshotIndex}`}
-                            className="relative aspect-[9/16] overflow-hidden rounded-xl border border-white/10 bg-white/5"
-                          >
-                            <Image
-                              src={screenshot}
-                              alt={`${project.title} screenshot ${screenshotIndex + 1}`}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 768px) 50vw, 240px"
-                            />
-                          </div>
+                    <div>
+                      <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Key Features</p>
+                      <ul className="space-y-2">
+                        {(project.features || []).map((f) => (
+                          <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
+                            <span className="text-green-500 mt-0.5 flex-shrink-0">▸</span>
+                            {f}
+                          </li>
                         ))}
-                      </div>
+                      </ul>
                     </div>
-                  )}
 
-                  <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex flex-wrap gap-2">
+                      {(project.tech_stack || []).map((t) => (
+                        <span key={t} className="tech-badge border border-green-500/30 text-green-400 bg-green-500/8">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    {project.screenshots?.length > 0 && (
+                      <div>
+                        <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">App Screenshots</p>
+                        <div className="grid grid-cols-2 gap-3">
+                          {project.screenshots.map((screenshot, screenshotIndex) => (
+                            <div
+                              key={`${project.id}-screenshot-${screenshotIndex}`}
+                              className="relative aspect-[9/16] overflow-hidden rounded-xl border border-white/10 bg-white/5"
+                            >
+                              <Image
+                                src={screenshot}
+                                alt={`${project.title} screenshot ${screenshotIndex + 1}`}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 768px) 50vw, 240px"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-4 pt-4 mt-4 border-t border-white/10">
                     <a
                       href={project.github_url}
                       target="_blank"

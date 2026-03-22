@@ -96,7 +96,7 @@ export default function WebProjectsPage() {
               No projects found for &quot;{filter}&quot;
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 justify-items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
               {filtered.map((project, idx) => {
                 const imageSource = project.cover_image || project.image || null;
                 const imageFitClass = project.image_fit === 'contain'
@@ -115,7 +115,7 @@ export default function WebProjectsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1 }}
                   whileHover={{ y: -6 }}
-                  className="glass-card-hover border group overflow-hidden w-full max-w-[34rem]"
+                  className="glass-card-hover border group overflow-hidden w-full h-[44rem] flex flex-col"
                 >
                   <div className={`h-1 bg-gradient-to-r ${project.gradient.replace('/20', '')} opacity-70`} />
                   
@@ -132,61 +132,63 @@ export default function WebProjectsPage() {
                     </div>
                   )}
 
-                  <div className="p-7">
+                  <div className="p-7 flex-1 min-h-0 flex flex-col">
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <h2 className="text-xl font-bold font-orbitron text-white group-hover:text-cyan-400 transition-colors leading-tight">
                         {project.title}
                       </h2>
                       <span className="tech-badge tech-badge-cyan flex-shrink-0">Web</span>
                     </div>
-                    <p className="text-gray-400 text-sm leading-relaxed mb-5">
-                      {project.longDescription}
-                    </p>
+                    <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-5">
+                      <p className="text-gray-400 text-sm leading-relaxed">
+                        {project.longDescription || project.long_description || project.description}
+                      </p>
 
-                    {/* Features */}
-                    <div className="mb-5">
-                      <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Key Features</p>
-                      <ul className="grid grid-cols-1 gap-1.5">
-                        {(project.features || []).map((f) => (
-                          <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
-                            <span className="text-cyan-500 mt-0.5 flex-shrink-0">▸</span>
-                            {f}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Tech stack */}
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {(project.tech_stack || []).map((t, i) => (
-                        <span key={t} className={`tech-badge ${stackColors[i % stackColors.length]}`}>{t}</span>
-                      ))}
-                    </div>
-
-                    {project.screenshots?.length > 0 && (
-                      <div className="mb-6">
-                        <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Supportive Images</p>
-                        <div className="grid grid-cols-2 gap-3">
-                          {project.screenshots.map((screenshot, screenshotIndex) => (
-                            <div
-                              key={`${project.id}-web-shot-${screenshotIndex}`}
-                              className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-white/5"
-                            >
-                              <Image
-                                src={screenshot}
-                                alt={`${project.title} supportive image ${screenshotIndex + 1}`}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 50vw, 260px"
-                              />
-                            </div>
+                      {/* Features */}
+                      <div>
+                        <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Key Features</p>
+                        <ul className="grid grid-cols-1 gap-1.5">
+                          {(project.features || []).map((f) => (
+                            <li key={f} className="flex items-start gap-2 text-sm text-gray-400">
+                              <span className="text-cyan-500 mt-0.5 flex-shrink-0">▸</span>
+                              {f}
+                            </li>
                           ))}
-                        </div>
+                        </ul>
                       </div>
-                    )}
+
+                      {/* Tech stack */}
+                      <div className="flex flex-wrap gap-2">
+                        {(project.tech_stack || []).map((t, i) => (
+                          <span key={t} className={`tech-badge ${stackColors[i % stackColors.length]}`}>{t}</span>
+                        ))}
+                      </div>
+
+                      {project.screenshots?.length > 0 && (
+                        <div>
+                          <p className="text-xs font-mono text-gray-600 uppercase tracking-widest mb-3">Supportive Images</p>
+                          <div className="grid grid-cols-2 gap-3">
+                            {project.screenshots.map((screenshot, screenshotIndex) => (
+                              <div
+                                key={`${project.id}-web-shot-${screenshotIndex}`}
+                                className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-white/5"
+                              >
+                                <Image
+                                  src={screenshot}
+                                  alt={`${project.title} supportive image ${screenshotIndex + 1}`}
+                                  fill
+                                  className="object-cover"
+                                  sizes="(max-width: 768px) 50vw, 260px"
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
 
                     {/* Links */}
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 pt-4 mt-4 border-t border-white/10">
                       <a
                         href={project.github_url}
                         target="_blank"
