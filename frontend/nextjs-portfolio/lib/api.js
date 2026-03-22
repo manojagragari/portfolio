@@ -70,12 +70,22 @@ function normalizeProfile(profile) {
 }
 
 async function safeFetch(apiFn, fallback) {
-  try {
-    const result = await apiFn();
-    return result;
-  } catch {
-    return fallback;
+  const delays = [600, 1400, 2600];
+  for (let attempt = 0; attempt <= delays.length; attempt += 1) {
+    try {
+      const result = await apiFn();
+      return result;
+    } catch {
+      if (attempt === delays.length) {
+        return fallback;
+      }
+      await new Promise((resolve) => {
+        setTimeout(resolve, delays[attempt]);
+      });
+    }
   }
+
+  return fallback;
 }
 
 export async function getProjects(category = null) {

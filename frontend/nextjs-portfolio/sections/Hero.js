@@ -66,10 +66,33 @@ export default function Hero() {
   const [showProfileFallback, setShowProfileFallback] = useState(false);
 
   useEffect(() => {
-    getProfile().then((data) => setProfile(data));
+    let active = true;
+
+    const loadProfile = async () => {
+      const data = await getProfile();
+      if (active && data) {
+        setProfile(data);
+      }
+    };
+
+    const onWake = () => {
+      if (document.visibilityState === 'visible') {
+        loadProfile();
+      }
+    };
+
+    loadProfile();
+    window.addEventListener('focus', loadProfile);
+    document.addEventListener('visibilitychange', onWake);
+
+    return () => {
+      active = false;
+      window.removeEventListener('focus', loadProfile);
+      document.removeEventListener('visibilitychange', onWake);
+    };
   }, []);
 
-  const baseProfileImageSrc = profile?.profile_image || '/profile.jpg';
+  const baseProfileImageSrc = profile?.profile_image || null;
   const profileImageSrc = profileRetryCount > 0
     ? `${baseProfileImageSrc}${baseProfileImageSrc.includes('?') ? '&' : '?'}retry=${profileRetryCount}`
     : baseProfileImageSrc;
@@ -207,30 +230,32 @@ export default function Hero() {
 
             {/* Image container */}
             <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-cyan-500/30 shadow-[0_0_40px_rgba(0,229,255,0.15)]">
-              <img
-                src={profileImageSrc}
-                alt="Manoj Agrahari"
-                className={`w-full h-full object-cover ${showProfileFallback ? 'hidden' : ''}`}
-                loading="eager"
-                onLoad={() => {
-                  setShowProfileFallback(false);
-                }}
-                onError={(e) => {
-                  const retryDelays = [1200, 2500, 5000, 8000];
-                  if (profileRetryCount < retryDelays.length) {
-                    const delay = retryDelays[profileRetryCount];
-                    setTimeout(() => {
-                      setProfileRetryCount((count) => count + 1);
-                    }, delay);
-                    return;
-                  }
+              {profileImageSrc && (
+                <img
+                  src={profileImageSrc}
+                  alt="Manoj Agrahari"
+                  className={`w-full h-full object-cover ${showProfileFallback ? 'hidden' : ''}`}
+                  loading="eager"
+                  onLoad={() => {
+                    setShowProfileFallback(false);
+                  }}
+                  onError={(e) => {
+                    const retryDelays = [1200, 2500, 5000, 8000];
+                    if (profileRetryCount < retryDelays.length) {
+                      const delay = retryDelays[profileRetryCount];
+                      setTimeout(() => {
+                        setProfileRetryCount((count) => count + 1);
+                      }, delay);
+                      return;
+                    }
 
-                  e.currentTarget.style.display = 'none';
-                  setShowProfileFallback(true);
-                }}
-              />
+                    e.currentTarget.style.display = 'none';
+                    setShowProfileFallback(true);
+                  }}
+                />
+              )}
               {/* Fallback initials */}
-              <div className={`w-full h-full bg-gradient-to-br from-cyan-900/60 to-purple-900/60 items-center justify-center absolute inset-0 ${showProfileFallback ? 'flex' : 'hidden'}`}>
+              <div className={`w-full h-full bg-gradient-to-br from-cyan-900/60 to-purple-900/60 items-center justify-center absolute inset-0 ${showProfileFallback || !profileImageSrc ? 'flex' : 'hidden'}`}>
                 <span className="text-7xl font-black font-orbitron gradient-text-cyan-purple">MA</span>
               </div>
             </div>
