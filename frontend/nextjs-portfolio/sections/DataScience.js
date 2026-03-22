@@ -3,13 +3,13 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import {
   SiPython, SiPandas, SiNumpy, SiJupyter,
 } from 'react-icons/si';
 import { BsBarChartFill } from 'react-icons/bs';
 import { getProjects } from '../lib/api';
+import ResilientImage from '../components/ResilientImage';
 
 const dsStack = [
   { name: 'Python', icon: <SiPython className="text-yellow-400 text-2xl" /> },
@@ -140,7 +140,7 @@ export default function DataScience() {
               {/* Project Image */}
               {imageUrl && (
                 <div className="relative w-full h-48 bg-gradient-to-b from-purple-500/10 to-transparent overflow-hidden">
-                  <Image
+                  <ResilientImage
                     src={imageUrl}
                     alt={project.title}
                     fill

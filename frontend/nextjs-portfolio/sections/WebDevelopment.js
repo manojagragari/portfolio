@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt, FaReact, FaCode } from 'react-icons/fa';
 import { SiDjango, SiTailwindcss, SiNextdotjs, SiPython, SiFlask, SiSqlite } from 'react-icons/si';
 import { getProjects } from '../lib/api';
+import ResilientImage from '../components/ResilientImage';
 
 const techIcons = {
   React: <FaReact className="text-cyan-400" />,
@@ -138,7 +138,7 @@ export default function WebDevelopment() {
               {/* Project Image */}
               {imageUrl && (
                 <div className="relative w-full h-48 bg-gradient-to-b from-cyan-500/10 to-transparent overflow-hidden">
-                  <Image
+                  <ResilientImage
                     src={imageUrl}
                     alt={project.title}
                     fill

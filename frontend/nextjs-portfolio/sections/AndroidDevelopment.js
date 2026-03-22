@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt, FaAndroid, FaDownload } from 'react-icons/fa';
 import { SiKotlin, SiJetpackcompose, SiAndroidstudio } from 'react-icons/si';
 import { DiJava } from 'react-icons/di';
 import { getProjects } from '../lib/api';
+import ResilientImage from '../components/ResilientImage';
 
 const androidStack = [
   { name: 'Java', icon: <DiJava className="text-red-500 text-2xl" /> },
@@ -107,7 +107,7 @@ export default function AndroidDevelopment() {
               {/* Project Image */}
               {imageUrl && (
                 <div className="relative w-full h-48 bg-gradient-to-b from-green-500/10 to-transparent overflow-hidden">
-                  <Image
+                  <ResilientImage
                     src={imageUrl}
                     alt={project.title}
                     fill
@@ -158,7 +158,7 @@ export default function AndroidDevelopment() {
                             key={`${project.id}-section-shot-${screenshotIndex}`}
                             className="relative aspect-[9/16] overflow-hidden rounded-lg border border-white/10 bg-white/5"
                           >
-                            <Image
+                            <ResilientImage
                               src={screenshot}
                               alt={`${project.title} supportive image ${screenshotIndex + 1}`}
                               fill

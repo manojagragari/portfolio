@@ -3,6 +3,7 @@ import './globals.css';
 import Navbar from '../components/Navbar';
 import LoadingScreen from '../components/LoadingScreen';
 import ScrollProgress from '../components/ScrollProgress';
+import ApiWakeup from '../components/ApiWakeup';
 
 const displayFont = Space_Grotesk({
   subsets: ['latin'],
@@ -63,6 +64,7 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="https://manoj-portfolio-api.onrender.com" />
       </head>
       <body className="bg-[#0a0a0a] text-white antialiased overflow-x-hidden">
+        <ApiWakeup />
         <LoadingScreen />
         <ScrollProgress />
         <Navbar />
