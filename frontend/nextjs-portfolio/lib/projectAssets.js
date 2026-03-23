@@ -60,6 +60,21 @@ const projectAssets = {
       '02-app-installed.jpg',
     ],
   },
+  'Campus Feedback App': {
+    folder: 'campus-feedback-app',
+    coverFile: 'cover.jpg',
+    imageFit: 'cover',
+    screenshotFiles: [
+      '01.jpg',
+      '02.jpg',
+      '03.jpg',
+      '04.jpg',
+      '05.jpg',
+      '06.jpg',
+      '07.jpg',
+      '08.jpg',
+    ],
+  },
   'Tesla Global Performance & Sustainability Dashboard': {
     folder: 'tesla-dashboard',
     coverFile: 'cover.jpg',
