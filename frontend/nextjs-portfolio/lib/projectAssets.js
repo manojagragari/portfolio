@@ -129,7 +129,21 @@ const projectAssets = {
     folder: 'tesla-vehicle-deliveries',
     coverFile: 'cover.jpg',
     imageFit: 'cover',
-    screenshotFiles: ['01.jpg'],
+    screenshotFiles: [
+      '01.jpg',
+      '02.png',
+      '03.png',
+      '04.png',
+      '05.png',
+      '06.png',
+      '07.png',
+      '08.png',
+      '09.png',
+      '10.png',
+      '11.png',
+      '12.png',
+      '13.png',
+    ],
   },
   'International Tourism Data Visualization': {
     folder: 'international-tourism-data-visualization',
@@ -198,10 +212,53 @@ const projectAssets = {
   },
 };
 
+function normalizeTitleKey(title) {
+  if (!title || typeof title !== 'string') {
+    return '';
+  }
+
+  return title
+    .toLowerCase()
+    .replace(/[–—]/g, '-')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+const projectAssetAliases = {
+  'tesla vehicle deliveries predictive analytics machine learning dashboard':
+    'Tesla Vehicle Deliveries – Predictive Analytics & Machine Learning Dashboard',
+};
+
+const normalizedProjectAssetKeyMap = Object.keys(projectAssets).reduce((acc, key) => {
+  acc[normalizeTitleKey(key)] = key;
+  return acc;
+}, {});
+
+function resolveProjectAssetConfig(title) {
+  const direct = projectAssets[title];
+  if (direct) {
+    return direct;
+  }
+
+  const normalizedTitle = normalizeTitleKey(title);
+  const aliasKey = projectAssetAliases[normalizedTitle];
+  if (aliasKey && projectAssets[aliasKey]) {
+    return projectAssets[aliasKey];
+  }
+
+  const normalizedKey = normalizedProjectAssetKeyMap[normalizedTitle];
+  if (normalizedKey && projectAssets[normalizedKey]) {
+    return projectAssets[normalizedKey];
+  }
+
+  return null;
+}
+
 export function enrichProjectAssets(project) {
-  const assetConfig = normalizeAssetConfig(projectAssets[project.title]);
-  const screenshots = assetConfig.screenshots;
-  const primaryImage = assetConfig.coverImage || DEFAULT_PLACEHOLDER;
+  const assetConfig = normalizeAssetConfig(resolveProjectAssetConfig(project.title));
+  const existingScreenshots = Array.isArray(project.screenshots) ? project.screenshots : [];
+  const screenshots = assetConfig.screenshots.length > 0 ? assetConfig.screenshots : existingScreenshots;
+  const primaryImage = assetConfig.coverImage || project.cover_image || project.image || DEFAULT_PLACEHOLDER;
 
   return {
     ...project,
