@@ -37,6 +37,19 @@ const staticCertificationMap = staticCertifications.reduce((acc, cert) => {
   return acc;
 }, {});
 
+const staticAchievementMap = staticAchievements.reduce((acc, achievement) => {
+  const key = normalizeTextKey(achievement.title);
+  if (key) {
+    acc[key] = achievement;
+  }
+  return acc;
+}, {});
+
+const achievementTitleAliases = {
+  'top 5 university hackathon': 'top 5 university hackathon',
+  'working prototype in 24 hours': 'working prototype in 24 hours',
+};
+
 function resolveMediaUrl(url) {
   if (!url || typeof url !== 'string') {
     return url;
@@ -106,6 +119,33 @@ function normalizeAchievement(item) {
   };
 }
 
+function enrichAchievement(item) {
+  const normalized = normalizeAchievement(item);
+  const key = normalizeTextKey(item.title);
+  const aliasKey = achievementTitleAliases[key];
+  let fallback = staticAchievementMap[key] || (aliasKey ? staticAchievementMap[aliasKey] : null);
+
+  if (!fallback) {
+    fallback = staticAchievements.find((achievement) => {
+      const staticKey = normalizeTextKey(achievement.title);
+      return staticKey && (key.includes(staticKey) || staticKey.includes(key));
+    }) || null;
+  }
+
+  if (!fallback) {
+    return normalized;
+  }
+
+  return {
+    ...normalized,
+    cover_image: fallback.cover_image || normalized.cover_image,
+    supportive_images: Array.isArray(fallback.supportive_images) && fallback.supportive_images.length
+      ? fallback.supportive_images
+      : normalized.supportive_images,
+    reference_url: normalized.reference_url || fallback.reference_url,
+  };
+}
+
 function normalizeProfile(profile) {
   if (!profile) {
     return profile;
@@ -161,7 +201,7 @@ export async function getCertifications() {
 export async function getAchievements() {
   return safeFetch(async () => {
     const { data } = await apiClient.get('/api/achievements/');
-    return data.map(normalizeAchievement);
+    return data.map(enrichAchievement);
   }, staticAchievements);
 }
 

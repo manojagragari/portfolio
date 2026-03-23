@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getAchievements } from '../lib/api';
-import Image from 'next/image';
 import ScreenshotLightbox from '../components/ScreenshotLightbox';
+import ResilientImage from '../components/ResilientImage';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -95,7 +95,7 @@ export default function Achievements() {
                 {/* Cover image */}
                 {item.cover_image && (
                   <div className="w-full h-32 mb-4 rounded overflow-hidden bg-black/20">
-                    <Image
+                    <ResilientImage
                       src={item.cover_image}
                       alt={item.title}
                       width={640}
@@ -104,6 +104,7 @@ export default function Achievements() {
                       className="w-full h-full object-cover"
                       loading="lazy"
                       quality={75}
+                      fallbackSrc="/projects/image-unavailable.svg"
                     />
                   </div>
                 )}
@@ -143,12 +144,13 @@ export default function Achievements() {
                           className="relative h-20 overflow-hidden rounded-md border border-white/15 bg-white/5 cursor-zoom-in"
                           aria-label={`Open supportive document ${imageIndex + 1} for ${item.title}`}
                         >
-                          <Image
+                          <ResilientImage
                             src={imageUrl}
                             alt={`${item.title} supportive document ${imageIndex + 1}`}
                             fill
                             className="object-cover"
                             sizes="(max-width: 768px) 45vw, 180px"
+                            fallbackSrc="/projects/image-unavailable.svg"
                           />
                         </button>
                       ))}
