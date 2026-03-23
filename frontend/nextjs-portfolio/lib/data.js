@@ -266,6 +266,8 @@ export const certifications = [
     color: 'cyan',
     icon: '⚛️',
     badge: 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400',
+    cover_image: '/certifications/frontend-developer-react/cover.jpg',
+    cert_image: '/certifications/frontend-developer-react/certificate.jpg',
   },
   {
     id: 2,
@@ -276,6 +278,8 @@ export const certifications = [
     color: 'purple',
     icon: '🤖',
     badge: 'bg-purple-500/10 border-purple-500/30 text-purple-400',
+    cover_image: '/certifications/master-generative-ai/cover.jpg',
+    cert_image: '/certifications/master-generative-ai/certificate.jpg',
   },
   {
     id: 3,
@@ -286,16 +290,20 @@ export const certifications = [
     color: 'blue',
     icon: '🔷',
     badge: 'bg-blue-500/10 border-blue-500/30 text-blue-400',
+    cover_image: '/certifications/cpp-oops/cover.png',
+    cert_image: '/certifications/cpp-oops/certificate.png',
   },
   {
     id: 4,
     title: 'JavaScript Algorithms & Data Structures',
     issuer: 'FreeCodeCamp',
     year: 2023,
-    url: 'https://www.freecodecamp.org',
+    url: 'https://www.freecodecamp.org/certification/fccf4e3fcea-f3bd-4cff-ac2a-242a506f12c7/javascript-algorithms-and-data-structures',
     color: 'green',
     icon: '📜',
     badge: 'bg-green-500/10 border-green-500/30 text-green-400',
+    cover_image: '/certifications/javascript-algorithms-ds/cover.jpeg',
+    cert_image: '/certifications/javascript-algorithms-ds/certificate.jpeg',
   },
 ];
 

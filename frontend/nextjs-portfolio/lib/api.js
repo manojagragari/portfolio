@@ -17,6 +17,25 @@ const apiClient = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+function normalizeTextKey(value) {
+  if (!value || typeof value !== 'string') {
+    return '';
+  }
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+const certificationTitleAliases = {
+  'master generative ai': 'master generative ai generative ai tools',
+};
+
+const staticCertificationMap = staticCertifications.reduce((acc, cert) => {
+  const key = normalizeTextKey(cert.title);
+  if (key) {
+    acc[key] = cert;
+  }
+  return acc;
+}, {});
+
 function resolveMediaUrl(url) {
   if (!url || typeof url !== 'string') {
     return url;
@@ -48,6 +67,25 @@ function normalizeCertification(cert) {
     ...cert,
     cover_image: resolveMediaUrl(cert.cover_image),
     cert_image: resolveMediaUrl(cert.cert_image),
+  };
+}
+
+function enrichCertification(cert) {
+  const normalized = normalizeCertification(cert);
+  const rawKey = normalizeTextKey(cert.title);
+  const aliasKey = certificationTitleAliases[rawKey];
+  const fallback = staticCertificationMap[rawKey] || (aliasKey ? staticCertificationMap[aliasKey] : null);
+
+  if (!fallback) {
+    return normalized;
+  }
+
+  return {
+    ...normalized,
+    // Prefer stable static assets when available; API values are kept as fallback.
+    cover_image: fallback.cover_image || normalized.cover_image,
+    cert_image: fallback.cert_image || normalized.cert_image,
+    url: normalized.url || fallback.url,
   };
 }
 
@@ -106,7 +144,7 @@ export async function getSkills() {
 export async function getCertifications() {
   return safeFetch(async () => {
     const { data } = await apiClient.get('/api/certifications/');
-    return data.map(normalizeCertification);
+    return data.map(enrichCertification);
   }, staticCertifications);
 }
 
