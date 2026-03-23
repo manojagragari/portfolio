@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Project, ProjectGalleryImage, Skill, Certification, Achievement, Hobby, Education, ContactMethod, Profile
+from .models import Project, ProjectGalleryImage, Skill, Certification, Achievement, Hobby, Education, ContactMethod, ContactMessage, Profile
 
 
 class ProjectGalleryImageSerializer(serializers.ModelSerializer):
@@ -74,3 +74,21 @@ class ContactMethodSerializer(serializers.ModelSerializer):
             'id', 'label', 'value', 'href', 'icon', 'color',
             'border_color', 'bg', 'hover_bg', 'order',
         ]
+
+
+class ContactMessageSerializer(serializers.ModelSerializer):
+    website = serializers.CharField(required=False, allow_blank=True, write_only=True)
+
+    def validate_website(self, value):
+        # Honeypot: bots often fill hidden fields; reject if populated.
+        if value:
+            raise serializers.ValidationError('Invalid submission.')
+        return value
+
+    class Meta:
+        model = ContactMessage
+        fields = [
+            'id', 'first_name', 'last_name', 'email', 'phone',
+            'service', 'message', 'website', 'created_at',
+        ]
+        read_only_fields = ['id', 'created_at']

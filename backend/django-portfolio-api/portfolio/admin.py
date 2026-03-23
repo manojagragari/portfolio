@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Project, ProjectGalleryImage, Skill, Certification, Achievement, Hobby, Education, ContactMethod, Profile
+from .models import Project, ProjectGalleryImage, Skill, Certification, Achievement, Hobby, Education, ContactMethod, ContactMessage, Profile
 
 
 class ProjectGalleryInline(admin.TabularInline):
@@ -120,6 +120,19 @@ class ContactMethodAdmin(admin.ModelAdmin):
     list_display = ('label', 'value', 'href', 'order')
     list_editable = ('order',)
     search_fields = ('label', 'value', 'href')
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'email', 'service', 'is_read', 'created_at')
+    list_filter = ('service', 'is_read', 'created_at')
+    search_fields = ('first_name', 'last_name', 'email', 'phone', 'message')
+    list_editable = ('is_read',)
+    readonly_fields = ('created_at',)
+
+    def full_name(self, obj):
+        return f"{obj.first_name} {obj.last_name}".strip()
+    full_name.short_description = 'Name'
 
 
 @admin.register(Profile)

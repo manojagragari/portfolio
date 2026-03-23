@@ -11,5 +11,6 @@ urlpatterns = [
     path('hobbies/', views.HobbyListView.as_view(), name='hobby-list'),
     path('education/', views.EducationListView.as_view(), name='education-list'),
     path('contact/', views.ContactMethodListView.as_view(), name='contact-list'),
+    path('contact-messages/', views.ContactMessageCreateView.as_view(), name='contact-message-create'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
 ]

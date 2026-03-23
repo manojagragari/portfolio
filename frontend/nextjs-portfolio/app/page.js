@@ -8,6 +8,7 @@ import Achievements from '../sections/Achievements';
 import Certifications from '../sections/Certifications';
 import Hobbies from '../sections/Hobbies';
 import Contact from '../sections/Contact';
+import ContactCollaboration from '../sections/ContactCollaboration';
 import Footer from '../sections/Footer';
 
 export const metadata = {
@@ -29,6 +30,7 @@ export default function HomePage() {
       <Certifications />
       <Hobbies />
       <Contact />
+      <ContactCollaboration />
       <Footer />
     </>
   );

@@ -124,6 +124,9 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+    'DEFAULT_THROTTLE_RATES': {
+        'contact_submit': os.environ.get('CONTACT_SUBMIT_RATE', '3/hour'),
+    },
 }
 
 # ─── Security headers for production ─────────────────────────────────────────

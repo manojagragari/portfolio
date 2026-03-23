@@ -1,11 +1,15 @@
+import os
+
+from django.core.mail import send_mail
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Project, Skill, Certification, Achievement, Hobby, Education, ContactMethod, Profile
+from rest_framework.throttling import AnonRateThrottle
+from .models import Project, Skill, Certification, Achievement, Hobby, Education, ContactMethod, ContactMessage, Profile
 from .serializers import (
     ProjectSerializer, SkillSerializer,
     CertificationSerializer, AchievementSerializer, HobbySerializer,
-    EducationSerializer, ContactMethodSerializer, ProfileSerializer,
+    EducationSerializer, ContactMethodSerializer, ContactMessageSerializer, ProfileSerializer,
 )
 
 
@@ -19,6 +23,7 @@ def api_root(request):
         'hobbies': request.build_absolute_uri('/api/hobbies/'),
         'education': request.build_absolute_uri('/api/education/'),
         'contact': request.build_absolute_uri('/api/contact/'),
+        'contact_messages': request.build_absolute_uri('/api/contact-messages/'),
         'profile': request.build_absolute_uri('/api/profile/'),
     })
 
@@ -70,6 +75,39 @@ class EducationListView(generics.ListAPIView):
 class ContactMethodListView(generics.ListAPIView):
     queryset = ContactMethod.objects.all()
     serializer_class = ContactMethodSerializer
+
+
+class ContactSubmitThrottle(AnonRateThrottle):
+    scope = 'contact_submit'
+
+
+class ContactMessageCreateView(generics.CreateAPIView):
+    queryset = ContactMessage.objects.all()
+    serializer_class = ContactMessageSerializer
+    throttle_classes = [ContactSubmitThrottle]
+
+    def perform_create(self, serializer):
+        message = serializer.save()
+
+        receiver_email = os.environ.get('CONTACT_RECEIVER_EMAIL') or os.environ.get('DEFAULT_FROM_EMAIL')
+        if not receiver_email:
+            return
+
+        email_subject = f"New Portfolio Contact: {message.first_name} {message.last_name}".strip()
+        email_body = (
+            f"Name: {message.first_name} {message.last_name}\n"
+            f"Email: {message.email}\n"
+            f"Phone: {message.phone or '-'}\n"
+            f"Service: {message.service}\n\n"
+            f"Message:\n{message.message}"
+        )
+
+        sender = os.environ.get('DEFAULT_FROM_EMAIL', receiver_email)
+        try:
+            send_mail(email_subject, email_body, sender, [receiver_email], fail_silently=True)
+        except Exception:
+            # Submission is already saved; avoid failing request on mail issues.
+            pass
 
 
 class ProfileView(generics.RetrieveAPIView):

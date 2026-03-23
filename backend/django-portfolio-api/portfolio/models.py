@@ -354,3 +354,28 @@ class ContactMethod(models.Model):
 
     def __str__(self):
         return self.label
+
+
+class ContactMessage(models.Model):
+    SERVICE_CHOICES = [
+        ('web-development', 'Web Development'),
+        ('data-science', 'Data Science'),
+        ('android-development', 'Android Development'),
+        ('other', 'Other Collaboration'),
+    ]
+
+    first_name = models.CharField(max_length=80)
+    last_name = models.CharField(max_length=80, blank=True)
+    email = models.EmailField()
+    phone = models.CharField(max_length=30, blank=True)
+    service = models.CharField(max_length=50, choices=SERVICE_CHOICES)
+    message = models.TextField(max_length=2000)
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        full_name = f"{self.first_name} {self.last_name}".strip()
+        return f"{full_name} - {self.service}"

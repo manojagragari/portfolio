@@ -145,6 +145,11 @@ export async function getProfile() {
   }, null);
 }
 
+export async function submitContactMessage(payload) {
+  const { data } = await apiClient.post('/api/contact-messages/', payload);
+  return data;
+}
+
 export async function getGitHubRepos(username = 'manojagragari') {
   return safeFetch(async () => {
     const { data } = await axios.get(
