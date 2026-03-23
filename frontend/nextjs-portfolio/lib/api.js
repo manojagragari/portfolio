@@ -26,6 +26,7 @@ function normalizeTextKey(value) {
 
 const certificationTitleAliases = {
   'master generative ai': 'master generative ai generative ai tools',
+  'c with oops': 'c with oops programming language',
 };
 
 const staticCertificationMap = staticCertifications.reduce((acc, cert) => {
@@ -74,7 +75,11 @@ function enrichCertification(cert) {
   const normalized = normalizeCertification(cert);
   const rawKey = normalizeTextKey(cert.title);
   const aliasKey = certificationTitleAliases[rawKey];
-  const fallback = staticCertificationMap[rawKey] || (aliasKey ? staticCertificationMap[aliasKey] : null);
+  let fallback = staticCertificationMap[rawKey] || (aliasKey ? staticCertificationMap[aliasKey] : null);
+
+  if (!fallback && rawKey.includes('c with oops')) {
+    fallback = staticCertifications.find((item) => normalizeTextKey(item.title).includes('c with oops')) || null;
+  }
 
   if (!fallback) {
     return normalized;
