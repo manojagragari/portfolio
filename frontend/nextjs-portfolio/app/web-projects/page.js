@@ -68,7 +68,7 @@ export default function WebProjectsPage() {
               animate={{ opacity: 1 }}
               className="text-cyan-400/60 font-mono text-xs tracking-widest uppercase mb-3"
             >
-              //&nbsp;FULL-STACK PROJECTS
+              {'// FULL-STACK PROJECTS'}
             </motion.p>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}

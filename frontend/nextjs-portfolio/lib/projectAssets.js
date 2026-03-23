@@ -1,51 +1,213 @@
+const LOCAL_PROJECTS_BASE = '/projects';
+const DEFAULT_PLACEHOLDER = '/projects/image-unavailable.svg';
+
+function buildLocalPath(folder, fileName) {
+  if (!folder || !fileName) {
+    return null;
+  }
+  return `${LOCAL_PROJECTS_BASE}/${folder}/${fileName}`;
+}
+
+function normalizeAssetConfig(config = {}) {
+  if (!config) {
+    return { coverImage: null, screenshots: [], imageFit: 'cover' };
+  }
+
+  const imageFit = config.imageFit || 'cover';
+
+  // New direct-file format: { folder, coverFile, screenshotFiles }
+  if (config.folder) {
+    const coverImage = config.coverFile
+      ? buildLocalPath(config.folder, config.coverFile)
+      : null;
+    const screenshots = Array.isArray(config.screenshotFiles)
+      ? config.screenshotFiles
+        .map((fileName) => buildLocalPath(config.folder, `screenshots/${fileName}`))
+        .filter(Boolean)
+      : [];
+    return { coverImage, screenshots, imageFit };
+  }
+
+  // Backward compatibility for existing absolute local paths.
+  return {
+    coverImage: config.coverImage || null,
+    screenshots: Array.isArray(config.screenshots) ? config.screenshots : [],
+    imageFit,
+  };
+}
+
 const projectAssets = {
-  'Tesla Global Performance & Sustainability Dashboard': {
-    coverImage: '/projects/tesla-dashboard/cover.png',
+  'Cricket Live & News Analytics App': {
+    folder: 'cricket-live-news-analytics-app',
+    coverFile: 'cover.jpeg',
     imageFit: 'cover',
-  },
-  'Personal Learning & Notes Platform': {
-    coverImage: '/projects/notes-platform/cover.png',
-    imageFit: 'cover',
-  },
-  'Android Calculator App': {
-    coverImage: '/projects/android-calculator-app/cover.png',
-    imageFit: 'cover',
-    screenshots: [
-      '/projects/android-calculator-app/screenshots/01-calculator-ui.jpg',
-      '/projects/android-calculator-app/screenshots/02-app-installed.jpg',
+    screenshotFiles: [
+      '01.jpeg',
+      '02.jpeg',
+      '03.jpeg',
+      '04.jpeg',
+      '05.jpeg',
+      '06.jpeg',
+      '07.jpeg',
     ],
   },
-  'Cricket Live & News Analytics App': {
-    coverImage: '/projects/cricket-live-news-analytics-app/cover.png',
+  'Android Calculator App': {
+    folder: 'android-calculator-app',
+    coverFile: 'cover.png',
     imageFit: 'cover',
-    screenshots: [
-      '/projects/cricket-live-news-analytics-app/screenshots/01-home.jpg',
-      '/projects/cricket-live-news-analytics-app/screenshots/02-teams.jpg',
-      '/projects/cricket-live-news-analytics-app/screenshots/03-live-matches-1.jpg',
-      '/projects/cricket-live-news-analytics-app/screenshots/04-live-matches-2.jpg',
-      '/projects/cricket-live-news-analytics-app/screenshots/05-news-1.jpg',
-      '/projects/cricket-live-news-analytics-app/screenshots/06-news-2.jpg',
-      '/projects/cricket-live-news-analytics-app/screenshots/07-news-3.jpg',
+    screenshotFiles: [
+      '01-calculator-ui.jpg',
+      '02-app-installed.jpg',
+    ],
+  },
+  'Tesla Global Performance & Sustainability Dashboard': {
+    folder: 'tesla-dashboard',
+    coverFile: 'cover.jpg',
+    imageFit: 'cover',
+    screenshotFiles: [
+      '01.jpg',
+      '02.jpg',
+      '03.jpg',
+      '04.jpg',
+      '05.jpg',
+      '06.jpg',
+      '07.jpg',
+    ],
+  },
+  'Personal Learning & Notes Platform': {
+    folder: 'notes-platform',
+    coverFile: 'cover.jpg',
+    imageFit: 'cover',
+    screenshotFiles: [
+      '01.png',
+      '02.png',
+      '03.png',
+      '04.png',
+      '05.png',
+      '06.png',
+      '07.png',
+      '08.png',
+      '09.png',
+      '10.png',
+      '11.png',
+      '12.png',
+      '13.png',
+      '14.png',
+    ],
+  },
+  'Electro Shop Management System': {
+    folder: 'electro-shop',
+    coverFile: 'cover.jpg',
+    imageFit: 'cover',
+    screenshotFiles: [
+      '01.png',
+      '02.png',
+      '03.png',
+      '04.png',
+      '05.png',
+      '06.png',
+      '07.png',
+      '08.png',
+      '09.png',
+      '10.png',
+    ],
+  },
+  'Job Portal & Internship Portal': {
+    folder: 'job-portal-internship',
+    coverFile: 'cover.jpeg',
+    imageFit: 'cover',
+    screenshotFiles: [
+      '01.png',
+      '02.png',
+      '03.png',
+      '04.png',
+      '05.png',
+      '06.png',
+    ],
+  },
+  'Tesla Vehicle Deliveries – Predictive Analytics & Machine Learning Dashboard': {
+    folder: 'tesla-vehicle-deliveries',
+    coverFile: 'cover.jpg',
+    imageFit: 'cover',
+    screenshotFiles: ['01.jpg'],
+  },
+  'International Tourism Data Visualization': {
+    folder: 'international-tourism-data-visualization',
+    coverFile: 'cover.jpg',
+    imageFit: 'cover',
+    screenshotFiles: [
+      '01.jpg',
+      '02.jpg',
+      '03.jpg',
+      '04.jpg',
+      '05.jpg',
+      '06.jpg',
+      '07.jpg',
+    ],
+  },
+  'Tourism Data Dashboard in Excel': {
+    folder: 'tourism-data-dashboard-excel',
+    coverFile: 'cover.png',
+    imageFit: 'cover',
+    screenshotFiles: [
+      '01.jpg',
+      '02.jpg',
+      '03.jpg',
+      '04.jpg',
+      '05.jpg',
+      '06.jpg',
+      '07.jpg',
+    ],
+  },
+  'Online Exam Interface (Frontend)': {
+    folder: 'online-exam-interface',
+    coverFile: 'cover.jpeg',
+    imageFit: 'cover',
+    screenshotFiles: [
+      '01.png',
+      '02.png',
+      '03.png',
+      '04.png',
+      '05.png',
+      '06.png',
+      '07.png',
+      '08.png',
+      '09.png',
+      '10.png',
+    ],
+  },
+  'Secure File Management System (CSE316)': {
+    folder: 'secure-file-management',
+    coverFile: 'cover.jpeg',
+    imageFit: 'cover',
+    screenshotFiles: [
+      '01.png',
+      '02.png',
+      '03.png',
+      '04.png',
+      '05.png',
+      '06.png',
+      '07.png',
+      '08.png',
+      '09.png',
+      '10.png',
+      '11.png',
+      '12.png',
+      '13.png',
     ],
   },
 };
 
 export function enrichProjectAssets(project) {
-  const assetConfig = projectAssets[project.title];
-  if (!assetConfig) {
-    return project;
-  }
-
-  const backendScreenshots = Array.isArray(project.screenshots) ? project.screenshots : [];
-  const configScreenshots = Array.isArray(assetConfig.screenshots) ? assetConfig.screenshots : [];
-  const screenshots = backendScreenshots.length > 0 ? backendScreenshots : configScreenshots;
-  const backendPrimaryImage = project.cover_image || project.image || assetConfig.coverImage || null;
+  const assetConfig = normalizeAssetConfig(projectAssets[project.title]);
+  const screenshots = assetConfig.screenshots;
+  const primaryImage = assetConfig.coverImage || DEFAULT_PLACEHOLDER;
 
   return {
     ...project,
     screenshots,
-    cover_image: backendPrimaryImage,
-    image_fit: project.image_fit || assetConfig.imageFit || 'cover',
-    image: backendPrimaryImage,
+    cover_image: primaryImage,
+    image_fit: assetConfig.imageFit || project.image_fit || 'cover',
+    image: primaryImage,
   };
 }

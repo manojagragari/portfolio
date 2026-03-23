@@ -13,19 +13,23 @@ function withRetryParam(url, marker) {
 
 export default function ResilientImage({
   src,
-  maxRetries = 4,
-  retryDelays = [1200, 2500, 5000, 8000],
+  alt = '',
+  fallbackSrc = '/projects/image-unavailable.svg',
+  maxRetries = 2,
+  retryDelays = [700, 1500],
   onFinalError,
   onLoad,
   ...props
 }) {
   const [attempt, setAttempt] = useState(0);
   const [displaySrc, setDisplaySrc] = useState(src);
+  const [isUsingFallback, setIsUsingFallback] = useState(false);
   const retryTimerRef = useRef(null);
 
   useEffect(() => {
     setAttempt(0);
     setDisplaySrc(src);
+    setIsUsingFallback(false);
   }, [src]);
 
   useEffect(() => () => {
@@ -35,7 +39,13 @@ export default function ResilientImage({
   }, []);
 
   const handleError = () => {
+    if (isUsingFallback) {
+      return;
+    }
+
     if (attempt >= maxRetries) {
+      setDisplaySrc(fallbackSrc);
+      setIsUsingFallback(true);
       if (typeof onFinalError === 'function') {
         onFinalError();
       }
@@ -60,6 +70,7 @@ export default function ResilientImage({
     <Image
       {...props}
       src={displaySrc || src}
+      alt={alt}
       onError={handleError}
       onLoad={handleLoad}
     />

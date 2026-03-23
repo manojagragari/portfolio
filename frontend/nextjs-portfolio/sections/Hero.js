@@ -8,6 +8,7 @@ import { FiDownload, FiMail, FiArrowDown } from 'react-icons/fi';
 import { getProfile } from '../lib/api';
 
 const ROLE_TAGS = ['Data Science', 'Python Full-Stack', 'Android Development'];
+const LOCAL_PROFILE_IMAGE = '/profile.jpg';
 
 function RoleTags() {
   return (
@@ -92,7 +93,7 @@ export default function Hero() {
     };
   }, []);
 
-  const baseProfileImageSrc = profile?.profile_image || null;
+  const baseProfileImageSrc = LOCAL_PROFILE_IMAGE;
   const profileImageSrc = profileRetryCount > 0
     ? `${baseProfileImageSrc}${baseProfileImageSrc.includes('?') ? '&' : '?'}retry=${profileRetryCount}`
     : baseProfileImageSrc;

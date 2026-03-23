@@ -72,7 +72,7 @@ export default function DataSciencePage() {
               animate={{ opacity: 1 }}
               className="text-purple-400/60 font-mono text-xs tracking-widest uppercase mb-3"
             >
-              //&nbsp;DATA & ML PROJECTS
+              {'// DATA & ML PROJECTS'}
             </motion.p>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}

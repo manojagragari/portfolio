@@ -60,7 +60,7 @@ export default function AndroidProjectsPage() {
               animate={{ opacity: 1 }}
               className="text-green-400/60 font-mono text-xs tracking-widest uppercase mb-3"
             >
-              //&nbsp;MOBILE PROJECTS
+              {'// MOBILE PROJECTS'}
             </motion.p>
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
