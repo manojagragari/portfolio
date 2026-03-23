@@ -14,7 +14,9 @@ const navLinks = [
 ];
 
 const sectionLinks = [
-  { label: 'Education', href: '#education' },
+  { label: 'Achievement', href: '#achievements' },
+  { label: 'Certification', href: '#certifications' },
+  { label: 'Hobbies & Interest', href: '#hobbies' },
   { label: 'Skills', href: '#skills' },
   { label: 'Contact', href: '#contact' },
 ];
