@@ -89,6 +89,15 @@ class ContactMessageCreateView(generics.CreateAPIView):
     serializer_class = ContactMessageSerializer
     throttle_classes = [ContactSubmitThrottle]
 
+    def create(self, request, *args, **kwargs):
+        self.email_delivery_ok = False
+        response = super().create(request, *args, **kwargs)
+
+        if isinstance(response.data, dict):
+            response.data['email_sent'] = bool(getattr(self, 'email_delivery_ok', False))
+
+        return response
+
     def perform_create(self, serializer):
         message = serializer.save()
 
@@ -101,6 +110,7 @@ class ContactMessageCreateView(generics.CreateAPIView):
 
         if not receiver_email:
             logger.warning('Contact submission saved but no receiver email is configured.')
+            self.email_delivery_ok = False
             return
 
         email_subject = f"New Portfolio Contact: {message.first_name} {message.last_name}".strip()
@@ -121,8 +131,10 @@ class ContactMessageCreateView(generics.CreateAPIView):
                 [receiver_email],
                 fail_silently=False,
             )
+            self.email_delivery_ok = True
         except Exception as exc:
             # Submission is already saved; avoid failing request on mail issues.
+            self.email_delivery_ok = False
             logger.exception('Contact email delivery failed: %s', exc)
 
 

@@ -35,12 +35,19 @@ export default function ContactCollaboration() {
 
     try {
       setIsSubmitting(true);
-      await submitContactMessage(form);
+      const result = await submitContactMessage(form);
       setForm(initialForm);
-      setSubmitState({
-        type: 'success',
-        message: 'Message sent successfully. I will get back to you soon.',
-      });
+      if (result && result.email_sent === false) {
+        setSubmitState({
+          type: 'error',
+          message: 'Your message was saved, but email delivery failed. Please use "Send Email Directly" below.',
+        });
+      } else {
+        setSubmitState({
+          type: 'success',
+          message: 'Message sent successfully. I will get back to you soon.',
+        });
+      }
     } catch {
       setSubmitState({
         type: 'error',
@@ -50,6 +57,17 @@ export default function ContactCollaboration() {
       setIsSubmitting(false);
     }
   }
+
+  const directSubject = encodeURIComponent(`Collaboration Request: ${form.service || 'General Inquiry'}`);
+  const directBody = encodeURIComponent(
+    `Hi Manoj,\n\n` +
+      `Name: ${form.first_name} ${form.last_name}`.trim() +
+      `\nEmail: ${form.email}` +
+      `\nPhone: ${form.phone || '-'}\n` +
+      `Service: ${form.service || '-'}\n\n` +
+      `${form.message || 'I would like to discuss a project collaboration.'}\n`
+  );
+  const directMailHref = `mailto:manojagrahari7521@gmail.com?subject=${directSubject}&body=${directBody}`;
 
   return (
     <section className="bg-[#0a0a0a] pb-24 px-4 sm:px-6">
@@ -127,17 +145,17 @@ export default function ContactCollaboration() {
             name="service"
             value={form.service}
             onChange={handleChange}
-            className="w-full h-14 rounded-lg border border-slate-600 bg-transparent px-5 text-slate-100 focus:outline-none focus:border-[#11f7ac]/60"
+            className="w-full h-14 rounded-lg border border-slate-600 bg-[#171924] px-5 text-slate-100 focus:outline-none focus:border-[#11f7ac]/60"
             aria-label="Select a service"
             required
           >
-            <option value="" disabled>
+            <option value="" disabled className="bg-[#171924] text-slate-100">
               Select a service
             </option>
-            <option value="web-development">Web Development</option>
-            <option value="data-science">Data Science</option>
-            <option value="android-development">Android Development</option>
-            <option value="other">Other Collaboration</option>
+            <option value="web-development" className="bg-[#171924] text-slate-100">Web Development</option>
+            <option value="data-science" className="bg-[#171924] text-slate-100">Data Science</option>
+            <option value="android-development" className="bg-[#171924] text-slate-100">Android Development</option>
+            <option value="other" className="bg-[#171924] text-slate-100">Other Collaboration</option>
           </select>
 
           <textarea
@@ -167,10 +185,10 @@ export default function ContactCollaboration() {
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <a
-              href="mailto:manojagrahari7521@gmail.com"
+              href={directMailHref}
               className="inline-flex items-center justify-center rounded-lg border border-slate-500/60 px-4 py-2 text-sm text-slate-200 hover:border-[#11f7ac]/60 hover:text-[#11f7ac] transition-colors"
             >
-              Open Mail App
+              Send Email Directly
             </a>
             <a
               href="tel:+917307683053"
