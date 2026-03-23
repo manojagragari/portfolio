@@ -320,6 +320,10 @@ export const achievements = [
     gradient: 'from-cyan-500/10 to-transparent',
     borderColor: 'border-cyan-500/30',
     textColor: 'text-cyan-400',
+    cover_image: '/achievements/five-star-python/cover.jpg',
+    supportive_images: [
+      '/achievements/five-star-python/support-01.jpeg',
+    ],
   },
   {
     id: 2,
