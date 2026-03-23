@@ -220,6 +220,19 @@ DEBUG=True
 ALLOWED_HOSTS=localhost 127.0.0.1
 DATABASE_URL=  # Leave empty for SQLite
 CORS_ALLOWED_ORIGINS=http://localhost:3000
+
+# Contact form email delivery
+CONTACT_RECEIVER_EMAIL=your-email@example.com
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=your-email@example.com
+EMAIL_HOST_PASSWORD=your-app-password
+DEFAULT_FROM_EMAIL=your-email@example.com
+
+# Optional contact endpoint throttle
+CONTACT_SUBMIT_RATE=3/hour
 ```
 
 ## 🚢 Deployment

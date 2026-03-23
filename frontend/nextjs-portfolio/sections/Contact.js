@@ -25,6 +25,26 @@ const cardVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
+function resolveContactHref(item) {
+  const rawHref = item.href || '';
+  if (rawHref.startsWith('mailto:') || rawHref.startsWith('tel:')) {
+    return rawHref;
+  }
+
+  if (item.icon === 'email') {
+    const email = (item.value || '').trim();
+    return email ? `mailto:${email}` : rawHref;
+  }
+
+  if (item.icon === 'phone') {
+    const phoneRaw = item.value || '';
+    const sanitized = phoneRaw.replace(/[^\d+]/g, '');
+    return sanitized ? `tel:${sanitized}` : rawHref;
+  }
+
+  return rawHref;
+}
+
 export default function Contact() {
   const [contact, setContact] = useState([]);
 
@@ -37,6 +57,7 @@ export default function Contact() {
   }, []);
 
   const preferred = contact.find((item) => item.icon === 'email') || fallbackContact.find((item) => item.icon === 'email');
+  const preferredHref = preferred ? resolveContactHref(preferred) : 'mailto:manojagrahari7521@gmail.com';
 
   return (
     <section id="contact" className="relative bg-[#0a0a0a] py-24 overflow-hidden">
@@ -76,12 +97,14 @@ export default function Contact() {
             const Icon = iconMap[item.icon];
             const borderClass = item.border_color || item.borderColor || 'border-cyan-500/30';
             const hoverBgClass = item.hover_bg || item.hoverBg || 'hover:bg-cyan-500/20';
+            const href = resolveContactHref(item);
+            const isDirectLink = href.startsWith('mailto:') || href.startsWith('tel:');
             return (
               <motion.a
                 key={item.id}
-                href={item.href}
-                target={item.href.startsWith('mailto') || item.href.startsWith('tel') ? undefined : '_blank'}
-                rel="noopener noreferrer"
+                href={href}
+                target={isDirectLink ? undefined : '_blank'}
+                rel={isDirectLink ? undefined : 'noopener noreferrer'}
                 variants={cardVariants}
                 whileHover={{ y: -5, scale: 1.02 }}
                 className={`glass-card border ${borderClass} ${item.bg} ${hoverBgClass} p-5 flex items-center gap-4 transition-all duration-300 group`}
@@ -111,7 +134,7 @@ export default function Contact() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,229,255,0.04)_0%,transparent_70%)] pointer-events-none" />
           <p className="text-gray-400 text-sm mb-2 relative z-10">Preferred contact</p>
           <a
-            href={preferred ? preferred.href : 'mailto:manojagrahari7521@gmail.com'}
+            href={preferredHref}
             className="text-xl font-bold font-orbitron text-cyan-400 hover:text-cyan-300 transition-colors relative z-10 text-glow-cyan"
           >
             {preferred ? preferred.value : 'manojagrahari7521@gmail.com'}

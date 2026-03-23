@@ -44,7 +44,7 @@ export default function ContactCollaboration() {
     } catch {
       setSubmitState({
         type: 'error',
-        message: 'Could not send your message right now. Please try again shortly.',
+        message: 'Could not send right now. If this is a retry limit, please wait and try again.',
       });
     } finally {
       setIsSubmitting(false);
@@ -164,6 +164,21 @@ export default function ContactCollaboration() {
           >
             {isSubmitting ? 'Sending...' : 'Send message'}
           </button>
+
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <a
+              href="mailto:manojagrahari7521@gmail.com"
+              className="inline-flex items-center justify-center rounded-lg border border-slate-500/60 px-4 py-2 text-sm text-slate-200 hover:border-[#11f7ac]/60 hover:text-[#11f7ac] transition-colors"
+            >
+              Open Mail App
+            </a>
+            <a
+              href="tel:+917307683053"
+              className="inline-flex items-center justify-center rounded-lg border border-slate-500/60 px-4 py-2 text-sm text-slate-200 hover:border-[#11f7ac]/60 hover:text-[#11f7ac] transition-colors"
+            >
+              Call Now
+            </a>
+          </div>
         </form>
       </motion.div>
     </section>

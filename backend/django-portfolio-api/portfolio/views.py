@@ -1,4 +1,5 @@
 import os
+import logging
 
 from django.core.mail import send_mail
 from rest_framework import generics
@@ -11,6 +12,8 @@ from .serializers import (
     CertificationSerializer, AchievementSerializer, HobbySerializer,
     EducationSerializer, ContactMethodSerializer, ContactMessageSerializer, ProfileSerializer,
 )
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['GET'])
@@ -89,8 +92,15 @@ class ContactMessageCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         message = serializer.save()
 
-        receiver_email = os.environ.get('CONTACT_RECEIVER_EMAIL') or os.environ.get('DEFAULT_FROM_EMAIL')
+        receiver_email = os.environ.get('CONTACT_RECEIVER_EMAIL')
         if not receiver_email:
+            profile = Profile.objects.filter(id=1).first()
+            receiver_email = profile.email if profile and profile.email else None
+        if not receiver_email:
+            receiver_email = os.environ.get('DEFAULT_FROM_EMAIL')
+
+        if not receiver_email:
+            logger.warning('Contact submission saved but no receiver email is configured.')
             return
 
         email_subject = f"New Portfolio Contact: {message.first_name} {message.last_name}".strip()
@@ -104,10 +114,16 @@ class ContactMessageCreateView(generics.CreateAPIView):
 
         sender = os.environ.get('DEFAULT_FROM_EMAIL', receiver_email)
         try:
-            send_mail(email_subject, email_body, sender, [receiver_email], fail_silently=True)
-        except Exception:
+            send_mail(
+                email_subject,
+                email_body,
+                sender,
+                [receiver_email],
+                fail_silently=False,
+            )
+        except Exception as exc:
             # Submission is already saved; avoid failing request on mail issues.
-            pass
+            logger.exception('Contact email delivery failed: %s', exc)
 
 
 class ProfileView(generics.RetrieveAPIView):
