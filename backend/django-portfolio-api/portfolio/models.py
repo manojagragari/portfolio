@@ -227,6 +227,7 @@ class Achievement(models.Model):
     border_color = models.CharField(max_length=100, default='border-cyan-500/30')
     text_color = models.CharField(max_length=50, default='text-cyan-400')
     cover_image = models.ImageField(upload_to='achievements/covers/', blank=True, null=True)
+    supportive_images = models.JSONField(default=list, blank=True)
     reference_url = models.URLField(blank=True, null=True)
 
     class Meta:

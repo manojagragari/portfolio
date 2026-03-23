@@ -38,7 +38,7 @@ class AchievementSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'platform', 'description', 'year',
             'icon', 'color', 'gradient', 'border_color', 'text_color',
-            'cover_image', 'reference_url',
+            'cover_image', 'supportive_images', 'reference_url',
         ]
 
 

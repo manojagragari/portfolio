@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getAchievements } from '../lib/api';
 import Image from 'next/image';
+import ScreenshotLightbox from '../components/ScreenshotLightbox';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -16,6 +17,25 @@ const cardVariants = {
 
 export default function Achievements() {
   const [achievements, setAchievements] = useState(null);
+  const [lightboxState, setLightboxState] = useState({
+    isOpen: false,
+    images: [],
+    initialIndex: 0,
+    title: '',
+  });
+
+  const openLightbox = (images, startIndex, title) => {
+    setLightboxState({
+      isOpen: true,
+      images,
+      initialIndex: startIndex,
+      title,
+    });
+  };
+
+  const closeLightbox = () => {
+    setLightboxState((previous) => ({ ...previous, isOpen: false }));
+  };
 
   useEffect(() => {
     async function loadAchievements() {
@@ -58,6 +78,7 @@ export default function Achievements() {
           {(achievements || []).map((item) => {
             const borderClass = item.border_color || item.borderColor || 'border-cyan-500/30';
             const textClass = item.text_color || item.textColor || 'text-cyan-400';
+            const supportiveImages = Array.isArray(item.supportive_images) ? item.supportive_images : [];
             return (
             <motion.div
               key={item.id}
@@ -108,6 +129,33 @@ export default function Achievements() {
                 {/* Description */}
                 <p className="text-sm text-gray-400 leading-relaxed">{item.description}</p>
 
+                {supportiveImages.length > 0 && (
+                  <div className="mt-4">
+                    <p className={`text-[11px] uppercase tracking-[0.18em] ${textClass} opacity-80 mb-2`}>
+                      Supportive Documents ({supportiveImages.length})
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {supportiveImages.slice(0, 2).map((imageUrl, imageIndex) => (
+                        <button
+                          type="button"
+                          key={`${item.id}-supportive-${imageIndex}`}
+                          onClick={() => openLightbox(supportiveImages, imageIndex, `${item.title} Supportive Documents`)}
+                          className="relative h-20 overflow-hidden rounded-md border border-white/15 bg-white/5 cursor-zoom-in"
+                          aria-label={`Open supportive document ${imageIndex + 1} for ${item.title}`}
+                        >
+                          <Image
+                            src={imageUrl}
+                            alt={`${item.title} supportive document ${imageIndex + 1}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 45vw, 180px"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Reference link */}
                 {item.reference_url && (
                   <a
@@ -129,6 +177,14 @@ export default function Achievements() {
           })}
         </motion.div>
       </div>
+
+      <ScreenshotLightbox
+        isOpen={lightboxState.isOpen}
+        images={lightboxState.images}
+        initialIndex={lightboxState.initialIndex}
+        title={lightboxState.title}
+        onClose={closeLightbox}
+      />
     </section>
   );
 }

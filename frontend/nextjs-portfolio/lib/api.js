@@ -95,9 +95,14 @@ function enrichCertification(cert) {
 }
 
 function normalizeAchievement(item) {
+  const supportiveImages = Array.isArray(item.supportive_images)
+    ? item.supportive_images.map((imageUrl) => resolveMediaUrl(imageUrl))
+    : [];
+
   return {
     ...item,
     cover_image: resolveMediaUrl(item.cover_image),
+    supportive_images: supportiveImages,
   };
 }
 

@@ -333,6 +333,10 @@ export const achievements = [
     gradient: 'from-purple-500/10 to-transparent',
     borderColor: 'border-purple-500/30',
     textColor: 'text-purple-400',
+    cover_image: '/achievements/top-5-hackathon/cover.jpg',
+    supportive_images: [
+      '/achievements/top-5-hackathon/support-01.jpeg',
+    ],
   },
   {
     id: 3,
@@ -346,6 +350,11 @@ export const achievements = [
     gradient: 'from-blue-500/10 to-transparent',
     borderColor: 'border-blue-500/30',
     textColor: 'text-blue-400',
+    cover_image: '/achievements/working-prototype/cover.jpeg',
+    supportive_images: [
+      '/achievements/working-prototype/support-01.jpeg',
+      '/achievements/working-prototype/support-02.jpeg',
+    ],
   },
 ];
 
