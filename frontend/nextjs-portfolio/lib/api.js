@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+  projects as staticProjects,
   skills as staticSkills,
   certifications as staticCertifications,
   achievements as staticAchievements,
@@ -16,6 +17,11 @@ const apiClient = axios.create({
   timeout: 5000,
   headers: { 'Content-Type': 'application/json' },
 });
+
+const PROJECTS_CACHE_TTL_MS = 5 * 60 * 1000;
+let cachedProjects = null;
+let cachedProjectsAt = 0;
+let projectsRequestPromise = null;
 
 function normalizeTextKey(value) {
   if (!value || typeof value !== 'string') {
@@ -176,12 +182,80 @@ async function safeFetch(apiFn, fallback) {
   return fallback;
 }
 
+function normalizeCategory(value) {
+  if (!value || typeof value !== 'string') {
+    return '';
+  }
+  return value.toLowerCase().trim();
+}
+
+function filterProjectsByCategory(projectList, category) {
+  if (!category) {
+    return projectList;
+  }
+
+  const wantedCategory = normalizeCategory(category);
+  return projectList.filter((project) => normalizeCategory(project.category) === wantedCategory);
+}
+
+function sortProjects(projectList) {
+  return [...projectList].sort((a, b) => {
+    const orderA = Number.isFinite(a?.order) ? a.order : Number.MAX_SAFE_INTEGER;
+    const orderB = Number.isFinite(b?.order) ? b.order : Number.MAX_SAFE_INTEGER;
+
+    if (orderA !== orderB) {
+      return orderA - orderB;
+    }
+
+    return String(a?.title || '').localeCompare(String(b?.title || ''));
+  });
+}
+
+function getStaticProjects(category = null) {
+  const groupedProjects = staticProjects && typeof staticProjects === 'object'
+    ? Object.values(staticProjects)
+    : [];
+
+  const flattenedProjects = groupedProjects.flatMap((group) => (Array.isArray(group) ? group : []));
+  const filteredProjects = filterProjectsByCategory(flattenedProjects, category);
+
+  return sortProjects(filteredProjects).map(enrichProjectAssets);
+}
+
+async function fetchAllProjectsFromApi() {
+  const now = Date.now();
+
+  if (cachedProjects && (now - cachedProjectsAt) < PROJECTS_CACHE_TTL_MS) {
+    return cachedProjects;
+  }
+
+  if (projectsRequestPromise) {
+    return projectsRequestPromise;
+  }
+
+  projectsRequestPromise = apiClient
+    .get('/api/projects/')
+    .then(({ data }) => {
+      const normalizedProjects = Array.isArray(data)
+        ? data.map(normalizeProject).map(enrichProjectAssets)
+        : [];
+
+      cachedProjects = sortProjects(normalizedProjects);
+      cachedProjectsAt = Date.now();
+      return cachedProjects;
+    })
+    .finally(() => {
+      projectsRequestPromise = null;
+    });
+
+  return projectsRequestPromise;
+}
+
 export async function getProjects(category = null) {
   return safeFetch(async () => {
-    const params = category ? { category } : {};
-    const { data } = await apiClient.get('/api/projects/', { params });
-    return data.map(normalizeProject).map(enrichProjectAssets);
-  }, []);
+    const allProjects = await fetchAllProjectsFromApi();
+    return filterProjectsByCategory(allProjects, category);
+  }, getStaticProjects(category));
 }
 
 export async function getSkills() {
