@@ -59,7 +59,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
       <head>
         {/* Preload hero profile image for fast LCP */}
-        <link rel="preload" as="image" href="/profile.jpg" />
+        <link rel="preload" as="image" href="/profile.png" />
         {/* DNS prefetch for API */}
         <link rel="dns-prefetch" href="https://manoj-portfolio-api.onrender.com" />
       </head>

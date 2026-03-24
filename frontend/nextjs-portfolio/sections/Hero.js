@@ -8,7 +8,7 @@ import { FiDownload, FiMail, FiArrowDown } from 'react-icons/fi';
 import { getProfile } from '../lib/api';
 
 const ROLE_TAGS = ['Data Science', 'Python Full-Stack', 'Android Development'];
-const LOCAL_PROFILE_IMAGE = '/profile.jpg';
+const LOCAL_PROFILE_IMAGE = '/profile.png';
 
 function RoleTags() {
   return (
