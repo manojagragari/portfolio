@@ -220,12 +220,12 @@ export default function Hero() {
             <OrbitRings />
 
             {/* Image container */}
-            <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-cyan-500/30 shadow-[0_0_40px_rgba(0,229,255,0.15)]">
+            <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-cyan-500/30 shadow-[0_0_40px_rgba(0,229,255,0.15)] bg-[radial-gradient(circle_at_50%_30%,rgba(0,229,255,0.12),rgba(10,10,10,0.85)_62%)]">
               {profileImageSrc && (
                 <img
                   src={profileImageSrc}
                   alt="Manoj Agrahari"
-                  className={`w-full h-full object-cover ${showProfileFallback ? 'hidden' : ''}`}
+                  className={`w-full h-full object-contain object-bottom scale-[1.02] ${showProfileFallback ? 'hidden' : ''}`}
                   loading="eager"
                   onLoad={() => {
                     setShowProfileFallback(false);
