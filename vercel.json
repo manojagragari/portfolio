@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm install --prefix frontend/nextjs-portfolio && npm run build --prefix frontend/nextjs-portfolio",
-  "outputDirectory": "frontend/nextjs-portfolio/.next",
+  "buildCommand": "npm install && npm run build",
+  "outputDirectory": ".next",
   "framework": "nextjs",
   "headers": [
     {
