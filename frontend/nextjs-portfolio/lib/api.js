@@ -225,10 +225,12 @@ function getStaticProjects(category = null) {
 async function fetchAllProjectsFromApi() {
   const now = Date.now();
 
+  // Return cached projects if still valid
   if (cachedProjects && (now - cachedProjectsAt) < PROJECTS_CACHE_TTL_MS) {
     return cachedProjects;
   }
 
+  // If already fetching, return that promise to avoid duplicate requests
   if (projectsRequestPromise) {
     return projectsRequestPromise;
   }
@@ -236,13 +238,24 @@ async function fetchAllProjectsFromApi() {
   projectsRequestPromise = apiClient
     .get('/api/projects/')
     .then(({ data }) => {
+      // Ensure data is an array and normalize all projects
       const normalizedProjects = Array.isArray(data)
         ? data.map(normalizeProject).map(enrichProjectAssets)
         : [];
 
+      if (normalizedProjects.length === 0) {
+        console.warn('API returned empty projects list, falling back to static data');
+        return null; // Signal to use static data
+      }
+
       cachedProjects = sortProjects(normalizedProjects);
       cachedProjectsAt = Date.now();
+      console.info(`Successfully fetched ${cachedProjects.length} projects from API`);
       return cachedProjects;
+    })
+    .catch((error) => {
+      console.error('Failed to fetch projects from API:', error.message);
+      return null; // Signal to use static data
     })
     .finally(() => {
       projectsRequestPromise = null;
@@ -254,6 +267,12 @@ async function fetchAllProjectsFromApi() {
 export async function getProjects(category = null) {
   return safeFetch(async () => {
     const allProjects = await fetchAllProjectsFromApi();
+    
+    // If API returns null, use static data instead
+    if (allProjects === null) {
+      return getStaticProjects(category);
+    }
+    
     return filterProjectsByCategory(allProjects, category);
   }, getStaticProjects(category));
 }
