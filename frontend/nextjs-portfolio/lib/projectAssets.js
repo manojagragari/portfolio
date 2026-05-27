@@ -75,6 +75,12 @@ const projectAssets = {
       '08.jpg',
     ],
   },
+  'MediConnect24-7': {
+    folder: 'mediconnect24-7',
+    coverFile: 'cover.svg',
+    imageFit: 'cover',
+    screenshotFiles: [],
+  },
   'Tesla Global Performance & Sustainability Dashboard': {
     folder: 'tesla-dashboard',
     coverFile: 'cover.jpg',

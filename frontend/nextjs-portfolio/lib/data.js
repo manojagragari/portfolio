@@ -209,6 +209,32 @@ export const projects = {
       gradient: 'from-green-500/20 to-teal-500/20',
       accentColor: 'green',
     },
+    {
+      id: 22,
+      title: 'MediConnect24-7',
+      category: 'android',
+      description:
+        'A full-featured Android healthcare app for booking appointments, managing records, and connecting patients with doctors anytime.',
+      longDescription:
+        'MediConnect24-7 is a full-featured Android application that bridges patients and healthcare providers with 24/7 access to appointments, medical records, and consultation flows. Built with Android Studio and Firebase, it focuses on user-centric healthcare accessibility, secure authentication, and practical mobile workflows for both patients and doctors.',
+      features: [
+        'Secure sign up and login for patients and doctors with Firebase/Google Auth',
+        'Appointment booking with specialty search, slot view, and cancellation',
+        'In-app chat and video consultations for live healthcare support',
+        'Digital health records for prescriptions, lab results, and visit history',
+        'Push notifications for appointments and medication reminders',
+        'Emergency access with quick-dial support for hospitals and contacts',
+        'Personalized dashboards for doctors and patients',
+      ],
+      tech_stack: ['Kotlin', 'Android Studio', 'Firebase Auth', 'Firestore', 'Cloud Messaging', 'Material Components', 'WebRTC / Jitsi / Agora'],
+      github_url: 'https://github.com/manojagragari/mediconnect24-7',
+      apk_url: '/projects/mediconnect24-7.apk',
+      live_url: null,
+      featured: true,
+      order: 5,
+      gradient: 'from-green-500/20 to-teal-500/20',
+      accentColor: 'green',
+    },
   ],
   data_science: [
     {
