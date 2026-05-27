@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <rect width="1080" height="1920" fill="#f2fbf8"/>
+  <rect x="120" y="160" width="840" height="420" rx="60" fill="#0c8c7b"/>
+  <text x="200" y="300" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="800" fill="#ffffff">Home</text>
+  <text x="200" y="392" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" fill="#ffffff">Your Health</text>
+  <text x="200" y="450" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" fill="#ffffff">Our Priority</text>
+  <rect x="120" y="650" width="360" height="320" rx="40" fill="#ffffff" stroke="#dceae5" stroke-width="6"/>
+  <rect x="560" y="650" width="360" height="320" rx="40" fill="#ffffff" stroke="#dceae5" stroke-width="6"/>
+  <text x="300" y="810" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" text-anchor="middle" fill="#1c2b2a">Appointments</text>
+  <text x="740" y="810" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" text-anchor="middle" fill="#1c2b2a">Records</text>
+</svg>

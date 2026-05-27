@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <rect width="1080" height="1920" fill="#f1faf8"/>
+  <rect x="100" y="180" width="880" height="1540" rx="60" fill="#ffffff" stroke="#d7e8e2" stroke-width="8"/>
+  <text x="160" y="300" font-family="Arial, Helvetica, sans-serif" font-size="74" font-weight="800" fill="#0b7c6b">Health Records</text>
+  <rect x="160" y="420" width="760" height="170" rx="30" fill="#e8f4ff"/>
+  <text x="220" y="525" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" fill="#2e6cc5">Synced with Cloud</text>
+  <rect x="160" y="650" width="760" height="260" rx="36" fill="#ffffff" stroke="#dfe6e3" stroke-width="6"/>
+  <text x="220" y="800" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700" fill="#1d2a2a">Screenshot_20260521...</text>
+</svg>

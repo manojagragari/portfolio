@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <rect width="1080" height="1920" fill="#f5f8f9"/>
+  <rect x="110" y="210" width="860" height="1500" rx="60" fill="#ffffff" stroke="#d8e4e7" stroke-width="8"/>
+  <text x="160" y="330" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="800" fill="#0b7c6b">Join Consultation</text>
+  <circle cx="540" cy="690" r="170" fill="#e0eff0"/>
+  <path d="M540 600c40 0 72 32 72 72v72h72c40 0 72 32 72 72s-32 72-72 72h-72v72c0 40-32 72-72 72s-72-32-72-72v-72h-72c-40 0-72-32-72-72s32-72 72-72h72v-72c0-40 32-72 72-72z" fill="#0b7c6b"/>
+  <text x="540" y="1160" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="800" text-anchor="middle" fill="#1d2a2a">Ready to connect</text>
+</svg>

@@ -79,7 +79,16 @@ const projectAssets = {
     folder: 'mediconnect24-7',
     coverFile: 'cover.svg',
     imageFit: 'cover',
-    screenshotFiles: [],
+    screenshotFiles: [
+      'support-01.svg',
+      'support-02.svg',
+      'support-03.svg',
+      'support-04.svg',
+      'support-05.svg',
+      'support-06.svg',
+      'support-07.svg',
+      'support-08.svg',
+    ],
   },
   'Tesla Global Performance & Sustainability Dashboard': {
     folder: 'tesla-dashboard',
