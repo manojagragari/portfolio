@@ -5,7 +5,7 @@ MediConnect24-7 is a full-featured Android healthcare application built with And
 
 ## Included Support Assets
 - Cover: `cover.svg`
-- Support placeholders: `support-01.svg` to `support-08.svg`
+- Support images: `support-01.jpg` to `support-09.jpg`
 
 ## Core Features
 - Secure patient and doctor login
